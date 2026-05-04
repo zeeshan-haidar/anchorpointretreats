@@ -1,0 +1,889 @@
+# Software Requirements Specification (SRS)
+
+## The Anchorpoint Retreat — Colorado Property Rental Website
+
+**Version:** 1.0
+**Date:** 2026-04-28
+**Status:** Draft
+
+---
+
+## 1. Introduction
+
+### 1.1 Purpose
+This document defines the software requirements for a single-property rental website for a corporate retreat / wellness property located in Colorado. The website enables guests to browse the property, view availability, book stays with Stripe payments, and submit inquiries. An admin panel allows the property owner to manage availability, bookings, content, and pricing.
+
+### 1.2 Scope
+The system is a monolithic Ruby on Rails 7 web application serving:
+- A public-facing marketing and booking website
+- A protected admin panel for property management
+- Stripe-integrated payment processing
+- Transactional email notifications
+
+### 1.3 Design Reference
+The website's visual design and UX are inspired by [discoverwilder.com](https://discoverwilder.com/) — a premium, nature-forward aesthetic with clean typography, generous whitespace, scroll-triggered animations, and a luxury-meets-accessible minimalism feel adapted for a single Colorado rental property.
+
+### 1.4 Definitions
+| Term | Definition |
+|------|-----------|
+| Guest | A public visitor who browses, books, or inquires |
+| Admin | Property owner/manager with full system access |
+| Booking | A confirmed or pending reservation for specific dates |
+| Inquiry | A contact form submission from a potential guest |
+| Availability | Per-day status of the property (available, booked, blocked) |
+| Deposit | Partial upfront payment (default 25% of total) |
+
+---
+
+## 2. Tech Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| Language | Ruby | 3.3.8 |
+| Framework | Ruby on Rails | 7.1.x |
+| Database | PostgreSQL | 14+ |
+| Testing | RSpec | latest |
+| Linting | RuboCop | latest |
+| Authentication | Devise | latest |
+| Authorization | CanCanCan | latest |
+| Payments | Stripe (stripe-ruby gem) | latest |
+| Frontend | Rails 7 Hotwire (Turbo + Stimulus) | bundled with Rails 7 |
+| CSS | Tailwind CSS (tailwindcss-rails) | latest |
+| Background Jobs | Sidekiq + Redis | latest |
+| Email | Action Mailer (with SMTP or Resend) | bundled |
+| Image Upload | Active Storage + Cloudinary (or S3) | bundled |
+| JavaScript Bundling | importmap-rails | bundled with Rails 7 |
+| Icons | Lucide (via CDN or importmap) | latest |
+| Calendar UI | Stimulus + custom calendar component | — |
+| Deployment | TBD (Render, Fly.io, or Heroku) | — |
+
+---
+
+## 3. System Overview
+
+### 3.1 Architecture
+```
+                    +-------------------+
+                    |   Web Browser     |
+                    +--------+----------+
+                             |
+                    +--------v----------+
+                    |   Rails 7 App     |
+                    |  (Hotwire/Turbo)  |
+                    +--------+----------+
+                             |
+              +--------------+--------------+
+              |              |              |
+     +--------v---+  +------v------+  +----v------+
+     | PostgreSQL |  |   Sidekiq   |  |  Stripe   |
+     |  Database  |  | (bg jobs)   |  |   API     |
+     +------------+  +------+------+  +-----------+
+                            |
+                     +------v------+
+                     |    Redis    |
+                     +-------------+
+```
+
+### 3.2 User Roles
+
+| Role | Description | Auth Method |
+|------|------------|-------------|
+| Guest (public) | Browses site, books stays, submits inquiries | No login required |
+| Admin | Manages property, dates, bookings, content | Devise email/password login |
+| Super Admin | Full access including admin user management | Devise + CanCanCan role |
+
+---
+
+## 4. Functional Requirements
+
+### 4.1 Public Website
+
+#### FR-001: Homepage
+The homepage shall display the following sections in order:
+
+| # | Section | Description |
+|---|---------|------------|
+| 1 | Navigation | Sticky header: logo, nav links (The Retreat, Experience, Availability, About), CTA button "Book Your Stay". Transparent over hero, solid white on scroll. Mobile hamburger menu. |
+| 2 | Hero | Full-viewport background image/video of property with Colorado mountain setting. Large headline, subtitle, two CTAs: "Check Availability" (primary) and "Take a Tour" (secondary/scroll). |
+| 3 | Metrics Bar | Dark horizontal strip with 3-4 animated counters: retreats hosted, guest rating, max guests, property acreage. Count-up animation on scroll. |
+| 4 | Property Overview | Split layout — large image (left) + property story text with quick specs (bedrooms, bathrooms, guests, sqft) and "Explore the Property" link (right). |
+| 5 | Experience Types | 3 tall portrait cards: Corporate Retreats, Wellness Retreats, Private Gatherings. Full-bleed images with gradient overlay text. Links to /experience sections. |
+| 6 | Photo Gallery | Asymmetric masonry grid (2 large + 3 small photos). Click opens full-screen lightbox. "+N more" indicator on last image. |
+| 7 | Amenities Grid | 8 featured amenities with icons in a 2x4 grid. Icon + name + one-line description each. "View All Amenities" link. |
+| 8 | How It Works | 3 horizontal steps with icons and connecting line: Choose Your Dates -> Tell Us About Your Group -> Arrive and Unwind. CTA button below. |
+| 9 | Testimonials | Carousel/slider of guest testimonials. Each: quote text, guest photo, name, title/company, star rating. Prev/next navigation + dots. |
+| 10 | Availability CTA | Full-bleed nature image with dark overlay. Centered white text: headline "Ready to Plan Your Retreat?", subtext, and "View Availability" button. |
+| 11 | Footer | 4-column layout: brand info + social links, navigation links, policy links, contact info + newsletter email signup. Bottom bar: copyright. |
+
+#### FR-002: Property Details Page (`/the-retreat`)
+- Full photo gallery with lightbox viewer
+- Detailed property description (rich text)
+- Property specifications: bedrooms, bathrooms, max guests, square footage
+- Check-in/check-out times
+- Full amenities list grouped by category (Wellness, Outdoor, Kitchen, Comfort, Workspace, Entertainment, Safety)
+- Embedded map showing property location
+- CTA to check availability
+
+#### FR-003: Experience Page (`/experience`)
+- Three sections: Corporate Retreats, Wellness Retreats, Private Gatherings
+- Each section: hero image, description text, sample activities/itinerary ideas
+- CTAs linking to booking/inquiry
+
+#### FR-004: About Page (`/about`)
+- Property story and history
+- Owner/host introduction with photo
+- Philosophy and values
+- Location highlights (nearby attractions, activities)
+
+#### FR-005: Availability Page (`/availability`)
+- Interactive calendar displaying available, booked, and blocked dates
+- Color coding: green = available, red = booked, gray = blocked
+- Date range selection for check-in / check-out
+- Dynamic price calculation on date selection showing:
+  - Nightly rate(s)
+  - Number of nights
+  - Cleaning fee
+  - Taxes
+  - Total
+  - Deposit amount (25%)
+- Guest count selector
+- "Book Now" button (enabled when valid dates selected)
+- "Have Questions? Submit an Inquiry" link
+
+#### FR-006: Booking Flow
+**Step 1 — Guest Details (`/book?check_in=DATE&check_out=DATE&guests=N`)**
+- Pre-populated date range and guest count from availability page
+- Form fields:
+  - Full name (required)
+  - Email (required, validated)
+  - Phone (optional)
+  - Company name (optional)
+  - Retreat type dropdown: Corporate, Wellness, Private, Other (optional)
+  - Special requests (textarea, optional)
+- Price summary sidebar showing full breakdown
+- "Proceed to Payment" button
+- Server-side validation; booking created with status `pending`
+
+**Step 2 — Payment (`/book/:id/payment`)**
+- Payment options:
+  - "Pay Deposit (25%)" — partial payment, remainder due later
+  - "Pay Full Amount" — complete payment
+- Clicking either option creates a Stripe Checkout Session and redirects to Stripe's hosted payment page
+- Stripe handles all card input (PCI compliance)
+- Cancel URL returns to payment page
+
+**Step 3 — Confirmation (`/book/:id/confirmation`)**
+- Displayed after successful Stripe payment (redirect from Stripe)
+- Shows: confirmation number, dates, guest count, amount paid, remaining balance (if deposit)
+- Booking details summary
+- "Add to Calendar" link (iCal download)
+- Confirmation email sent automatically
+
+#### FR-007: Inquiry Form (`/inquiry`)
+- Form fields:
+  - Name (required)
+  - Email (required)
+  - Phone (optional)
+  - Company (optional)
+  - Retreat type dropdown (optional)
+  - Preferred dates (text, optional)
+  - Group size (number, optional)
+  - Message (textarea, required)
+- Rate limited: max 5 submissions per IP per hour
+- On submit: creates inquiry record, sends notification email to admin, shows thank-you page
+- Thank-you page (`/inquiry/thank-you`): confirmation message with expected response time
+
+#### FR-008: Static Pages
+- **FAQ** (`/faq`): Accordion-style expandable Q&A items, admin-editable
+- **Policies** (`/policies`): Cancellation policy, house rules, terms of stay
+- **Privacy Policy** (`/privacy`)
+- **Terms of Service** (`/terms`)
+
+---
+
+### 4.2 Stripe Payment Integration
+
+#### FR-009: Payment Processing
+- **Flow**: Stripe Checkout Sessions (redirect-based)
+- **Payment types**: Deposit (configurable %, default 25%) or full payment
+- **Webhook endpoint** (`/webhooks/stripe`):
+  - Listens for: `checkout.session.completed`, `checkout.session.expired`, `charge.refunded`
+  - On `checkout.session.completed`:
+    - Update booking status to `deposit_paid` or `fully_paid`
+    - Update `amount_paid` on booking
+    - Mark selected dates as `booked` in availability
+    - Send confirmation email
+  - On `charge.refunded`:
+    - Update booking status to `refunded`
+    - Release dates back to `available`
+  - Signature verification on all webhook requests
+  - Idempotency: store `stripe_session_id` to prevent double-processing
+- **Checkout Session metadata**: booking_id, payment_type (deposit/full)
+- **Session expiration**: 30 minutes
+- **Refunds**: Initiated by admin from admin panel, calls Stripe Refunds API
+
+#### FR-010: Remaining Balance Collection
+- For deposit-paid bookings, admin can generate a payment link for remaining balance
+- Payment link creates a new Checkout Session for the outstanding amount
+- Future enhancement: automated email 30 days before check-in with payment link
+
+---
+
+### 4.3 Admin Panel
+
+All admin routes are under `/admin` and require Devise authentication. CanCanCan enforces role-based authorization.
+
+#### FR-011: Admin Dashboard (`/admin`)
+- Stat cards: total revenue (this month), upcoming bookings count, occupancy rate (this month), new inquiries count
+- Upcoming bookings list: next 5 bookings with guest name, dates, status, link to detail
+- Recent inquiries list: last 5 inquiries with name, date, status
+- Quick actions: block dates, view calendar, export bookings CSV
+
+#### FR-012: Calendar Management (`/admin/calendar`)
+- Full month-view calendar grid
+- Color-coded dates: green (available), red (booked), gray (blocked), yellow (pending)
+- Click a single date to toggle available/blocked
+- Click + drag (or shift-click) to select a date range, then bulk-set status
+- Clicking a booked date shows booking details in a sidebar/modal
+- Per-date price override capability
+- Month navigation (prev/next)
+
+#### FR-013: Booking Management (`/admin/bookings`)
+- Paginated table of all bookings
+- Filters: status dropdown, date range, search by guest name/email
+- Sortable columns: check-in date, status, total, created date
+- Columns: confirmation #, guest name, check-in, check-out, guests, total, status, actions
+
+**Booking Detail (`/admin/bookings/:id`)**:
+- Full guest info and booking details
+- Payment history (amount paid, payment method, Stripe links)
+- Status update actions: confirm, cancel, mark checked-in, mark completed
+- Admin notes field (internal, not visible to guest)
+- Refund action (partial or full, triggers Stripe refund)
+- Send payment reminder email action
+- Send custom email to guest
+
+#### FR-014: Inquiry Management (`/admin/inquiries`)
+- Paginated table: name, email, retreat type, date submitted, status
+- Filters: status (new, responded, closed)
+
+**Inquiry Detail (`/admin/inquiries/:id`)**:
+- Full inquiry details
+- Status update: new -> responded -> closed
+- Admin notes field
+- Quick reply via email (opens mailer with guest's email)
+
+#### FR-015: Property Management (`/admin/property`)
+- **Details tab**: Edit property name, tagline, description (rich text), address, city, zip, coordinates, bedrooms, bathrooms, max guests, square footage, check-in/out times
+- **Photos tab**: Drag-and-drop upload via Active Storage, sortable grid with drag handles, category assignment (Hero, Exterior, Interior, Bedroom, Bathroom, Kitchen, Living, Outdoor, Amenity, Aerial), alt text editing, delete with confirmation
+- **Amenities tab**: CRUD list with name, description, icon selection, category (Wellness, Outdoor, Kitchen, Comfort, Workspace, Entertainment, Safety), featured toggle, drag-to-reorder
+- **Pricing tab**: Base price per night, cleaning fee, deposit percentage, min/max nights. Seasonal pricing table: add/edit/delete date ranges with custom nightly rate and optional min-night override
+
+#### FR-016: Testimonial Management (`/admin/testimonials`)
+- CRUD for testimonials: author name, title, photo upload, quote text, rating (1-5), retreat type, featured toggle, sort order
+
+#### FR-017: Site Content Management (`/admin/content`)
+- Key-value editor for editable site text:
+  - Hero headline, hero subtitle
+  - About section text
+  - Experience section descriptions
+  - Metrics bar values and labels
+  - FAQ items (question + answer pairs)
+- Markdown support for longer text blocks
+
+#### FR-018: Admin Settings (`/admin/settings`)
+- Update admin account email/password
+- Notification preferences (email on new booking, new inquiry)
+- Super admin: manage other admin users (invite, deactivate)
+
+---
+
+### 4.4 Email Notifications
+
+#### FR-019: Transactional Emails
+All emails sent via Action Mailer.
+
+| Email | Trigger | Recipient | Content |
+|-------|---------|-----------|---------|
+| Booking Confirmation | Successful payment webhook | Guest | Confirmation #, dates, amount paid, property details, check-in instructions |
+| Booking Reminder | 7 days before check-in (Sidekiq scheduled) | Guest | Upcoming stay reminder, check-in time, directions |
+| Payment Reminder | Admin-triggered or 30 days before check-in | Guest | Outstanding balance, payment link |
+| Inquiry Received | Inquiry form submitted | Guest | Thank you, expected response time |
+| New Inquiry Alert | Inquiry form submitted | Admin | Inquiry details, link to admin panel |
+| New Booking Alert | Booking created | Admin | Booking details, link to admin panel |
+| Cancellation Notice | Booking cancelled | Guest | Cancellation confirmation, refund details |
+
+---
+
+## 5. Database Schema
+
+### 5.1 Entity Relationship Overview
+```
+admin_users (Devise)
+    |
+property ──────────────┬── property_images
+    |                   ├── amenities
+    |                   ├── seasonal_pricings
+    |                   └── availabilities ──── bookings
+    |
+    ├── inquiries
+    ├── testimonials
+    └── site_contents
+```
+
+### 5.2 Table Definitions
+
+#### `admin_users`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| email | string | unique, not null | Devise field |
+| encrypted_password | string | not null | Devise field |
+| name | string | not null | |
+| role | enum | not null, default: admin | Values: super_admin, admin |
+| reset_password_token | string | | Devise field |
+| reset_password_sent_at | datetime | | Devise field |
+| remember_created_at | datetime | | Devise field |
+| sign_in_count | integer | default: 0 | Devise trackable |
+| current_sign_in_at | datetime | | Devise trackable |
+| last_sign_in_at | datetime | | Devise trackable |
+| current_sign_in_ip | string | | Devise trackable |
+| last_sign_in_ip | string | | Devise trackable |
+| timestamps | | | |
+
+#### `properties`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| name | string | not null | "The Anchorpoint Retreat" |
+| tagline | string | | Hero subtitle |
+| description | text | | Rich text / markdown |
+| short_description | string | | For meta tags / cards |
+| address | string | | |
+| city | string | | e.g., "Telluride" |
+| state | string | default: "CO" | |
+| zip | string | | |
+| latitude | decimal(10,7) | | |
+| longitude | decimal(10,7) | | |
+| bedrooms | integer | not null | |
+| bathrooms | integer | not null | |
+| max_guests | integer | not null | |
+| square_feet | integer | | |
+| base_price_cents | integer | not null | Price per night in cents |
+| cleaning_fee_cents | integer | not null, default: 0 | |
+| deposit_percentage | integer | default: 25 | |
+| min_nights | integer | default: 2 | |
+| max_nights | integer | default: 30 | |
+| check_in_time | string | default: "3:00 PM" | |
+| check_out_time | string | default: "11:00 AM" | |
+| timestamps | | | |
+
+#### `property_images`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| property_id | bigint | FK, not null | |
+| image | | Active Storage attached | |
+| alt_text | string | | |
+| caption | string | | |
+| category | enum | not null | hero, exterior, interior, bedroom, bathroom, kitchen, living, outdoor, amenity, aerial |
+| sort_order | integer | default: 0 | |
+| timestamps | | | |
+
+#### `amenities`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| property_id | bigint | FK, not null | |
+| name | string | not null | "Private Hot Tub" |
+| description | string | | |
+| icon | string | | Lucide icon name |
+| category | enum | not null | wellness, outdoor, kitchen, comfort, workspace, entertainment, safety |
+| sort_order | integer | default: 0 | |
+| featured | boolean | default: false | Show on homepage |
+| timestamps | | | |
+
+#### `seasonal_pricings`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| property_id | bigint | FK, not null | |
+| name | string | not null | "Peak Winter", "Summer" |
+| start_date | date | not null | |
+| end_date | date | not null | |
+| price_per_night_cents | integer | not null | Overrides base_price |
+| min_nights | integer | | Override min_nights |
+| timestamps | | | |
+
+#### `availabilities`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| property_id | bigint | FK, not null | |
+| date | date | not null | |
+| status | enum | not null, default: available | available, booked, blocked, maintenance |
+| booking_id | bigint | FK, nullable | Set when status=booked |
+| price_override_cents | integer | | Per-day price override |
+| timestamps | | | |
+| | | unique: [property_id, date] | |
+
+#### `bookings`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| property_id | bigint | FK, not null | |
+| confirmation_number | string | unique, not null | Auto-generated (e.g., SR-20260428-A1B2) |
+| check_in | date | not null | |
+| check_out | date | not null | |
+| num_guests | integer | not null | |
+| guest_name | string | not null | |
+| guest_email | string | not null | |
+| guest_phone | string | | |
+| company_name | string | | |
+| retreat_type | string | | corporate, wellness, private, other |
+| special_requests | text | | |
+| num_nights | integer | not null | |
+| nightly_rate_cents | integer | not null | Locked-in avg rate |
+| subtotal_cents | integer | not null | |
+| cleaning_fee_cents | integer | not null | |
+| taxes_cents | integer | not null | |
+| total_cents | integer | not null | |
+| deposit_amount_cents | integer | not null | |
+| amount_paid_cents | integer | default: 0 | |
+| status | enum | not null, default: pending | pending, deposit_paid, fully_paid, confirmed, checked_in, completed, cancelled, refunded |
+| stripe_checkout_session_id | string | | |
+| stripe_payment_intent_id | string | | |
+| admin_notes | text | | Internal notes |
+| timestamps | | | |
+
+#### `inquiries`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| name | string | not null | |
+| email | string | not null | |
+| phone | string | | |
+| company | string | | |
+| retreat_type | string | | |
+| preferred_dates | string | | Free text |
+| group_size | integer | | |
+| message | text | not null | |
+| status | enum | not null, default: new_inquiry | new_inquiry, responded, closed |
+| admin_notes | text | | |
+| timestamps | | | |
+
+#### `testimonials`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| author_name | string | not null | |
+| author_title | string | | "CEO, Acme Corp" |
+| author_image | | Active Storage attached | |
+| content | text | not null | Quote text |
+| rating | integer | default: 5 | 1-5 |
+| retreat_type | string | | |
+| featured | boolean | default: false | |
+| sort_order | integer | default: 0 | |
+| timestamps | | | |
+
+#### `site_contents`
+| Column | Type | Constraints | Notes |
+|--------|------|------------|-------|
+| id | bigint | PK, auto | |
+| key | string | unique, not null | "hero_headline", "about_text" |
+| value | text | not null | |
+| content_type | enum | default: text | text, html, url, json |
+| timestamps | | | |
+
+---
+
+## 6. Routes / URL Structure
+
+### 6.1 Public Routes
+
+| Method | Path | Controller#Action | Description |
+|--------|------|-------------------|------------|
+| GET | / | pages#home | Homepage |
+| GET | /the-retreat | property#show | Property details |
+| GET | /experience | pages#experience | Experience types |
+| GET | /about | pages#about | About page |
+| GET | /availability | availability#index | Calendar + booking start |
+| GET | /availability/calendar | availability#calendar | JSON: available dates for month |
+| GET | /availability/pricing | availability#pricing | JSON: price calculation |
+| GET | /book | bookings#new | Booking form |
+| POST | /book | bookings#create | Create booking |
+| GET | /book/:id/payment | bookings#payment | Payment options |
+| POST | /book/:id/checkout | bookings#checkout | Create Stripe session, redirect |
+| GET | /book/:id/confirmation | bookings#confirmation | Post-payment confirmation |
+| GET | /inquiry | inquiries#new | Inquiry form |
+| POST | /inquiry | inquiries#create | Submit inquiry |
+| GET | /inquiry/thank-you | inquiries#thank_you | Confirmation |
+| GET | /faq | pages#faq | FAQ page |
+| GET | /policies | pages#policies | Policies page |
+| GET | /privacy | pages#privacy | Privacy policy |
+| GET | /terms | pages#terms | Terms of service |
+| POST | /webhooks/stripe | webhooks#stripe | Stripe webhook |
+
+### 6.2 Admin Routes (under `/admin`, Devise-authenticated)
+
+| Method | Path | Controller#Action | Description |
+|--------|------|-------------------|------------|
+| GET | /admin/login | devise sessions | Login page |
+| POST | /admin/login | devise sessions | Authenticate |
+| DELETE | /admin/logout | devise sessions | Logout |
+| GET | /admin | admin/dashboard#index | Dashboard |
+| GET | /admin/calendar | admin/calendar#index | Calendar management |
+| POST | /admin/calendar/bulk_update | admin/calendar#bulk_update | Bulk date update |
+| PATCH | /admin/calendar/:date | admin/calendar#update | Single date update |
+| GET | /admin/bookings | admin/bookings#index | Booking list |
+| GET | /admin/bookings/:id | admin/bookings#show | Booking detail |
+| PATCH | /admin/bookings/:id | admin/bookings#update | Update booking |
+| POST | /admin/bookings/:id/refund | admin/bookings#refund | Stripe refund |
+| POST | /admin/bookings/:id/send_payment_link | admin/bookings#send_payment_link | Email payment link |
+| GET | /admin/inquiries | admin/inquiries#index | Inquiry list |
+| GET | /admin/inquiries/:id | admin/inquiries#show | Inquiry detail |
+| PATCH | /admin/inquiries/:id | admin/inquiries#update | Update status/notes |
+| GET | /admin/property | admin/property#edit | Edit property |
+| PATCH | /admin/property | admin/property#update | Save property |
+| CRUD | /admin/property/photos | admin/photos#* | Photo management |
+| POST | /admin/property/photos/reorder | admin/photos#reorder | Reorder photos |
+| CRUD | /admin/property/amenities | admin/amenities#* | Amenity management |
+| CRUD | /admin/property/pricing | admin/seasonal_pricings#* | Seasonal pricing |
+| CRUD | /admin/testimonials | admin/testimonials#* | Testimonial management |
+| GET | /admin/content | admin/content#index | Content editor |
+| PATCH | /admin/content/:id | admin/content#update | Update content |
+| GET | /admin/settings | admin/settings#edit | Admin settings |
+| PATCH | /admin/settings | admin/settings#update | Save settings |
+| GET | /admin/bookings/export.csv | admin/bookings#export | CSV download |
+
+---
+
+## 7. Non-Functional Requirements
+
+### 7.1 Performance
+- Page load time: < 2 seconds on 3G connection
+- Time to Interactive: < 3 seconds
+- Lighthouse Performance score: > 85
+- Image optimization: responsive images via Active Storage variants, lazy loading below the fold
+- Database queries: N+1 prevention via `includes`/`eager_load`, indexed foreign keys and date columns
+
+### 7.2 Security
+- CSRF protection on all forms (Rails default)
+- Stripe webhook signature verification
+- Rate limiting on public forms (rack-attack gem): 5 inquiries/hour per IP, 10 bookings/hour per IP
+- Admin routes protected by Devise authentication + CanCanCan authorization
+- All prices calculated server-side (never trust client-submitted prices)
+- Input sanitization on all user-submitted text
+- HTTPS enforced in production
+- Sensitive data (Stripe keys, DB credentials) in environment variables only
+- No secrets in version control
+
+### 7.3 Responsiveness
+- Fully responsive at breakpoints: 375px (mobile), 768px (tablet), 1024px (laptop), 1440px (desktop)
+- Mobile-first design approach
+- Touch-friendly interactive elements (min 44px tap targets)
+
+### 7.4 SEO
+- Server-rendered HTML (Rails default)
+- Semantic HTML5 elements
+- OpenGraph and Twitter Card meta tags on all pages
+- JSON-LD structured data (LodgingBusiness schema)
+- `sitemap.xml` generation
+- `robots.txt`
+- Canonical URLs
+
+### 7.5 Accessibility
+- WCAG 2.1 AA compliance
+- Keyboard navigable (focus management, skip links)
+- ARIA labels on interactive elements
+- Sufficient color contrast ratios (4.5:1 for text)
+- Alt text on all images
+- Form labels and error messages associated with inputs
+
+### 7.6 Browser Support
+- Chrome 90+, Firefox 90+, Safari 15+, Edge 90+
+- iOS Safari 15+, Android Chrome 90+
+
+### 7.7 Testing
+- RSpec for all models, controllers, services, and mailers
+- Model validations, associations, scopes
+- Controller request specs for public and admin routes
+- Service object specs for booking, pricing, and Stripe logic
+- Mailer specs
+- System/integration specs for critical flows (booking, payment, admin calendar)
+- Target: > 80% code coverage
+
+---
+
+## 8. Design Specifications
+
+### 8.1 Color Palette
+| Token | Hex | Usage |
+|-------|-----|-------|
+| Sage | #7C8C6E | Primary brand color, links, accents |
+| Sage Light | #E8ECE4 | Light backgrounds, hover states |
+| Sage Dark | #5A6B4E | Hover/active states on primary |
+| Charcoal | #2D2D2D | Headings, dark sections, primary text |
+| Warm Gray | #F7F5F3 | Section backgrounds |
+| Cream | #FAF9F7 | Alternate section backgrounds |
+| Stone | #8B8178 | Secondary/muted text |
+| Amber | #C4956A | CTAs, warm accent highlights |
+| White | #FFFFFF | Backgrounds, text on dark |
+| Error | #DC2626 | Form errors, destructive actions |
+| Success | #16A34A | Success states, available dates |
+
+### 8.2 Typography
+| Element | Font | Weight | Size |
+|---------|------|--------|------|
+| Headings (h1-h3) | Cormorant Garamond | 600-700 | 36-72px |
+| Headings (h4-h6) | DM Sans | 500-600 | 18-24px |
+| Body | Inter | 400 | 16px |
+| Navigation | DM Sans | 500 | 15px |
+| Buttons | DM Sans | 600 | 14-16px |
+| Eyebrow / Labels | DM Sans | 600 | 12-13px, uppercase, tracked |
+| Blockquote | Cormorant Garamond | 400 italic | 20-24px |
+
+### 8.3 Spacing
+- Base unit: 4px
+- Scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px
+- Section vertical padding: 96-128px (desktop), 64-96px (mobile)
+- Content max-width: 1280px
+
+### 8.4 Components
+- Border radius: 8px (cards, images), 4px (buttons, inputs), 50% (avatars)
+- Shadows: subtle (cards), medium (modals, dropdowns)
+- Transitions: 200ms ease for hovers, 300ms for reveals
+- Scroll animations: fade-up with 40px translate, stagger delays on grids
+
+---
+
+## 9. Implementation Phases
+
+### Phase 1: Foundation (Week 1-2)
+- Rails 7 project initialization with PostgreSQL, Tailwind, importmap
+- RuboCop configuration
+- Database migrations for all tables
+- Seed script with realistic property data
+- Model layer: all models with validations, associations, enums, scopes
+- RSpec setup and model specs
+- Layout: application layout with Header and Footer partials
+- Homepage with all 11 sections (using seed data)
+- `/the-retreat`, `/experience`, `/about` pages
+- Stimulus controllers for: scroll animations, mobile menu, counter animation, testimonial carousel, lightbox
+- Responsive design across all breakpoints
+- **Deliverable**: Fully styled, responsive public website with static content
+
+### Phase 2: Availability & Booking (Week 3-4)
+- Availability calendar Stimulus controller
+- `AvailabilityService` — fetch available dates, check date ranges
+- `PricingService` — calculate total from dates, seasonal pricing, overrides
+- `/availability` page with interactive calendar + price preview
+- `/book` form with server-side validation
+- `BookingService` — create bookings, generate confirmation numbers
+- `/inquiry` form + `InquiryService`
+- Controller and request specs
+- **Deliverable**: Users can view calendar, see prices, submit bookings and inquiries
+
+### Phase 3: Stripe & Email (Week 5)
+- Stripe gem setup, `StripeService` for checkout session creation
+- `/book/:id/payment` page with deposit/full options
+- `/book/:id/confirmation` page
+- Stripe webhook controller with signature verification
+- Post-payment logic: update booking, mark availability, send emails
+- Action Mailer templates: booking confirmation, inquiry notification, admin alerts
+- Sidekiq setup for background email delivery and scheduled reminders
+- Service and controller specs
+- **Deliverable**: End-to-end payment flow with email notifications
+
+### Phase 4: Admin Panel (Week 6-7)
+- Devise setup for AdminUser model
+- CanCanCan Ability class with role-based permissions
+- Admin layout with sidebar navigation
+- Dashboard with stats, upcoming bookings, recent inquiries
+- Calendar management page (Stimulus interactive calendar)
+- Bookings CRUD with filters, pagination, status management, refunds
+- Inquiries CRUD with status management
+- Property editor (details, photos with Active Storage, amenities, pricing)
+- Testimonial management
+- Site content editor
+- Admin settings page
+- Admin controller and request specs
+- **Deliverable**: Full admin panel
+
+### Phase 5: Polish & Launch (Week 8)
+- SEO: meta tags, OpenGraph, JSON-LD, sitemap, robots.txt
+- Performance: image variants, eager loading, caching (Russian doll caching)
+- rack-attack rate limiting
+- Error pages: 404, 500, 422
+- Loading states and Turbo Frame placeholders
+- FAQ, policies, privacy, terms pages
+- Accessibility audit and fixes
+- Full RSpec test suite pass, RuboCop clean
+- Production deployment setup
+- **Deliverable**: Production-ready launch
+
+---
+
+## 10. Key Gems
+
+```ruby
+# Gemfile
+
+# Core
+gem "rails", "~> 7.1"
+gem "pg"
+gem "puma"
+gem "redis"
+gem "sidekiq"
+
+# Frontend
+gem "turbo-rails"
+gem "stimulus-rails"
+gem "tailwindcss-rails"
+gem "importmap-rails"
+
+# Auth & Authorization
+gem "devise"
+gem "cancancan"
+
+# Payments
+gem "stripe"
+
+# Image Upload
+gem "image_processing"
+gem "aws-sdk-s3" # or cloudinary gem
+
+# Email
+gem "resend" # or use standard SMTP
+
+# Utilities
+gem "pagy" # pagination
+gem "ransack" # admin search/filters
+gem "rack-attack" # rate limiting
+
+# Development & Test
+group :development, :test do
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubocop-performance", require: false
+  gem "annotate"
+  gem "pry-rails"
+end
+
+group :test do
+  gem "shoulda-matchers"
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "simplecov", require: false
+  gem "webmock"
+  gem "vcr"
+end
+```
+
+---
+
+## 11. File Structure Overview
+
+```
+colorado_rent/
+├── app/
+│   ├── controllers/
+│   │   ├── application_controller.rb
+│   │   ├── pages_controller.rb
+│   │   ├── property_controller.rb
+│   │   ├── availability_controller.rb
+│   │   ├── bookings_controller.rb
+│   │   ├── inquiries_controller.rb
+│   │   ├── webhooks_controller.rb
+│   │   └── admin/
+│   │       ├── base_controller.rb
+│   │       ├── dashboard_controller.rb
+│   │       ├── calendar_controller.rb
+│   │       ├── bookings_controller.rb
+│   │       ├── inquiries_controller.rb
+│   │       ├── property_controller.rb
+│   │       ├── photos_controller.rb
+│   │       ├── amenities_controller.rb
+│   │       ├── seasonal_pricings_controller.rb
+│   │       ├── testimonials_controller.rb
+│   │       ├── content_controller.rb
+│   │       └── settings_controller.rb
+│   ├── models/
+│   │   ├── admin_user.rb
+│   │   ├── property.rb
+│   │   ├── property_image.rb
+│   │   ├── amenity.rb
+│   │   ├── seasonal_pricing.rb
+│   │   ├── availability.rb
+│   │   ├── booking.rb
+│   │   ├── inquiry.rb
+│   │   ├── testimonial.rb
+│   │   ├── site_content.rb
+│   │   └── ability.rb (CanCanCan)
+│   ├── services/
+│   │   ├── availability_service.rb
+│   │   ├── pricing_service.rb
+│   │   ├── booking_service.rb
+│   │   ├── stripe_checkout_service.rb
+│   │   ├── stripe_webhook_service.rb
+│   │   └── inquiry_service.rb
+│   ├── mailers/
+│   │   ├── booking_mailer.rb
+│   │   ├── inquiry_mailer.rb
+│   │   └── admin_mailer.rb
+│   ├── jobs/
+│   │   ├── booking_reminder_job.rb
+│   │   └── payment_reminder_job.rb
+│   ├── views/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── property/
+│   │   ├── availability/
+│   │   ├── bookings/
+│   │   ├── inquiries/
+│   │   ├── shared/ (partials: _header, _footer, _flash)
+│   │   └── admin/
+│   ├── javascript/
+│   │   └── controllers/ (Stimulus)
+│   │       ├── scroll_animation_controller.js
+│   │       ├── mobile_menu_controller.js
+│   │       ├── counter_controller.js
+│   │       ├── carousel_controller.js
+│   │       ├── lightbox_controller.js
+│   │       ├── calendar_controller.js
+│   │       ├── booking_form_controller.js
+│   │       ├── admin_calendar_controller.js
+│   │       └── photo_upload_controller.js
+│   └── assets/
+│       ├── stylesheets/
+│       │   └── application.tailwind.css
+│       └── images/
+├── config/
+│   ├── routes.rb
+│   ├── database.yml
+│   ├── initializers/
+│   │   ├── devise.rb
+│   │   ├── stripe.rb
+│   │   └── sidekiq.rb
+│   └── locales/
+├── db/
+│   ├── migrate/
+│   ├── schema.rb
+│   └── seeds.rb
+├── spec/
+│   ├── models/
+│   ├── controllers/ (request specs)
+│   ├── services/
+│   ├── mailers/
+│   ├── jobs/
+│   ├── system/
+│   ├── factories/
+│   ├── support/
+│   └── spec_helper.rb
+└── claude/
+    └── docs/
+        └── SRS.md (this file)
+```
