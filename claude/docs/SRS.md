@@ -20,8 +20,10 @@ The system is a monolithic Ruby on Rails 7 web application serving:
 - Stripe-integrated payment processing
 - Transactional email notifications
 
-### 1.3 Design Reference
-The website's visual design and UX are inspired by [discoverwilder.com](https://discoverwilder.com/) — a premium, nature-forward aesthetic with clean typography, generous whitespace, scroll-triggered animations, and a luxury-meets-accessible minimalism feel adapted for a single Colorado rental property.
+### 1.3 Structure and Content Reference
+The website's structure and content are inspired by [discoverwilder.com](https://discoverwilder.com/) — a premium, nature-forward layout with clear information hierarchy, distinct pages and content sections, and a luxury-meets-accessible approach adapted for a single Colorado rental property.
+
+Design specifications (colors, typography, spacing, components, and animations) are defined by the included HTML template (`html-template/` — Obsidia wellness theme) and documented in Section 8.
 
 ### 1.4 Definitions
 | Term | Definition |
@@ -620,40 +622,52 @@ property ──────────────┬── property_images
 ### 8.1 Color Palette
 | Token | Hex | Usage |
 |-------|-----|-------|
-| Sage | #7C8C6E | Primary brand color, links, accents |
-| Sage Light | #E8ECE4 | Light backgrounds, hover states |
-| Sage Dark | #5A6B4E | Hover/active states on primary |
-| Charcoal | #2D2D2D | Headings, dark sections, primary text |
-| Warm Gray | #F7F5F3 | Section backgrounds |
-| Cream | #FAF9F7 | Alternate section backgrounds |
-| Stone | #8B8178 | Secondary/muted text |
-| Amber | #C4956A | CTAs, warm accent highlights |
-| White | #FFFFFF | Backgrounds, text on dark |
-| Error | #DC2626 | Form errors, destructive actions |
-| Success | #16A34A | Success states, available dates |
+| Deep Espresso (Primary) | #312B24 | Main text color, headings, primary UI elements |
+| Soft Sage (Secondary) | #EAF0EA | Page background, section backgrounds, light surfaces |
+| Muted Gray (Text) | #747474 | Secondary text, descriptions, meta information |
+| Sage Green (Accent) | #64734F | Primary accent color, CTAs, highlights, links, icons |
+| White (Accent 2) | #FFFFFF | Text on dark backgrounds, card backgrounds, buttons |
+| Deep Green (Accent 3) | #1A312A | Dark overlays, rich backgrounds, banner overlays |
+| Light Taupe (Accent 4) | #D6D1CC | Subtle backgrounds, borders, dividers, card backgrounds |
+| Black (Accent 5) | #000000 | Maximum contrast elements, deep shadows |
+| Accent Transparent | #00000000 | Fully transparent overlay, gradient endpoints |
+| Overlay Dark | #00000087 | Semi-transparent overlays (53% opacity) |
+| Success | (use Deep Green #1A312A) | Success states |
+| Error | (use Deep Green #1A312A) | Form errors (defined in template) |
 
 ### 8.2 Typography
-| Element | Font | Weight | Size |
-|---------|------|--------|------|
-| Headings (h1-h3) | Cormorant Garamond | 600-700 | 36-72px |
-| Headings (h4-h6) | DM Sans | 500-600 | 18-24px |
-| Body | Inter | 400 | 16px |
-| Navigation | DM Sans | 500 | 15px |
-| Buttons | DM Sans | 600 | 14-16px |
-| Eyebrow / Labels | DM Sans | 600 | 12-13px, uppercase, tracked |
-| Blockquote | Cormorant Garamond | 400 italic | 20-24px |
+| Element | Font | Weight | Size | Line Height |
+|---------|------|--------|------|-------------|
+| Headings (h1) | Lora | 400 | 5.1rem (81.6px) | 1.2em |
+| Headings (h2) | Lora | 400 | 3.1rem (49.6px) | 1.2em |
+| Headings (h3) | Lora | 400 | 1.75rem (28px) | 1.2em |
+| Headings (h4) | Lora | 400 | 1.4rem (22.4px) | 1.2em |
+| Headings (h5) | Lora | 400 | 1.125rem (18px) | 1.2em |
+| Headings (h6) | Lora | 400 | 0.938rem (15px) | 1.2em |
+| Body | Inter Tight | 400 | 1rem (16px) | 1.2em |
+| Buttons / Links | Lora | 400 | 0.938rem (15px) | 1.2em |
+| Testimonial Stars | — | — | 0.875rem (14px) | — |
 
 ### 8.3 Spacing
-- Base unit: 4px
-- Scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px
-- Section vertical padding: 96-128px (desktop), 64-96px (mobile)
-- Content max-width: 1280px
+- Base unit: 1em (16px root)
+- Section padding (vertical): 6em (96px default), 4em (64px small), 7em (112px large)
+- Section padding (horizontal): 1em (16px standard), 2em (32px large)
+- Content max-width: 1440px (hero-container)
+- Flex/Grid gap scale: 10px, 20px, 30px, 40px, 50px, 100px
+- Card padding: 30px (standard cards)
+- Form input padding: 14px 12px
 
 ### 8.4 Components
-- Border radius: 8px (cards, images), 4px (buttons, inputs), 50% (avatars)
-- Shadows: subtle (cards), medium (modals, dropdowns)
-- Transitions: 200ms ease for hovers, 300ms for reveals
-- Scroll animations: fade-up with 40px translate, stagger delays on grids
+- Border radius: 0px (default - cards, buttons, inputs use sharp/square corners), 5px (subtle rounding on some inputs), 24px (pill-shaped buttons), 25px (newsletter form), 50% (avatars/circular images), 6px (alert boxes)
+- Shadows: `0 10px 30px 0 rgba(45, 45, 45, .2)` (navbar dropdowns), `0px 0px 1px 0px rgba(0, 0, 0, 0.5)` (subtle checkbox/style elements)
+- No box-shadow on inputs (clean, minimal approach); only bottom border on focus/hover
+- Transitions: 0.3s ease (hover states, blog links, form inputs)
+- Scroll animations: fade-up (translateY: 80px), fade-down (translateY: -80px), fade-left (translateX: -120px), fade-right (translateX: 120px)
+- Animation durations: 0.8s (fast), 1.1s (normal), 1.6s (slow)
+- Animation delays: 0s (none), 0.25s (sm), 0.45s (md)
+- Stagger delay pattern for grids/lists: increment by 0.25s per item, max 5 items
+- Image aspect ratios: 15vh (blog thumbnails), 35vh (wide gallery), 78vh (tall gallery), 80x80px (testimonials)
+- Easing: `cubic-bezier(0.25, 0.8, 0.25, 1)` (standard), `cubic-bezier(0.4, 0.0, 0.2, 1)` (carousel/slider)
 
 ---
 

@@ -3,13 +3,15 @@
 ## Project Overview
 Single-property rental website for a corporate retreat / wellness property in Colorado. Guests can browse, check availability, book with Stripe payments, or submit inquiries. Admin panel for property management.
 
-Design, content structure inspired by [discoverwilder.com](https://discoverwilder.com/) — premium, nature-forward, clean minimalism. Use their text as a reference for tone, phrasing style, and section structure, but **always rewrite copy to be original** — never copy text verbatim. Adapt language to fit a Colorado mountain retreat context.
+Structure and content inspired by [discoverwilder.com](https://discoverwilder.com/) — premium, nature-forward layout with clear information hierarchy, distinct pages and content sections. Use their text as a reference for tone, phrasing style, and section structure, but **always rewrite copy to be original** — never copy text verbatim. Adapt language to fit a Colorado mountain retreat context.
+
+for design and style follow the included bootstrap template /html-template
 
 ## Tech Stack
 - **Ruby** 3.3.8
 - **Rails** 7.1 (Hotwire: Turbo + Stimulus)
 - **PostgreSQL** for database
-- **Tailwind CSS** via tailwindcss-rails
+- **Bootstrap css** for styling
 - **Devise** for authentication
 - **CanCanCan** for authorization
 - **Stripe** for payments (Checkout Sessions)
@@ -111,12 +113,16 @@ app/
 - FactoryBot for test data, Faker for realistic values
 
 ## Design Tokens
-- Primary: Sage #7C8C6E
-- Accent: Amber #C4956A
-- Dark: Charcoal #2D2D2D
-- Headings: Cormorant Garamond (serif)
-- Body: Inter (sans-serif)
-- Nav/Buttons: DM Sans (sans-serif)
+- Primary (text/headings): Deep Espresso #312B24
+- Secondary (background): Soft Sage #EAF0EA
+- Muted (secondary text): Muted Gray #747474
+- Accent (CTAs/links): Sage Green #64734F
+- Dark overlay: Deep Green #1A312A
+- Subtle border: Light Taupe #D6D1CC
+- Headings: Lora (serif, weight 400)
+- Body: Inter Tight (sans-serif, weight 400)
+- Buttons/Links: Lora (serif, weight 400)
+- Content max-width: 1440px
 
 ## Documentation
 - Full SRS: `claude/docs/SRS.md`
