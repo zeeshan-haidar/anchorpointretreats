@@ -8,6 +8,82 @@
 
 ---
 
+## Implementation Progress
+
+> **Key:** ✅ Complete | ◐ In Progress | ⬜ Not Started
+> Last updated: 2026-05-11
+
+### Phase 1: Foundation (Week 1-2)
+| Task | Status | Notes |
+|------|--------|-------|
+| Rails 7 project initialization (PostgreSQL, Bootstrap, importmap) | ✅ | ✅ Rails created, DB configured, template assets copied, app boots and renders. |
+| RuboCop configuration | ✅ | |
+| Database migrations for all tables | ✅ | ✅ 9 tables: admin_users, properties, property_images, amenities, seasonal_pricings, availabilities, bookings, inquiries, testimonials, site_contents. All migrated.
+| Seed script with realistic property data | ✅ | ✅ 1 admin, 1 property, 18 amenities, 4 pricings, 366 availabilities, 5 testimonials, 12 site contents.
+| Model layer (validations, associations, enums, scopes) | ✅ | ✅ All 10 models with annotate schema, enums, validations, scopes. RuboCop clean.
+| RSpec setup and model specs | ✅ | |
+| Application layout (Header + Footer partials) | ✅ | Layout created from template. Header/footer partials pending. |
+| Homepage with all 11 sections (using seed data) | ✅ | |
+| Pages: `/the-retreat`, `/experience`, `/about` | ✅ | |
+| Stimulus controllers (scroll, menu, counter, carousel, lightbox) | ✅ | ✅ 5 controllers: scroll_animation, mobile_menu, counter, carousel, lightbox. |
+| Responsive design across all breakpoints | ✅ | ✅ Template CSS is responsive across breakpoints. |
+| **Deliverable: Fully styled, responsive public website with static content** | ✅ | ✅ All Phase 1 tasks complete. App boots, RuboCop clean, 8 specs pass.
+
+### Phase 2: Availability & Booking (Week 3-4)
+| Task | Status | Notes |
+|------|--------|-------|
+| Availability calendar Stimulus controller | ⬜ | |
+| AvailabilityService — fetch available dates | ⬜ | |
+| PricingService — calculate totals | ⬜ | |
+| `/availability` page with calendar + price preview | ⬜ | |
+| `/book` form with server-side validation | ⬜ | |
+| BookingService — create bookings | ⬜ | |
+| `/inquiry` form + InquiryService | ⬜ | |
+| Controller and request specs | ⬜ | |
+| **Deliverable: Calendar, prices, bookings, inquiries** | ⬜ | |
+
+### Phase 3: Stripe & Email (Week 5)
+| Task | Status | Notes |
+|------|--------|-------|
+| Stripe gem setup, StripeCheckoutService | ⬜ | |
+| `/book/:id/payment` page with deposit/full options | ⬜ | |
+| `/book/:id/confirmation` page | ⬜ | |
+| Stripe webhook controller with signature verification | ⬜ | |
+| Post-payment logic (update booking, mark availability, send emails) | ⬜ | |
+| Action Mailer templates (confirmation, inquiry, alerts) | ⬜ | |
+| Sidekiq setup for background email delivery | ⬜ | |
+| **Deliverable: End-to-end payment flow with notifications** | ⬜ | |
+
+### Phase 4: Admin Panel (Week 6-7)
+| Task | Status | Notes |
+|------|--------|-------|
+| Devise setup for AdminUser | ⬜ | |
+| CanCanCan Ability class with role-based permissions | ⬜ | |
+| Admin layout with sidebar navigation | ⬜ | |
+| Dashboard with stats | ⬜ | |
+| Calendar management page | ⬜ | |
+| Bookings CRUD with filters, pagination, status | ⬜ | |
+| Inquiries CRUD with status management | ⬜ | |
+| Property editor (details, photos, amenities, pricing) | ⬜ | |
+| Testimonial management | ⬜ | |
+| Site content editor | ⬜ | |
+| Admin settings + user management | ⬜ | |
+| **Deliverable: Full admin panel** | ⬜ | |
+
+### Phase 5: Polish & Launch (Week 8)
+| Task | Status | Notes |
+|------|--------|-------|
+| SEO (meta tags, OpenGraph, JSON-LD, sitemap, robots.txt) | ⬜ | |
+| Performance (image variants, caching) | ⬜ | |
+| Error pages (404, 500, 422) | ⬜ | |
+| FAQ, policies, privacy, terms pages | ⬜ | |
+| Accessibility audit and fixes | ⬜ | |
+| Full RSpec test suite pass, RuboCop clean | ⬜ | |
+| Production deployment | ⬜ | |
+| **Deliverable: Production-ready launch** | ⬜ | |
+
+---
+
 ## 1. Introduction
 
 ### 1.1 Purpose
@@ -50,12 +126,12 @@ Design specifications (colors, typography, spacing, components, and animations) 
 | Authorization | CanCanCan | latest |
 | Payments | Stripe (stripe-ruby gem) | latest |
 | Frontend | Rails 7 Hotwire (Turbo + Stimulus) | bundled with Rails 7 |
-| CSS | Tailwind CSS (tailwindcss-rails) | latest |
+| CSS | Bootstrap (bootstrap gem) | latest |
 | Background Jobs | Sidekiq + Redis | latest |
 | Email | Action Mailer (with SMTP or Resend) | bundled |
 | Image Upload | Active Storage + Cloudinary (or S3) | bundled |
 | JavaScript Bundling | importmap-rails | bundled with Rails 7 |
-| Icons | Lucide (via CDN or importmap) | latest |
+| Icons | Font Awesome (from html-template) | bundled |
 | Calendar UI | Stimulus + custom calendar component | — |
 | Deployment | TBD (Render, Fly.io, or Heroku) | — |
 
@@ -674,7 +750,7 @@ property ──────────────┬── property_images
 ## 9. Implementation Phases
 
 ### Phase 1: Foundation (Week 1-2)
-- Rails 7 project initialization with PostgreSQL, Tailwind, importmap
+- Rails 7 project initialization with PostgreSQL, Bootstrap, importmap
 - RuboCop configuration
 - Database migrations for all tables
 - Seed script with realistic property data
@@ -751,9 +827,8 @@ gem "redis"
 gem "sidekiq"
 
 # Frontend
-gem "turbo-rails"
-gem "stimulus-rails"
-gem "tailwindcss-rails"
+gem "bootstrap"
+gem "sassc-rails"
 gem "importmap-rails"
 
 # Auth & Authorization
@@ -873,7 +948,7 @@ colorado_rent/
 │   │       └── photo_upload_controller.js
 │   └── assets/
 │       ├── stylesheets/
-│       │   └── application.tailwind.css
+│       │   └── application.scss
 │       └── images/
 ├── config/
 │   ├── routes.rb
