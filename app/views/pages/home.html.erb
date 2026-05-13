@@ -1,0 +1,336 @@
+<%# app/views/pages/home.html.erb %>
+<% content_for :title, "The Anchorpoint Retreat — Colorado Mountain Retreat" %>
+<% content_for :description, "Experience the ultimate Colorado mountain retreat at The Anchorpoint Retreat. Perfect for corporate retreats, wellness getaways, and private gatherings." %>
+
+<%# === Section 1: Navigation — handled by shared/_header.html.erb === %>
+
+<%# === Section 2: Hero === %>
+<section class="section banner-home">
+    <div class="hero-container">
+        <div class="banner-home-container">
+            <h1 class="banner-home-title animation-box anim-normal anim-delay-sm" data-animation="fade-up">Find Your Anchor in the Colorado Rockies</h1>
+            <p class="banner-home-excerpt animation-box anim-slow anim-delay-md" data-animation="fade-up">Escape to a private mountain sanctuary where breathtaking views meet unparalleled comfort. The perfect setting for your next retreat.</p>
+            <div class="d-flex flex-wrap flex-gap-1 justify-content-center">
+                <a href="/availability" class="btn btn-accent-2 animation-box anim-normal anim-delay-sm" data-animation="fade-up">Check Availability</a>
+                <a href="#overview" class="btn btn-outline-light animation-box anim-normal anim-delay-sm" data-animation="fade-up">Take a Tour</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%# === Section 3: Metrics Bar === %>
+<section class="metrics-bar">
+    <div class="hero-container">
+        <div class="metrics-container">
+            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                <span class="metric-number counter" data-count="50">00</span>
+                <span class="metric-suffix">+</span>
+                <span class="metric-label">Retreats Hosted</span>
+            </div>
+            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                <span class="metric-number counter" data-count="4.9">0.0</span>
+                <span class="metric-suffix"></span>
+                <span class="metric-label">Guest Rating</span>
+            </div>
+            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                <span class="metric-number counter" data-count="16">00</span>
+                <span class="metric-suffix"></span>
+                <span class="metric-label">Max Guests</span>
+            </div>
+            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                <span class="metric-number counter" data-count="10">00</span>
+                <span class="metric-suffix">+</span>
+                <span class="metric-label">Mountain Acres</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%# === Section 4: Property Overview === %>
+<section id="overview" class="section">
+    <div class="hero-container">
+        <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
+            <div class="image-container col-lg-6">
+                <img src="/assets/dummy-img-900x600.jpg" alt="The Anchorpoint Retreat exterior" class="img-fluid">
+            </div>
+            <div class="col-lg-6">
+                <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">The Property</span>
+                <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">A Private Mountain Sanctuary</h2>
+                <p class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Nestled in the heart of the Colorado Rockies, The Anchorpoint Retreat offers a seamless blend of rustic charm and modern luxury. With panoramic mountain views, expansive indoor-outdoor living spaces, and world-class amenities, it's the ideal setting for corporate retreats, wellness getaways, and private celebrations.</p>
+                <div class="property-specs d-flex flex-wrap flex-gap-2">
+                    <div class="spec-item">
+                        <span class="spec-value">6</span>
+                        <span class="spec-label">Bedrooms</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">5</span>
+                        <span class="spec-label">Bathrooms</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">16</span>
+                        <span class="spec-label">Guests</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">4,200</span>
+                        <span class="spec-label">Sq Ft</span>
+                    </div>
+                </div>
+                <a href="/the-retreat" class="btn btn-accent mt-3">Explore the Property</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%# === Section 5: Experience Types === %>
+<section class="section-pb-small-px-large">
+    <div class="hero-container text-center mb-4">
+        <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Experiences</span>
+        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Crafted for Every Occasion</h2>
+    </div>
+    <div class="hero-container">
+        <div class="row row-cols-1 row-cols-md-3 grid-gap-2">
+            <div class="col">
+                <div class="experience-card">
+                    <div class="image-container">
+                        <img src="/assets/dummy-img-600x800.jpg" alt="Corporate Retreats" class="img-fluid">
+                        <div class="experience-overlay">
+                            <h3 class="experience-title">Corporate Retreats</h3>
+                            <p>Inspire your team with mountain views, modern meeting spaces, and team-building activities that spark creativity.</p>
+                            <a href="/experience#corporate" class="btn btn-accent-2">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="experience-card">
+                    <div class="image-container">
+                        <img src="/assets/dummy-img-600x800.jpg" alt="Wellness Retreats" class="img-fluid">
+                        <div class="experience-overlay">
+                            <h3 class="experience-title">Wellness Retreats</h3>
+                            <p>Reconnect with yourself through yoga, meditation, hiking, and spa treatments in a serene natural setting.</p>
+                            <a href="/experience#wellness" class="btn btn-accent-2">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="experience-card">
+                    <div class="image-container">
+                        <img src="/assets/dummy-img-600x800.jpg" alt="Private Gatherings" class="img-fluid">
+                        <div class="experience-overlay">
+                            <h3 class="experience-title">Private Gatherings</h3>
+                            <p>Celebrate life's special moments — family reunions, milestone birthdays, and intimate weddings in the mountains.</p>
+                            <a href="/experience#private" class="btn btn-accent-2">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%# === Section 6: Photo Gallery === %>
+<section class="section">
+    <div class="hero-container text-center mb-4">
+        <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Gallery</span>
+        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">A Glimpse of Paradise</h2>
+    </div>
+    <div class="hero-container">
+        <div class="row row-cols-1 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="image-container gallery-grid-item">
+                    <img src="/assets/dummy-img-900x600.jpg" alt="Mountain view from property" class="img-fluid">
+                </div>
+            </div>
+            <div class="col">
+                <div class="image-container gallery-grid-item">
+                    <img src="/assets/dummy-img-900x600.jpg" alt="Great room interior" class="img-fluid">
+                </div>
+            </div>
+            <div class="col">
+                <div class="image-container gallery-grid-item">
+                    <img src="/assets/dummy-img-600x400.jpg" alt="Hot tub under stars" class="img-fluid">
+                </div>
+            </div>
+            <div class="col">
+                <div class="image-container gallery-grid-item">
+                    <img src="/assets/dummy-img-600x400.jpg" alt="Gourmet kitchen" class="img-fluid">
+                </div>
+            </div>
+            <div class="col">
+                <div class="image-container gallery-grid-item">
+                    <img src="/assets/dummy-img-600x400.jpg" alt="Trail view" class="img-fluid">
+                </div>
+            </div>
+            <div class="col">
+                <div class="image-container gallery-grid-item">
+                    <img src="/assets/dummy-img-600x400.jpg" alt="Sunset deck view" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/the-retreat#gallery" class="btn btn-accent">View All Photos</a>
+        </div>
+    </div>
+</section>
+
+<%# === Section 7: Amenities Grid === %>
+<section class="section-px-pt-small">
+    <div class="hero-container text-center mb-4">
+        <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Amenities</span>
+        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Everything You Need</h2>
+    </div>
+    <div class="hero-container">
+        <div class="row row-cols-2 row-cols-md-4 grid-gap-2">
+            <% amenities = [
+                { icon: "fa-solid fa-hot-tub", name: "Private Hot Tub", desc: "Soak under the stars" },
+                { icon: "fa-solid fa-fire", name: "Fire Pit", desc: "Evening stories and s'mores" },
+                { icon: "fa-solid fa-person-hiking", name: "Hiking Trails", desc: "Miles of private paths" },
+                { icon: "fa-solid fa-wifi", name: "High-Speed WiFi", desc: "Stay connected when needed" },
+                { icon: "fa-solid fa-kitchen-set", name: "Gourmet Kitchen", desc: "Chef-grade appliances" },
+                { icon: "fa-solid fa-spa", name: "Wellness Room", desc: "Yoga and meditation space" },
+                { icon: "fa-solid fa-snowflake", name: "Ski Access", desc: "Minutes from slopes" },
+                { icon: "fa-solid fa-people-group", name: "Event Space", desc: "Indoor & outdoor venues" }
+            ] %>
+            <% amenities.each do |amenity| %>
+                <div class="col">
+                    <div class="card card-service animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                        <div class="service-icon amenity-icon">
+                            <i class="<%= amenity[:icon] %>"></i>
+                        </div>
+                        <div class="d-flex flex-column flex-gap-1">
+                            <h3 class="heading-sm card-service-title"><%= amenity[:name] %></h3>
+                            <p class="accent-color"><%= amenity[:desc] %></p>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/the-retreat#amenities" class="btn btn-accent">View All Amenities</a>
+        </div>
+    </div>
+</section>
+
+<%# === Section 8: How It Works === %>
+<section class="section">
+    <div class="hero-container text-center mb-4">
+        <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Simple Process</span>
+        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">How It Works</h2>
+    </div>
+    <div class="hero-container">
+        <div class="row row-cols-1 row-cols-md-3 grid-gap-3 steps-row">
+            <div class="col text-center">
+                <div class="step-icon">
+                    <i class="fa-solid fa-calendar-check fa-3x accent-color"></i>
+                </div>
+                <h3 class="heading-sm mt-3">Choose Your Dates</h3>
+                <p>Browse our availability calendar and select the perfect dates for your retreat.</p>
+            </div>
+            <div class="col text-center">
+                <div class="step-icon">
+                    <i class="fa-solid fa-users fa-3x accent-color"></i>
+                </div>
+                <h3 class="heading-sm mt-3">Tell Us About Your Group</h3>
+                <p>Share details about your group size and retreat type so we can prepare for your arrival.</p>
+            </div>
+            <div class="col text-center">
+                <div class="step-icon">
+                    <i class="fa-solid fa-mountain fa-3x accent-color"></i>
+                </div>
+                <h3 class="heading-sm mt-3">Arrive and Unwind</h3>
+                <p>Check in and let the mountains work their magic. Everything else is taken care of.</p>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/availability" class="btn btn-accent">Check Availability</a>
+        </div>
+    </div>
+</section>
+
+<%# === Section 9: Testimonials === %>
+<section class="section-pb-small-px-large banner-service">
+    <div class="hero-container text-center mb-4">
+        <span class="sub-heading accent-color-2 animation-box anim-fast anim-delay-none" data-animation="fade-up">Testimonials</span>
+        <h2 class="banner-service-title animation-box anim-normal anim-delay-sm" data-animation="fade-up">What Our Guests Say</h2>
+    </div>
+    <div class="hero-container">
+        <div class="overflow-hidden">
+            <div class="swiper swiper-testimonial">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card text-center">
+                            <div class="testimonial-stars mb-2">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"The Anchorpoint Retreat exceeded every expectation. Our team left feeling refreshed, inspired, and closer than ever. The setting is absolutely magical."</p>
+                            <div class="testimonial-author">
+                                <img src="/assets/dummy-img-600x600.jpg" alt="Sarah M." class="testimonial-avatar">
+                                <div>
+                                    <h4 class="testimonial-name">Sarah Mitchell</h4>
+                                    <span class="testimonial-title">CEO, TechVentures Inc.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card text-center">
+                            <div class="testimonial-stars mb-2">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"A truly transformative experience. The wellness amenities, the quiet surroundings, and the attentive hosting made our yoga retreat unforgettable."</p>
+                            <div class="testimonial-author">
+                                <img src="/assets/dummy-img-600x600.jpg" alt="James R." class="testimonial-avatar">
+                                <div>
+                                    <h4 class="testimonial-name">James Rodriguez</h4>
+                                    <span class="testimonial-title">Wellness Coach</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card text-center">
+                            <div class="testimonial-stars mb-2">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star-half-alt"></i>
+                            </div>
+                            <p class="testimonial-text">"We hosted our family reunion here and it was perfect. The large kitchen, the fire pit, the hiking trails — every detail was thoughtfully designed."</p>
+                            <div class="testimonial-author">
+                                <img src="/assets/dummy-img-600x600.jpg" alt="The Parkers" class="testimonial-avatar">
+                                <div>
+                                    <h4 class="testimonial-name">The Parker Family</h4>
+                                    <span class="testimonial-title">Annual Family Retreat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%# === Section 10: Availability CTA === %>
+<section class="section cta-section" style="background-image: url('/assets/dummy-img-1920x900.jpg');">
+    <div class="hero-container">
+        <div class="cta-overlay text-center">
+            <h2 class="cta-title">Ready to Plan Your Retreat?</h2>
+            <p class="cta-text">Check real-time availability, explore pricing, and book your stay at The Anchorpoint Retreat.</p>
+            <a href="/availability" class="btn btn-accent-2 btn-lg">View Availability</a>
+        </div>
+    </div>
+</section>
+
+<%# === Section 11: Footer — handled by shared/_footer.html.erb === %>

@@ -1,0 +1,2036 @@
+/*==============================================================================
+[Master Stylesheet]
+
+Project:        Obsidia - Alternative Health 
+Version:        1.0
+Primary use:    Main Website Stylesheet
+Description:    Obsidia is luxurious, and modern HTML5 Bootstrap Template for wellness centers, therapy practices, and holistic health services, Biozen includes beautifully designed sections for services, testimonials, blogs, and more. With a focus on simplicity and clarity, Its clean design and soft color palette make it ideal for professionals.
+==============================================================================*/
+
+/*==================================================
+  TABLE OF CONTENTS
+==================================================
+  1.0 Vendor Import
+  2.0 CSS Global Variables
+  3.0 Keyframes Animation
+  4.0 Base & Reset
+  5.0 Section Style
+  6.0 Hero Container Style
+  7.0 Banner Style
+  8.0 Header Style
+  9.0 Sidebar Style
+  10.0 Footer Style
+  11.0 Heading Style
+  12.0 Button Style
+  13.0 Card Style
+  14.0 Color Style
+  15.0 Image Style
+  16.0 Form Style
+  17.0 Banner Home Style
+  18.0 Banner Inner Style
+  19.0 Banner NotFound Style
+  20.0 About Style
+  21.0 Why Choose Us Style
+  22.0 Service Style
+  23.0 Schedule Style
+  24.0 Testimonial Style
+  25.0 Contact Style
+  26.0 Blog Style
+  27.0 Animation Style
+  28.0 Custom Spacing
+==================================================*/
+
+/*==================================================
+  COLOR GLOSSARY
+==================================================
+  This section defines all colors used throughout
+  the stylesheet for quick reference and consistency.
+  
+  PRIMARY COLORS:
+  ---------------
+  --primary: #312B24
+    └─ Usage: Main text color, headings, primary UI elements
+    └─ Contrast: Light backgrounds
+    └─ Example: Body text, navbar links, card headers
+  
+  --secondary: #EAF0EA
+    └─ Usage: Background color, light surfaces
+    └─ Contrast: Dark text elements
+    └─ Example: Page background, section backgrounds
+  
+  --text-color: #747474
+    └─ Usage: Secondary text, descriptions, meta information
+    └─ Contrast: Light backgrounds
+    └─ Example: Paragraph text, captions, helper text
+  
+  ACCENT COLORS:
+  --------------
+  --accent-color: #64734F (Sage Green)
+    └─ Usage: Primary accent, CTAs, highlights
+    └─ Contrast: Works on light and dark backgrounds
+    └─ Example: Button hover states, links, icons, stars
+  
+  --accent-color-2: #FFFFFF (White)
+    └─ Usage: Text on dark backgrounds, clean surfaces
+    └─ Contrast: Dark backgrounds
+    └─ Example: Hero text, card backgrounds, buttons
+  
+  --accent-color-3: #1A312A (Deep Green)
+    └─ Usage: Dark overlays, rich backgrounds
+    └─ Contrast: Light text
+    └─ Example: Banner overlays, testimonial quotes
+  
+  --accent-color-4: #D6D1CC (Light Taupe)
+    └─ Usage: Subtle backgrounds, borders
+    └─ Contrast: Dark text
+    └─ Example: Card backgrounds, dividers
+  
+  --accent-color-5: #000000 (Black)
+    └─ Usage: Maximum contrast elements
+    └─ Contrast: Light backgrounds only
+    └─ Example: Deep shadows, emphasis text
+  
+  TRANSPARENCY VARIANTS:
+  ----------------------
+  --accent-color-transparent: #00000000
+    └─ Usage: Fully transparent overlays, gradient endpoints
+  
+  --accent-transparent-2: #00000087
+    └─ Usage: Semi-transparent overlays (53% opacity)
+    └─ Example: Modal backgrounds, image overlays
+  
+  COLOR USAGE NOTES:
+  ------------------
+  • Always use CSS variables for colors (var(--color-name))
+  • Maintain WCAG AA contrast ratios (4.5:1 for normal text)
+  • Primary color (#312B24) on secondary (#EAF0EA) = 9.8:1 ✓
+  • Accent color (#64734F) on secondary (#EAF0EA) = 4.7:1 ✓
+  • Test all color combinations for accessibility
+  • Use accent colors sparingly for maximum impact
+==================================================*/
+
+/*==================================================
+  TYPOGRAPHY SYSTEM
+==================================================
+  Complete type scale and hierarchy for the project.
+  All sizes use rem units for scalability.
+  
+  FONT FAMILIES:
+  --------------
+  --font-family-heading: "Lora", sans-serif
+    └─ Purpose: Display text, headings, emphasis
+    └─ Characteristics: Serif, elegant, traditional
+    └─ Weights: 400 (Regular)
+    └─ Usage: h1-h6, buttons, quotes, blog links
+  
+  --font-family-text: "Inter Tight", sans-serif
+    └─ Purpose: Body text, UI elements
+    └─ Characteristics: Sans-serif, modern, readable
+    └─ Weights: 400 (Regular)
+    └─ Usage: paragraphs, descriptions, meta info
+  
+  TYPE SCALE:
+  -----------
+  h1: 5.1rem (81.6px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Usage: Hero headlines, page titles
+    └─ Max Width: 20-25 characters recommended
+  
+  h2: 3.1rem (49.6px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Usage: Section headers, testimonial quotes
+    └─ Max Width: 30-35 characters recommended
+  
+  h3: 1.75rem (28px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Usage: Card titles, subsection headers
+    └─ Max Width: 40-45 characters recommended
+  
+  h4: 1.4rem (22.4px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Usage: Blog post titles, prominent links
+    └─ Max Width: 45-50 characters recommended
+  
+  h5: 1.125rem (18px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Usage: Small headers, widget titles
+  
+  h6: 0.938rem (15px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Usage: Smallest headers, labels
+  
+  BODY TEXT:
+  ----------
+  Base (p): 1rem (16px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Family: Inter Tight
+    └─ Usage: Standard paragraph text
+    └─ Max Width: 65-75 characters for optimal readability
+  
+  UI ELEMENTS:
+  ------------
+  Buttons/Links: 0.938rem (15px)
+    └─ Line Height: 1.2em
+    └─ Weight: 400
+    └─ Family: Lora
+    └─ Usage: All interactive elements
+  
+  Testimonial Stars: 0.875rem (14px)
+    └─ Usage: Star ratings, small icons
+  
+  TYPOGRAPHY GUIDELINES:
+  ----------------------
+  • Base font size: 16px (1rem)
+  • Scale ratio: ~1.4 (Minor Third to Major Second hybrid)
+  • Line heights are compact (1.2em) for tight layouts
+  • All headings use font-family-heading (Lora)
+  • All body text uses font-family-text (Inter Tight)
+  • Maintain vertical rhythm with consistent spacing
+  • Recommended line length: 45-75 characters
+  • Use font-weight sparingly (only 400 available)
+  
+  RESPONSIVE CONSIDERATIONS:
+  --------------------------
+  • h1 may need scaling down on mobile (recommend 3-4rem)
+  • h2 may need scaling down on mobile (recommend 2-2.5rem)
+  • Maintain consistent line-height across breakpoints
+  • Consider fluid typography with clamp() for smoother scaling
+  
+  ACCESSIBILITY NOTES:
+  --------------------
+  • Minimum body text size: 16px (1rem) ✓
+  • Sufficient contrast ratios maintained
+  • Line height adequate for readability
+  • Font sizes scale with user preferences (rem units)
+==================================================*/
+
+/*==================================================
+  ANIMATION SYSTEM
+==================================================
+  Comprehensive animation framework for consistent
+  motion design throughout the project.
+  
+  CORE PRINCIPLES:
+  ----------------
+  • Respect user preferences (prefers-reduced-motion)
+  • Use GPU-accelerated properties (opacity, transform)
+  • Maintain consistent easing and timing
+  • Provide meaningful motion that guides attention
+  
+  DURATION PRESETS:
+  -----------------
+  --anim-duration-fast: 0.8s
+    └─ Usage: Quick UI feedback, hover states
+    └─ Examples: Button hover, small transitions
+    └─ Perception: Snappy, responsive
+  
+  --anim-duration-normal: 1.1s
+    └─ Usage: Standard content animations
+    └─ Examples: Fade-in content, slide transitions
+    └─ Perception: Smooth, natural
+  
+  --anim-duration-slow: 1.6s
+    └─ Usage: Large content, hero animations
+    └─ Examples: Hero banner entrance, large images
+    └─ Perception: Elegant, deliberate
+  
+  DELAY PRESETS:
+  --------------
+  --anim-delay-none: 0s
+    └─ Usage: Immediate animations
+  
+  --anim-delay-sm: 0.25s
+    └─ Usage: Slight stagger for sequential items
+    └─ Examples: List items appearing one after another
+  
+  --anim-delay-md: 0.45s
+    └─ Usage: Noticeable delay for emphasis
+    └─ Examples: Hero text appearing after background
+  
+  KEYFRAME ANIMATIONS:
+  --------------------
+  @keyframes fade-in
+    └─ Effect: Opacity 0 → 1
+    └─ Transform: None
+    └─ Usage: Simple appearance animations
+    └─ Best for: Overlays, modals, tooltips
+  
+  @keyframes fade-up
+    └─ Effect: Opacity 0 → 1 + translateY(80px) → 0
+    └─ Transform: Vertical slide from below
+    └─ Usage: Content entering from bottom
+    └─ Best for: Cards, sections, hero content
+  
+  @keyframes fade-down
+    └─ Effect: Opacity 0 → 1 + translateY(-80px) → 0
+    └─ Transform: Vertical slide from above
+    └─ Usage: Content entering from top
+    └─ Best for: Headers, navigation dropdowns
+  
+  @keyframes fade-left
+    └─ Effect: Opacity 0 → 1 + translateX(120px) → 0
+    └─ Transform: Horizontal slide from right
+    └─ Usage: Content entering from right side
+    └─ Best for: Sidebar content, images
+  
+  @keyframes fade-right
+    └─ Effect: Opacity 0 → 1 + translateX(-120px) → 0
+    └─ Transform: Horizontal slide from left
+    └─ Usage: Content entering from left side
+    └─ Best for: Text blocks, feature lists
+  
+  EASING FUNCTIONS:
+  -----------------
+  Default: cubic-bezier(0.25, 0.8, 0.25, 1)
+    └─ Type: Custom ease-out
+    └─ Characteristics: Smooth deceleration
+    └─ Usage: All animation-box elements
+    └─ Perception: Natural, organic motion
+  
+  Testimonial Transition: cubic-bezier(0.4, 0.0, 0.2, 1)
+    └─ Type: Material Design ease
+    └─ Duration: 0.6s
+    └─ Usage: Testimonial carousel slides
+    └─ Characteristics: Crisp, professional
+  
+  ANIMATION CLASSES:
+  ------------------
+  .animation-box
+    └─ Base class for all animated elements
+    └─ Initial state: opacity 0
+    └─ Properties: animation-fill-mode forwards
+    └─ GPU optimization: will-change opacity, transform
+  
+  Duration Modifiers:
+  .anim-fast → uses --anim-duration-fast (0.8s)
+  .anim-normal → uses --anim-duration-normal (1.1s)
+  .anim-slow → uses --anim-duration-slow (1.6s)
+  
+  Delay Modifiers:
+  .anim-delay-none → uses --anim-delay-none (0s)
+  .anim-delay-sm → uses --anim-delay-sm (0.25s)
+  .anim-delay-md → uses --anim-delay-md (0.45s)
+  
+  USAGE EXAMPLES:
+  ---------------
+  <!-- Fast fade-up with small delay -->
+  <div class="animation-box anim-fast anim-delay-sm" data-animation="fade-up">
+    Content here
+  </div>
+  
+  <!-- Slow fade-left with no delay -->
+  <div class="animation-box anim-slow anim-delay-none" data-animation="fade-left"
+    Content here
+  </div>
+  
+  ACCESSIBILITY:
+  --------------
+  @media (prefers-reduced-motion: reduce)
+    └─ Disables all animations for users who prefer reduced motion
+    └─ Sets opacity to 1 immediately
+    └─ Removes transform effects
+    └─ Maintains layout without motion
+  
+  PERFORMANCE OPTIMIZATION:
+  -------------------------
+  • Only animate opacity and transform (GPU-accelerated)
+  • Use will-change sparingly on .animation-box
+  • animation-fill-mode: forwards prevents layout shift
+  • Avoid animating layout properties (width, height, margin)
+  
+  ANIMATION HIERARCHY:
+  --------------------
+  1. Hero/Banner: anim-slow + fade-up (most important)
+  2. Section Content: anim-normal + fade-up (standard)
+  3. UI Elements: anim-fast + fade-in (responsive feedback)
+  4. Sequential Items: Use increasing anim-delay-sm
+  
+  STAGGER PATTERNS:
+  -----------------
+  For lists/grids, apply increasing delays:
+  
+  Item 1: anim-delay-none (0s)
+  Item 2: anim-delay-sm (0.25s)
+  Item 3: anim-delay-sm × 2 (0.50s)
+  Item 4: anim-delay-sm × 3 (0.75s)
+  
+  Maximum recommended stagger: 5 items
+  Beyond 5, use uniform timing to avoid user fatigue
+  
+  TRANSITION RECOMMENDATIONS:
+  ----------------------------
+  Hover States: 0.3s ease
+    └─ Example: .blog-link { transition: all 0.3s ease }
+  
+  Carousel/Slider: 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)
+    └─ Example: .testimonial-box transform transitions
+  
+  TESTING CHECKLIST:
+  ------------------
+  ☑ Test with prefers-reduced-motion enabled
+  ☑ Verify animations don't cause layout shift
+  ☑ Check performance on lower-end devices
+  ☑ Ensure animations enhance, not distract
+  ☑ Validate timing feels natural across all breakpoints
+==================================================*/
+
+/*==================================================
+  1.0 Vendor Import
+==================================================*/
+
+@import url('./fonts.css');
+@import url('./vendor/bootstrap.min.css');
+@import url('./vendor/fontawesome.css');
+@import url('./vendor/brands.css');
+@import url('./vendor/regular.css');
+@import url('./vendor/solid.css');
+@import url('./vendor/swiper-bundle.min.css');
+@import url('./vendor/flatpickr.min.css');
+
+/*==================================================
+  2.0 CSS Global Variables
+==================================================*/
+
+:root{
+    /* Color Variable */
+    --primary: #312B24;
+    --secondary: #EAF0EA;
+    --text-color: #747474;
+    --accent-color: #64734F;
+    --accent-color-2: #FFFFFF;
+    --accent-color-3: #1A312A;
+    --accent-color-4: #D6D1CC;
+    --accent-color-5: #000000;
+    --accent-color-transparent: #00000000;
+    --accent-transparent-2: #00000087;
+
+    /* Font Style Variable */
+    --font-family-heading: "Lora", sans-serif;
+    --font-family-text: "Inter Tight", sans-serif;
+
+    /* Animation Duration Preset */
+    --anim-duration-fast: 0.8s;
+    --anim-duration-normal: 1.1s;
+    --anim-duration-slow: 1.6s;
+
+    /* Animation Delay Preset */
+    --anim-delay-none: 0s;
+    --anim-delay-sm: 0.25s;
+    --anim-delay-md: 0.45s;
+}
+
+/*==================================================
+  3.0 Keyframe Animation
+==================================================*/
+
+@media (prefers-reduced-motion: reduce) {
+    .animation-box { 
+        animation: none !important;
+        opacity: 1 !important; 
+        transform: none !important; 
+    }
+}
+
+@keyframes fade-in   { 
+    from {opacity:0;} to {opacity:1;} 
+}
+@keyframes fade-up   { 
+    from {opacity:0; transform:translateY(80px);} to {opacity:1; transform:translateY(0);} 
+}
+@keyframes fade-down { 
+    from {opacity:0; transform:translateY(-80px);} to {opacity:1; transform:translateY(0);} 
+}
+@keyframes fade-left { 
+    from {opacity:0; transform:translateX(-120px);} to {opacity:1; transform:translateX(0);} 
+}
+@keyframes fade-right{ 
+    from {opacity:0; transform:translateX(120px);} to {opacity:1; transform:translateX(0);} 
+}
+
+/*==================================================
+  4.0 Base & Reset
+==================================================*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: var(--font-family-text);
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+h1,
+.heading-xl{
+    font-size: 5.1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+h2,
+.heading-lg{
+    font-size: 3.1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+h3,
+.heading-md{
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+h4,
+.heading-sm{
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+h5,
+.heading-xs{
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+h6,
+.heading-xxs{
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: var(--font-family-heading);
+    margin: 0px;
+}
+
+ul{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+p{
+    font-family: var(--font-family-text);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    margin: 0px;
+}
+
+button, a, .btn{
+    font-family: var(--font-family-heading);
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/*==================================================
+  5.0 Section Style
+==================================================*/
+
+.section{
+    padding: 6em 1em 6em 1em;
+}
+
+.section-pb-small{
+    padding: 6em 1em 4em 1em;
+}
+
+.section-pb-small-px-large{
+    padding: 6em 2em 4em 2em;
+}
+
+.section-px-pt-small{
+    padding: 1em 1em 3em 1em;
+}
+
+.section-pt-large-pb-small{
+    padding: 7em 1em 1em 1em;
+}
+
+.section-pt-large-pb-large{
+    padding: 3em 1em 7em 1em;
+}
+
+/*==================================================
+  6.0 Hero Container Style
+==================================================*/
+
+.hero-container{
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/*==================================================
+  7.0 Banner Style
+==================================================*/
+
+.banner-home{
+    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-position: 0px -242px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 10em 1em 26em 1em;
+    z-index: 1;
+}
+
+.banner-home::before{
+    content: '';
+    position: absolute;
+    background-color: transparent;
+    background-image: linear-gradient(185deg, var(--accent-color-3) 43%, var(--accent-color-transparent) 68%);
+    opacity: 0.28;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.banner-inner{
+    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 18em 1em 18em 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.banner-about{
+    background-image: url('/assets/dummy-img-600x800.jpg');
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 38% auto;
+    padding: 7em 1em 6em 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.banner-about::before{
+    content: '';
+    position: absolute;
+    background-color: var(--secondary);
+    opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.banner-service{
+    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 10em 1em 15em 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    position: relative;
+}
+
+.banner-contact{
+    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 28em 1em 4em 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.banner-contact::before{
+    content: '';
+    position: absolute;
+    background-color: var(--accent-color-3);
+    opacity: 0.41;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.banner-notfound{
+    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 17em 1em 17em 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.banner-notfound::before{
+    content: '';
+    position: absolute ;
+    background-color: transparent;
+    background-image: linear-gradient(89deg, var(--accent-color-3) 31%, var(--accent-color-transparent) 100%);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/*==================================================
+  8.0 Header Style
+==================================================*/
+
+.header-container{
+    display: flex;
+    flex-direction: row;
+    padding: 1em 1em 1em 1em;
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px 20px;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nav-link-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 20px 20px;
+    align-items: center;
+    width: 33%;
+}
+
+.nav-link{
+    font-family: var(--font-family-heading);
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link.active{
+    color: var(--accent-color);
+}
+
+
+.dropdown-menu {
+    background-color: var(--accent-color-2);
+    color: var(--primary);
+    border-radius: 0;
+    border: none;
+    padding: 10px 0px 10px 0px;
+    overflow: hidden;
+    margin-top: 1.125em !important;
+    border-radius: 0px;
+    min-width: 240px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(45, 45, 45, .2);
+    box-shadow: 0 10px 30px 0 rgba(45, 45, 45, .2);
+}
+
+.dropdown-item{
+    background-color: var(--accent-color-2);
+    font-family: var(--font-family-heading);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.4em;
+    text-transform: capitalize;
+    color: var(--primary);
+    transition: all 300ms;
+    padding: 15px 12px 15px 12px;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.header-logo {
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.header-logo .navbar-brand{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.header-logo img{
+    max-width: 100%;
+    width: 44%;
+    height: auto;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.navbar-cta-container {
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.nav-btn{
+    display: none;
+    padding: 16px 16px;
+    background-color: var(--primary);
+    color: var(--accent-color-2);
+    box-shadow: none;
+    transition: all 300ms ease;
+    border: none;
+    border-radius: 0px 0px 0px 0px;
+    box-shadow: none;
+    font-size: 18px;
+}
+
+.nav-btn:hover{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+}
+
+/*==================================================
+  9.0 Sidebar Style
+==================================================*/
+
+.sidebar-overlay{
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: var(--accent-transparent-2);
+    transition: left 0.4s ease-in-out;
+    z-index: 10;
+}
+
+.sidebar-overlay.active{
+    left: 0;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background: var(--accent-color-2);
+    color: var(--primary);
+    transition: transform 0.4s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto;
+    max-height: 100vh;
+    padding: 0px 16px 0px 5px;
+}
+
+.sidebar.active{
+    transform: translateX(300px);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 20px 20px 20px;
+}
+
+.close-btn-sidebar {
+    display: inline-block;
+    justify-content: center;
+    background-color: var(--primary);
+    border-radius: 0px;
+    color: var(--accent-color-2);
+    font-weight: 600;
+    position: relative;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 18px;
+    transition: all 300ms;
+    border: none;
+    outline: none;
+}
+
+.close-btn-sidebar:hover{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.menu li {
+    padding: 10px 15px 10px 15px;
+}
+
+.menu a {
+    color: var(--primary);
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-family: var(--font-family-heading);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4em;
+    letter-spacing: 0px;
+}
+
+.menu a:hover,
+.menu a.active,
+.menu a.focus {
+    color: var(--accent-color);
+}
+
+.sidebar-dropdown .dropdown-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.sidebar-dropdown-btn {
+    background: none;
+    border: 1px solid var(--accent-color-2);
+    color: var(--primary);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 3px 15px;
+    border-radius: 24px;
+    transition: transform 0.3s ease;
+
+}
+.sidebar-dropdown-btn:hover {
+    color: var(--accent-color-6);
+    border: 1px solid var(--accent-color-6)
+}
+
+.sidebar-dropdown-menu {
+    list-style: none;
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.sidebar-dropdown-menu.active {
+    max-height: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.below-dropdown {
+    transition: margin-top 0.1s ease-in-out;
+    margin-top: 0px;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 5px;
+}
+
+/*==================================================
+  10.0 Footer Style
+==================================================*/
+
+.footer-section{
+    padding: 2em 1em 3em 1em;
+}
+
+.footer-container{
+    display: flex;
+    flex-direction: column;
+    gap: 80px 80px;
+}
+
+.footer-header-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2em 0em 2em 0em;
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: var(--accent-color-4);
+    flex-wrap: nowrap;
+}
+
+.footer-link-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 20px 20px;
+    flex-wrap: wrap;
+}
+
+.footer-link-container{
+    display: flex;
+    flex-direction: column;
+    gap: 25px 25px;
+}
+
+.footer-link-container.container-narrow{
+    width: 15%;
+}
+
+.footer-link-container.container-wide{
+    padding: 0px;
+    width: 50%;
+}
+
+.footer-link{
+    font-family: var(--font-family-heading);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover{
+    color: var(--accent-color);
+}
+
+.copyright-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px 25px;
+    width: 100%;
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+    padding: 2em 2em 2em 2em;
+}
+
+.copyright-text{
+    font-family: var(--font-family-heading);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--accent-color-2);
+    text-align: center;
+}
+
+.footer-legalink-container{
+    display: flex;
+    flex-direction: row;
+    gap: 50px 50px;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.footer-legalink{
+    font-family: var(--font-family-heading);
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--accent-color-2);
+}
+
+/*==================================================
+  11.0 Heading Style
+==================================================*/
+
+.sub-heading{
+    font-family: var(--font-family-heading);
+    color: var(--primary);
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    text-transform: uppercase;
+}
+
+/*==================================================
+  12.0 Button Style
+==================================================*/
+
+.btn{
+    display: inline-block;
+    padding: 12px 25px 12px 25px;
+    border: none;
+    border-radius: 0px 0px 0px 0px;
+    transition: all 0.3s ease;
+}
+
+.btn.btn-accent{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+}
+
+.btn.btn-accent:hover{
+    background-color: var(--primary);
+    color: var(--accent-color-2);
+}
+
+.btn.btn-accent-2{
+    background-color: var(--accent-color-2);
+    color: var(--primary);
+}
+
+.btn.btn-accent-2:hover{
+    background-color: var(--primary);
+    color: var(--accent-color-2);
+}
+
+.btn.btn-accent-hover-outline{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+    border: 1px solid var(--accent-color);
+}
+
+.btn.btn-accent-hover-outline:hover{
+    background-color: var(--accent-color-2);
+    border: 1px solid var(--accent-color);
+}
+
+.schedule-tab-btn{
+    padding: 8px 25px 8px 25px;
+    background-color: var(--secondary);
+    color: var(--primary);
+    border-bottom: 2px solid var(--accent-color);
+    text-align: center;
+}
+
+.schedule-tab-btn.active{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+}
+
+.testimonial-btn{
+    background-color: var(--secondary);
+    color: var(--primary);
+    border: 1px solid var(--accent-color-4);
+    border-radius: 25px 25px 25px 25px;
+    margin: 0px 0px 0px 6px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+    padding: 6px 8px 4px 8px;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.testimonial-btn:hover{
+    background-color: var(--accent-color);
+    color: var(--secondary);
+}
+
+/*==================================================
+  13.0 Card Style
+==================================================*/
+
+.card{
+    border: none;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.card.card-chooseus{
+    background-color: var(--accent-color-2);
+    color: var(--primary);
+    padding: 30px 30px 30px;
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: 100%;
+    gap: 5px 5px;
+}
+
+.card.card-chooseus .chooseus-icon{
+    color: var(--primary);
+    font-size: 55px;
+}
+
+.card.card-chooseus .chooseus-content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px 10px;
+    justify-content: flex-end;
+}
+
+.card.card-service{
+    background-color: var(--accent-color-2);
+    color: var(--primary);
+    padding: 30px 30px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px 40px;
+}
+
+.card.card-service .service-icon{
+    width: 60px;
+    height: 60px;
+    padding: 40px;
+    background-color: var(--accent-color-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card.card-service .card-service-title{
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.card.card-service:hover .card-service-title{
+    color: var(--accent-color-5);
+}
+
+.card.card-service .service-icon svg{
+    width: 60px;
+    height: 60px;
+    fill: var(--accent-color-2);
+    flex-shrink: 0;
+}
+
+.card.card-service .service-icon svg path,
+.card.card-service .service-icon svg rect,
+.card.card-service .service-icon svg circle,
+.card.card-service .service-icon svg .cls-1{
+    fill: var(--accent-color-2) !important;
+    stroke: none !important;
+}
+
+.card-recent-post{
+    background-color: var(--accent-color-3);
+    color: var(--accent-color-2);
+    padding: 1.5em 1.5em 1.5em 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.newsletter-card{
+    background-color: var(--accent-color-2);
+    color: var(--primary);
+    padding: 1em 1em 1em 1em;
+}
+
+.newsletter-card .newsletter-input{
+    width: 70%;
+}
+
+.newsletter-card .newsletter-btn{
+    width: 30%;
+}
+
+/*==================================================
+  14.0 Color Style
+==================================================*/
+
+.primary-accent{
+    color: var(--primary);
+}
+
+.accent-color{
+    color: var(--accent-color);
+}
+
+.accent-color-2{
+    color: var(--accent-color-2);
+}
+
+/*==================================================
+  15.0 Image Style
+==================================================*/
+
+.image-container{
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.image-container img{
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.chooseus-image{
+    width: 30%;
+}
+
+.chooseus-image img{
+    width: 100%;
+    height: 57vh;
+}
+
+.partner-img{
+    max-width: 100%;
+    height: auto;
+}
+
+.schedule-tab-image{
+    width: 51%;
+}
+
+.schedule-tab-image img{
+    width: 100%;
+    height: 15vh;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.gallery-image.gallery-wide-img img,
+.gallery-image.gallery-tall-img img{
+    width: 100%;
+}
+
+.gallery-image.gallery-wide-img img{
+    height: 35vh;
+}
+
+.gallery-image.gallery-tall-img img{
+    height: 78vh;
+}
+
+.testimonial-image{
+    width: 80px;
+    height: 80px;
+    max-width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 50%;
+}
+
+.footer-logo img{
+    width: 34%;
+}
+
+/* Amenity Icon Styles */
+.amenity-icon {
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.amenity-icon i {
+    color: var(--accent-color-2) !important;
+    line-height: 1;
+}
+
+/* Gallery Grid Styles */
+.gallery-grid-item {
+    height: 280px;
+    overflow: hidden;
+}
+
+.gallery-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.gallery-grid-item:hover img {
+    transform: scale(1.08);
+}
+
+/*==================================================
+  16.0 Form Style
+==================================================*/
+
+.form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px 20px;
+    width: 100%;
+}
+
+.form input{
+    padding: 14px 12px 14px 12px;
+    border: none;
+    border-bottom: 1px solid var(--accent-color-4);
+    border-radius: 0px;
+    color: var(--primary);
+    font-family: var(--font-family-heading);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form input:hover,
+.form input:focus{
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    border-bottom: solid 1px var(--primary);
+}
+
+.success {
+    color: var(--accent-color-3);
+}
+  
+.error {
+    color: var(--accent-color-3);
+}  
+
+.alert {
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    align-items: center;
+    padding: 2em;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.hidden{
+    display: none;
+}
+
+/*==================================================
+  17.0 Banner Home Style
+==================================================*/
+
+.banner-home-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+}
+
+.banner-home-title{
+    color: var(--accent-color-2);
+}
+
+.banner-home-excerpt{
+    color: var(--accent-color-2);
+}
+
+/*==================================================
+  18.0 Banner Inner Style
+==================================================*/
+
+.banner-inner-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+}
+
+.banner-inner-title{
+    color: var(--accent-color-2);
+}
+
+.banner-inner-excerpt{
+    color: var(--accent-color-2);
+    width: 36%;
+}
+
+
+/*==================================================
+  19.0 Banner NotFound Style
+==================================================*/
+
+.banner-notfound-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.banner-notfound-title{
+    color: var(--accent-color-2);
+}
+
+.banner-notfound-subtitle{
+    font-family: var(--font-family-heading);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--accent-color-2);
+}
+
+.banner-notfound-excerpt{
+    color: var(--accent-color-2);
+    width: 36%;
+}
+
+/*==================================================
+  20.0 About Style
+==================================================*/
+
+.about-content-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+    width: 60%;
+    margin-left: auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: flex-start;
+}
+
+.about-content-container .about-content-title{
+    width: 100%;
+}
+
+.about-content-container .about-content-excerpt{
+    width: 91%;
+}
+
+.sub-heading-line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.sub-heading-line::before,
+.sub-heading-line::after {
+    content: '';
+    flex-grow: 1;
+    border-bottom: 1px solid var(--primary);
+    opacity: .5;
+}
+
+.about-achievement-box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px 10px;
+    align-items: flex-start;
+    text-align: start;
+}
+
+.about-achievement-text,
+.about-achievement-suffix{
+    font-family: var(--font-family-heading);
+    font-size: 3.1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--accent-color);
+}
+
+.about-achievement-title{
+    font-family: var(--font-family-heading);
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.2em;
+}
+
+/*==================================================
+  21.0 Why Choose Us Style
+==================================================*/
+
+.chooseus-content-container{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.chooseus-content-title{
+    margin: 99px 0px 0px 0px;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.chooseus-content-title:hover{
+    color: var(--accent-color-5);
+}
+
+/*==================================================
+  22.0 Service Style
+==================================================*/
+
+.banner-service-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.banner-service-content .banner-service-title{
+    color: var(--accent-color-2);
+    width: 49%;
+}
+
+.banner-service-content .banner-service-description{
+    color: var(--accent-color-2);
+    width: 44%;
+}
+
+.service-card-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px 25px;
+    margin-top: -6em;
+    padding: 0em;
+}
+
+/*==================================================
+  23.0 Schedule Style
+==================================================*/
+
+.schedule-content-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.schedule-tab-btn-container{
+    display: flex;
+    flex-direction: row;
+    gap: 24px 24px;
+}
+
+.schedule-tab-panel-container{
+    display: flex;
+    flex-direction: row;
+    gap: 80px 0px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.schedule-tab-panel{
+    display: none;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.schedule-tab-panel.active{
+    display: flex;
+}
+
+.schedule-tab-panel .tab-item{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px 0px;
+    border-top: 1px solid var(--accent-color-4);
+    padding: 1em 0em 0em 0em;
+    align-items: stretch;
+    width: 100%;
+}
+
+.schedule-tab-panel .tab-item:last-child{
+    padding: 1em 0em 1em 0em;
+    border-top: 1px solid var(--accent-color-4);
+    border-bottom: 1px solid var(--accent-color-4);
+}
+
+.tab-mobile-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.mobile-schedule-tab-panel .tab-item{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+    width: 100%;
+}
+.mobile-schedule-tab-panel{
+    display: none;
+    flex-direction: column;
+    gap: 20px 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.mobile-schedule-tab-panel.active{
+    display: flex;
+}
+
+/*==================================================
+  24.0 Testimonial Style
+==================================================*/
+
+.testimonial-box-container{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.testimonial-box{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+    min-width: 100%;
+    box-sizing: border-box;
+    transform: translateX(0);
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    opacity: 1;
+}
+
+.testimonial-quote{
+    font-family: var(--font-family-heading);
+    font-size: 3.1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--accent-color-3);
+}
+
+.testimonial-star-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px 5px;
+}
+
+.testimonial-star{
+    font-size: 0.875rem;
+    color: var(--accent-color);
+}
+
+.testimonial-button-container{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+/*==================================================
+  25.0 Contact Style
+==================================================*/
+
+.contact-section-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.contact-section-title{
+    width: 49%;
+    color: var(--accent-color-2);
+}
+
+.contact-form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px 20px;
+    background-color: var(--accent-color-2);
+    color: var(--primary);
+    padding: 2em 2em 2em 2em;
+    border: none;
+    border-radius: 0px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contact-form input,
+.contact-form button {
+    width: 25%;
+    box-sizing: border-box;
+}
+
+/*==================================================
+  26.0 Blog Style
+==================================================*/
+
+.blog-layout{
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.blog-content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px 10px;
+}
+
+.blog-meta{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px 5px;
+    color: var(--accent-color);
+}
+
+.blog-meta p{
+    color: var(--accent-color);
+    margin: 0px;
+}
+
+.blog-meta.recent-post-meta,
+.blog-meta.recent-post-meta p{
+    font-family: var(--font-family-heading);
+    font-size: 0.938rem;
+    font-weight: 400;
+    line-height: 1.4em;
+    color: var(--accent-color-2);
+}
+
+.blog-link{
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    transition: all 0.3s ease
+}
+
+.blog-link:hover{
+    color: var(--accent-color);
+}
+
+
+.blog-link.recent-post-link{
+    font-size: 1rem;
+    color: var(--accent-color-2);
+}
+
+.single-post-container{
+    display: flex;
+    flex-direction: row;
+    gap: 45px 45px;
+}
+
+.single-post-content{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+.single-post-sidebar{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px 20px;
+}
+
+/*==================================================
+  27.0 Animation Style
+==================================================*/
+
+.animation-box {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: opacity, transform;
+}
+
+.anim-fast {
+    --anim-duration: var(--anim-duration-fast);
+}
+
+.anim-normal {
+    --anim-duration: var(--anim-duration-normal);
+}
+
+.anim-slow {
+    --anim-duration: var(--anim-duration-slow);
+}
+
+.anim-delay-none {
+    --anim-delay: var(--anim-delay-none);
+}
+
+.anim-delay-sm {
+    --anim-delay: var(--anim-delay-sm);
+}
+
+.anim-delay-md {
+    --anim-delay: var(--anim-delay-md);
+}
+
+/*==================================================
+  28.0 Custom Spacing
+==================================================*/
+
+.flex-gap-0 { 
+    gap: 0px 0px; 
+}
+.flex-gap-1 { 
+    gap: 10px 10px; 
+}
+.flex-gap-2 { 
+    gap: 20px 20px; 
+}
+.flex-gap-3 { 
+    gap: 30px 30px; 
+}
+.flex-gap-4 { 
+    gap: 40px 40px; 
+}
+.flex-gap-5 { 
+    gap: 50px 50px; 
+}
+.flex-gap-100{
+    gap: 100px 100px;
+}
+.flex-gap-x-0 { 
+    column-gap: 0px; 
+}
+.flex-gap-x-1 { 
+    column-gap: 10px; 
+}
+.flex-gap-x-2 { 
+    column-gap: 20px; 
+}
+.flex-gap-x-3 { 
+    column-gap: 30px; 
+}
+.flex-gap-x-4 { 
+    column-gap: 40px; 
+}
+.flex-gap-x-5 { 
+    column-gap: 50px; 
+}
+.flex-gap-x-100{
+    column-gap: 100px;
+}
+
+.flex-gap-y-0 { 
+    row-gap: 0px; 
+}
+.flex-gap-y-1 { 
+    row-gap: 10px; 
+}
+.flex-gap-y-2 { 
+    row-gap: 20px; 
+}
+.flex-gap-y-3 { 
+    row-gap: 30px; 
+}
+.flex-gap-y-4 { 
+    row-gap: 40px; 
+}
+.flex-gap-y-5 { 
+    row-gap: 50px; 
+}
+.flex-gap-y-100{
+    row-gap: 100%;
+}
+
+
+/* Grid spacing (row-gap & column-gap) */
+
+.grid-gap-0{
+    --bs-gutter-x: 0px;
+    --bs-gutter-y: 0px;
+}
+
+.grid-gap-1{
+    --bs-gutter-x: 10px;
+    --bs-gutter-y: 10px;
+}
+
+.grid-gap-2{
+    --bs-gutter-x: 20px;
+    --bs-gutter-y: 20px;
+}
+
+.grid-gap-3{
+    --bs-gutter-x: 30px;
+    --bs-gutter-y: 30px;
+}
+
+.grid-gap-4{
+    --bs-gutter-x: 40px;
+    --bs-gutter-y: 40px;
+}
+
+.grid-gap-5{
+    --bs-gutter-x: 50px;
+    --bs-gutter-y: 50px;
+}
+
+.grid-gap-100{
+    --bs-gutter-x: 100px;
+    --bs-gutter-y: 100px;
+}
+
+/* Grid spacing (column-gap) */
+
+.grid-gap-x-0 {
+    --bs-gutter-x: 0px;
+}
+.grid-gap-x-1 {
+    --bs-gutter-x: 10px;
+}
+.grid-gap-x-2 {
+    --bs-gutter-x: 20px;
+}
+.grid-gap-x-3 {
+    --bs-gutter-x: 30px;
+}
+.grid-gap-x-4 {
+    --bs-gutter-x: 40px;
+}
+.grid-gap-x-5 {
+    --bs-gutter-x: 50px;
+}
+.grid-gap-x-100{
+    --bs-gutter-x: 100px
+}
+
+/* Grid spacing (row-gap) */
+
+.grid-gap-y-0 {
+    --bs-gutter-y: 0px;
+}
+.grid-gap-y-1 {
+    --bs-gutter-y: 10px;
+}
+.grid-gap-y-2 {
+    --bs-gutter-y: 20px;
+}
+.grid-gap-y-3 {
+    --bs-gutter-y: 30px;
+}
+.grid-gap-y-4 {
+    --bs-gutter-y: 40px;
+}
+.grid-gap-y-5 {
+    --bs-gutter-y: 50px;
+}
+.grid-gap-y-100{
+    --bg-gutter-y: 100px
+}

@@ -1,0 +1,42 @@
+<%# app/views/pages/faq.html.erb %>
+<% content_for :title, "FAQ — The Anchorpoint Retreat" %>
+
+<section class="section banner-home" style="background-image: url('/assets/dummy-img-1920x900.jpg'); min-height: 40vh;">
+    <div class="hero-container">
+        <div class="banner-home-container text-center">
+            <h1 class="banner-home-title">Frequently Asked Questions</h1>
+            <p class="banner-home-excerpt">Everything You Need to Know About Your Stay</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="hero-container">
+        <div class="accordion" id="faqAccordion">
+            <% faqs = [
+                { q: "What is the maximum group size?", a: "The property comfortably accommodates up to 16 guests across 6 bedrooms. For larger groups, please contact us to discuss options." },
+                { q: "What is the cancellation policy?", a: "Full refund if canceled 30+ days before check-in. 50% refund if canceled 14-29 days before. No refund for cancellations within 14 days of check-in." },
+                { q: "Is the property pet-friendly?", a: "Yes! We welcome well-behaved pets with a $150 pet fee. Please let us know in advance so we can prepare your pet amenities." },
+                { q: "What is included in the rental?", a: "The property is fully furnished with linens, towels, kitchen essentials, WiFi, smart TVs, and access to all amenities including the hot tub, sauna, and hiking trails." },
+                { q: "Is cooking equipment provided?", a: "The gourmet kitchen is fully equipped with chef-grade appliances, cookware, dinnerware, and basic pantry items. A private chef can be arranged upon request." },
+                { q: "How do I book?", a: "Use our availability calendar to select your dates, complete the booking form, and pay a 25% deposit. The remaining balance is due 30 days before check-in." },
+                { q: "What activities are nearby?", a: "Skiing (winter), hiking (summer), hot springs, mountain biking, fishing, Telluride historic district, and year-round festivals. We provide a full activity guide upon booking." },
+                { q: "Is there a minimum night requirement?", a: "The minimum stay is 2 nights. During peak seasons (holidays, ski season), a 3-4 night minimum may apply." },
+            ] %>
+            <% faqs.each_with_index do |faq, idx| %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button <%= idx > 0 ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#faq<%= idx %>">
+                            <%= faq[:q] %>
+                        </button>
+                    </h2>
+                    <div id="faq<%= idx %>" class="accordion-collapse collapse <%= idx == 0 ? 'show' : '' %>" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <%= faq[:a] %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</section>

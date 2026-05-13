@@ -1,0 +1,83 @@
+<%# app/views/shared/_header.html.erb %>
+<header class="header-section">
+    <div class="hero-container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg header-nav">
+                    <div class="header-cta-container">
+                        <a href="tel:+1234567890" class="btn btn-accent-2"><i class="fa-solid fa-phone"></i> (555) 123-4567</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <div class="navbar-nav-container">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/the-retreat">The Retreat</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/experience">Experience</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/about">About</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="#">Pages</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/faq">FAQ</a></li>
+                                        <li><a href="/policies">Policies</a></li>
+                                        <li><a href="/privacy">Privacy</a></li>
+                                        <li><a href="/terms">Terms</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="header-logo">
+                        <a class="navbar-brand" href="/"><img src="/assets/P07.png" class="img-fluid" alt="The Anchorpoint Retreat"></a>
+                    </div>
+
+                    <button class="nav-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="navbar-cta-container">
+                        <a href="/availability" class="btn btn-accent">Book Your Stay</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<%# Sidebar Menu %>
+<aside>
+    <div class="sidebar-overlay"></div>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn-sidebar"><span>X</span></button>
+        </div>
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/the-retreat">The Retreat</a></li>
+            <li><a href="/experience">Experience</a></li>
+            <li><a href="/about">About</a></li>
+            <li class="sidebar-dropdown">
+                <div class="dropdown-header">
+                    <a href="#">Info</a>
+                    <button class="sidebar-dropdown-btn"><i class="fa-solid fa-angle-down"></i></button>
+                </div>
+                <ul class="sidebar-dropdown-menu">
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/policies">Policies</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</aside>

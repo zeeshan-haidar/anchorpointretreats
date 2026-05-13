@@ -1,0 +1,20 @@
+/* === Lora Font Family === */
+@font-face {
+    font-family: 'Lora';
+    src: url('../webfonts/Lora/Lora-Regular.woff2') format('woff2'),
+        url('../webfonts/Lora/Lora-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* === Inter Tight Font Family === */
+
+@font-face {
+    font-family: 'Inter Tight';
+    src: url('../webfonts/InterTight/InterTight-Regular.woff2') format('woff2'),
+        url('../webfonts/InterTight/InterTight-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
