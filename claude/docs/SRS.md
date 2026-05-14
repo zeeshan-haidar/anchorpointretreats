@@ -23,11 +23,20 @@
 | Model layer (validations, associations, enums, scopes) | ✅ | ✅ All 10 models with annotate schema, enums, validations, scopes. RuboCop clean.
 | RSpec setup and model specs | ✅ | |
 | Application layout (Header + Footer partials) | ✅ | Layout created from template. Header/footer partials pending. |
-| Homepage with all 11 sections (using seed data) | ✅ | |
+| Homepage with all 11 sections (using seed data) | ✅ | ⚠️ Section 9 (Testimonials) uses hardcoded HTML instead of looping over Testimonial model records. Needs controller action to pass @testimonials and migration to add avatar image field. See Section 5.2  table notes. |
 | Pages: `/the-retreat`, `/experience`, `/about` | ✅ | |
 | Stimulus controllers (scroll, menu, counter, carousel, lightbox) | ✅ | ✅ 5 controllers: scroll_animation, mobile_menu, counter, carousel, lightbox. |
 | Responsive design across all breakpoints | ✅ | ✅ Template CSS is responsive across breakpoints. |
 | **Deliverable: Fully styled, responsive public website with static content** | ✅ | ✅ All Phase 1 tasks complete. App boots, RuboCop clean, 8 specs pass.
+
+### ⚠️ Phase 1 Known Issues (Pending Fix)
+| Issue | Details |
+|-------|---------|
+| Testimonials section is hardcoded | Section 9 uses static HTML instead of iterating over `Testimonial` model records. Needs: (1) controller to fetch `@testimonials`, (2) Active Storage migration (`has_one_attached :image`) to attach author photos, (3) replace static HTML with `<% @testimonials.each do \|t\| %>` loop. |
+| Testimonial author images missing | The `testimonials` table has no photo/avatar column. The model does not have `has_one_attached :image`. A new migration is needed. |
+| Font files not loading | `fontawesome.css` and `fonts.css` reference webfonts via relative URLs (`../../webfonts/`) which 404 in Rails. Symlink `public/webfonts -> ../app/assets/webfonts` created as workaround. Proper fix: add `app/assets/webfonts` to `Rails.application.config.assets.paths`. |
+| `.env.development` needs manual creation | `dotenv-rails` gem added, but `.env.development` file must be manually created with `DB_USERNAME`, `DB_PASSWORD`, `DB_HOST` (security tools prevent auto-creation). |
+| Amenities icons use FontAwesome instead of SVG | Section 7 uses `<i class="fa-solid fa-...">` inside `service-icon` divs. `.amenity-icon` CSS override added with `!important` on color rule for white icons. |
 
 ### Phase 2: Availability & Booking (Week 3-4)
 | Task | Status | Notes |
@@ -556,7 +565,7 @@ property ──────────────┬── property_images
 | id | bigint | PK, auto | |
 | author_name | string | not null | |
 | author_title | string | | "CEO, Acme Corp" |
-| author_image | | Active Storage attached | |
+| author_image | | Active Storage attached | ⚠️ NOT YET IMPLEMENTED — model lacks image/photo/avatar column. Needs migration to attach Active Storage image. Homepage currently uses static /assets/dummy-img-600x600.jpg. |
 | content | text | not null | Quote text |
 | rating | integer | default: 5 | 1-5 |
 | retreat_type | string | | |

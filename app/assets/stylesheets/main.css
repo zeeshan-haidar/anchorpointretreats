@@ -579,6 +579,81 @@ button, a, .btn{
 }
 
 /*==================================================
+  6.5 Metrics Section Style
+==================================================*/
+
+.metrics-section{
+    background-color: var(--accent-color-3);
+    padding: 4em 0;
+}
+
+.metrics-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 2em 1em;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+.metrics-card:hover{
+    border-color: var(--accent-color);
+    background-color: rgba(100, 115, 79, 0.1);
+}
+
+.metrics-icon{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(100, 115, 79, 0.2);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.metrics-card:hover .metrics-icon{
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+    transform: scale(1.1);
+}
+
+.metrics-stat{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.metrics-number{
+    font-family: var(--font-family-heading);
+    font-size: 3.1rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--accent-color-2);
+}
+
+.metrics-suffix{
+    font-family: var(--font-family-heading);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--accent-color);
+}
+
+.metrics-label{
+    font-family: var(--font-family-text);
+    font-size: 0.938rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/*==================================================
   7.0 Banner Style
 ==================================================*/
 

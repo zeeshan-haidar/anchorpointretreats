@@ -5,42 +5,68 @@
 <%# === Section 1: Navigation — handled by shared/_header.html.erb === %>
 
 <%# === Section 2: Hero === %>
-<section class="section banner-home">
-    <div class="hero-container">
-        <div class="banner-home-container">
+<section class="section banner-home" style="padding-bottom: 170px;">
+  <div class="hero-container">
+    <div class="banner-home-container">
             <h1 class="banner-home-title animation-box anim-normal anim-delay-sm" data-animation="fade-up">Find Your Anchor in the Colorado Rockies</h1>
             <p class="banner-home-excerpt animation-box anim-slow anim-delay-md" data-animation="fade-up">Escape to a private mountain sanctuary where breathtaking views meet unparalleled comfort. The perfect setting for your next retreat.</p>
             <div class="d-flex flex-wrap flex-gap-1 justify-content-center">
                 <a href="/availability" class="btn btn-accent-2 animation-box anim-normal anim-delay-sm" data-animation="fade-up">Check Availability</a>
                 <a href="#overview" class="btn btn-outline-light animation-box anim-normal anim-delay-sm" data-animation="fade-up">Take a Tour</a>
             </div>
-        </div>
     </div>
+  </div>
 </section>
 
 <%# === Section 3: Metrics Bar === %>
-<section class="metrics-bar">
+<section class="section metrics-section">
     <div class="hero-container">
-        <div class="metrics-container">
-            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
-                <span class="metric-number counter" data-count="50">00</span>
-                <span class="metric-suffix">+</span>
-                <span class="metric-label">Retreats Hosted</span>
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            <div class="col">
+                <div class="metrics-card animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                    <div class="metrics-icon">
+                        <i class="fa-solid fa-tree"></i>
+                    </div>
+                    <div class="metrics-stat">
+                        <span class="metrics-number counter" data-count="50">00</span>
+                        <span class="metrics-suffix">+</span>
+                    </div>
+                    <span class="metrics-label">Retreats Hosted</span>
+                </div>
             </div>
-            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
-                <span class="metric-number counter" data-count="4.9">0.0</span>
-                <span class="metric-suffix"></span>
-                <span class="metric-label">Guest Rating</span>
+            <div class="col">
+                <div class="metrics-card animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                    <div class="metrics-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="metrics-stat">
+                        <span class="metrics-number counter" data-count="4.9">0.0</span>
+                    </div>
+                    <span class="metrics-label">Guest Rating</span>
+                </div>
             </div>
-            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
-                <span class="metric-number counter" data-count="16">00</span>
-                <span class="metric-suffix"></span>
-                <span class="metric-label">Max Guests</span>
+            <div class="col">
+                <div class="metrics-card animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                    <div class="metrics-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="metrics-stat">
+                        <span class="metrics-number counter" data-count="16">00</span>
+                    </div>
+                    <span class="metrics-label">Max Guests</span>
+                </div>
             </div>
-            <div class="metric-item animation-box anim-normal anim-delay-sm" data-animation="fade-up">
-                <span class="metric-number counter" data-count="10">00</span>
-                <span class="metric-suffix">+</span>
-                <span class="metric-label">Mountain Acres</span>
+            <div class="col">
+                <div class="metrics-card animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+                    <div class="metrics-icon">
+                        <i class="fa-solid fa-mountain"></i>
+                    </div>
+                    <div class="metrics-stat">
+                        <span class="metrics-number counter" data-count="10">00</span>
+                        <span class="metrics-suffix">+</span>
+                    </div>
+                    <span class="metrics-label">Mountain Acres</span>
+                </div>
             </div>
         </div>
     </div>
@@ -94,8 +120,10 @@
                     <div class="image-container">
                         <img src="/assets/dummy-img-600x800.jpg" alt="Corporate Retreats" class="img-fluid">
                         <div class="experience-overlay">
+                            <p>&nbsp;</p>
                             <h3 class="experience-title">Corporate Retreats</h3>
                             <p>Inspire your team with mountain views, modern meeting spaces, and team-building activities that spark creativity.</p>
+                          <p>&nbsp;</p>
                             <a href="/experience#corporate" class="btn btn-accent-2">Learn More</a>
                         </div>
                     </div>
@@ -106,8 +134,10 @@
                     <div class="image-container">
                         <img src="/assets/dummy-img-600x800.jpg" alt="Wellness Retreats" class="img-fluid">
                         <div class="experience-overlay">
+                            <p>&nbsp;</p>
                             <h3 class="experience-title">Wellness Retreats</h3>
                             <p>Reconnect with yourself through yoga, meditation, hiking, and spa treatments in a serene natural setting.</p>
+                          <p>&nbsp;</p>
                             <a href="/experience#wellness" class="btn btn-accent-2">Learn More</a>
                         </div>
                     </div>
@@ -118,8 +148,10 @@
                     <div class="image-container">
                         <img src="/assets/dummy-img-600x800.jpg" alt="Private Gatherings" class="img-fluid">
                         <div class="experience-overlay">
-                            <h3 class="experience-title">Private Gatherings</h3>
+                          <p>&nbsp;</p>
+                          <h3 class="experience-title">Private Gatherings</h3>
                             <p>Celebrate life's special moments — family reunions, milestone birthdays, and intimate weddings in the mountains.</p>
+                          <p>&nbsp;</p>
                             <a href="/experience#private" class="btn btn-accent-2">Learn More</a>
                         </div>
                     </div>
@@ -249,74 +281,75 @@
 </section>
 
 <%# === Section 9: Testimonials === %>
-<section class="section-pb-small-px-large banner-service">
-    <div class="hero-container text-center mb-4">
-        <span class="sub-heading accent-color-2 animation-box anim-fast anim-delay-none" data-animation="fade-up">Testimonials</span>
-        <h2 class="banner-service-title animation-box anim-normal anim-delay-sm" data-animation="fade-up">What Our Guests Say</h2>
-    </div>
+<section class="section-pt-large-pb-large">
     <div class="hero-container">
-        <div class="overflow-hidden">
-            <div class="swiper swiper-testimonial">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-card text-center">
-                            <div class="testimonial-stars mb-2">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p class="testimonial-text">"The Anchorpoint Retreat exceeded every expectation. Our team left feeling refreshed, inspired, and closer than ever. The setting is absolutely magical."</p>
-                            <div class="testimonial-author">
-                                <img src="/assets/dummy-img-600x600.jpg" alt="Sarah M." class="testimonial-avatar">
-                                <div>
-                                    <h4 class="testimonial-name">Sarah Mitchell</h4>
-                                    <span class="testimonial-title">CEO, TechVentures Inc.</span>
-                                </div>
-                            </div>
-                        </div>
+        <div class="d-flex flex-column flex-gap-2">
+            <span class="sub-heading">Testimonials</span>
+            <h2 class="hidden">What Our Guests Say</h2>
+            <div class="testimonial-box-container animation-box anim-normal anim-delay-sm" data-animation="fade-up">
+
+                <div class="testimonial-box">
+                    <p class="testimonial-quote">"The Anchorpoint Retreat exceeded every expectation. Our team left feeling refreshed, inspired, and closer than ever. The setting is absolutely magical."</p>
+                    <div class="testimonial-star-container">
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card text-center">
-                            <div class="testimonial-stars mb-2">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p class="testimonial-text">"A truly transformative experience. The wellness amenities, the quiet surroundings, and the attentive hosting made our yoga retreat unforgettable."</p>
-                            <div class="testimonial-author">
-                                <img src="/assets/dummy-img-600x600.jpg" alt="James R." class="testimonial-avatar">
-                                <div>
-                                    <h4 class="testimonial-name">James Rodriguez</h4>
-                                    <span class="testimonial-title">Wellness Coach</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card text-center">
-                            <div class="testimonial-stars mb-2">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star-half-alt"></i>
-                            </div>
-                            <p class="testimonial-text">"We hosted our family reunion here and it was perfect. The large kitchen, the fire pit, the hiking trails — every detail was thoughtfully designed."</p>
-                            <div class="testimonial-author">
-                                <img src="/assets/dummy-img-600x600.jpg" alt="The Parkers" class="testimonial-avatar">
-                                <div>
-                                    <h4 class="testimonial-name">The Parker Family</h4>
-                                    <span class="testimonial-title">Annual Family Retreat</span>
-                                </div>
-                            </div>
+                    <div class="d-flex flex-row align-items-center flex-gap-2">
+                        <img src="/assets/dummy-img-600x600.jpg" alt="Sarah M." class="testimonial-image">
+                        <div class="d-flex flex-column flex-gap-0">
+                            <h3 class="heading-sm testimonial-title">Sarah Mitchell</h3>
+                            <p>CEO, TechVentures Inc.</p>
                         </div>
                     </div>
                 </div>
-                <div class="swiper-pagination"></div>
+
+                <div class="testimonial-box">
+                    <p class="testimonial-quote">"A truly transformative experience. The wellness amenities, the quiet surroundings, and the attentive hosting made our yoga retreat unforgettable."</p>
+                    <div class="testimonial-star-container">
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                    </div>
+                    <div class="d-flex flex-row align-items-center flex-gap-2">
+                        <img src="/assets/dummy-img-600x600.jpg" alt="James R." class="testimonial-image">
+                        <div class="d-flex flex-column flex-gap-0">
+                            <h3 class="heading-sm testimonial-title">James Rodriguez</h3>
+                            <p>Wellness Coach</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-box">
+                    <p class="testimonial-quote">"We hosted our family reunion here and it was perfect. The large kitchen, the fire pit, the hiking trails — every detail was thoughtfully designed."</p>
+                    <div class="testimonial-star-container">
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                        <i class="fa-solid fa-star testimonial-star"></i>
+                    </div>
+                    <div class="d-flex flex-row align-items-center flex-gap-2">
+                        <img src="/assets/dummy-img-600x600.jpg" alt="The Parkers" class="testimonial-image">
+                        <div class="d-flex flex-column flex-gap-0">
+                            <h3 class="heading-sm testimonial-title">The Parker Family</h3>
+                            <p>Annual Family Retreat</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-button-container">
+                    <button class="testimonial-btn btn-prev">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button class="testimonial-btn btn-next">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
