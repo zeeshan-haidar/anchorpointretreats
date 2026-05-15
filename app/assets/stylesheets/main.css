@@ -1956,6 +1956,23 @@ button, a, .btn{
 }
 
 /*==================================================
+  28.5 Disabled Link Style (Under Construction)
+==================================================*/
+/* These links are temporarily disabled during site development.
+   To re-enable: remove the 'disabled-link' class and restore href from data-href attribute
+
+   When re-enabling, simply:
+   1. Remove class="disabled-link" from the element
+   2. Change href="#" back to href="[value from data-href]"
+   3. Delete the data-href attribute
+*/
+.disabled-link {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/*==================================================
   28.0 Custom Spacing
 ==================================================*/
 
