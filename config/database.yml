@@ -31,5 +31,4 @@ test:
 production:
   <<: *default
   database: anchorpointretreats_production
-  username: anchorpointretreats
-  password: <%= ENV["ANCHORPOINTRETREATS_DATABASE_PASSWORD"] %>
+ 
