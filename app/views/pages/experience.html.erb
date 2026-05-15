@@ -2,7 +2,7 @@
 <% content_for :title, "Experiences — The Anchorpoint Retreat" %>
 <% content_for :description, "Explore corporate retreats, wellness getaways, and private gatherings at The Anchorpoint Retreat in Colorado." %>
 
-<section class="section banner-home" style="background-image: url('/assets/dummy-img-1920x900.jpg'); min-height: 50vh;">
+<section class="section banner-home" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>'); min-height: 50vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">Experiences</h1>
@@ -15,7 +15,7 @@
     <div class="hero-container">
         <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
             <div class="col-lg-6">
-                <img src="/assets/dummy-img-900x600.jpg" alt="Corporate Retreat" class="img-fluid">
+                <%= image_tag "dummy-img-900x600.jpg", alt: "Corporate Retreat", class: "img-fluid" %>
             </div>
             <div class="col-lg-6">
                 <span class="sub-heading">Corporate Retreats</span>
@@ -52,7 +52,7 @@
                 <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Wellness Retreats</a>
             </div>
             <div class="col-lg-6">
-                <img src="/assets/dummy-img-600x800.jpg" alt="Wellness Retreat" class="img-fluid">
+                <%= image_tag "dummy-img-600x800.jpg", alt: "Wellness Retreat", class: "img-fluid" %>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
     <div class="hero-container">
         <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
             <div class="col-lg-6">
-                <img src="/assets/dummy-img-600x800.jpg" alt="Private Gathering" class="img-fluid">
+                <%= image_tag "dummy-img-600x800.jpg", alt: "Private Gathering", class: "img-fluid" %>
             </div>
             <div class="col-lg-6">
                 <span class="sub-heading">Private Gatherings</span>

@@ -77,7 +77,7 @@
     <div class="hero-container">
         <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
             <div class="image-container col-lg-6">
-                <img src="/assets/dummy-img-900x600.jpg" alt="The Anchorpoint Retreat exterior" class="img-fluid">
+                <%= image_tag "dummy-img-900x600.jpg", alt: "The Anchorpoint Retreat exterior", class: "img-fluid" %>
             </div>
             <div class="col-lg-6">
                 <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">The Property</span>
@@ -118,7 +118,7 @@
             <div class="col">
                 <div class="experience-card">
                     <div class="image-container">
-                        <img src="/assets/dummy-img-600x800.jpg" alt="Corporate Retreats" class="img-fluid">
+                        <%= image_tag "dummy-img-600x800.jpg", alt: "Corporate Retreats", class: "img-fluid" %>
                         <div class="experience-overlay">
                             <p>&nbsp;</p>
                             <h3 class="experience-title">Corporate Retreats</h3>
@@ -132,7 +132,7 @@
             <div class="col">
                 <div class="experience-card">
                     <div class="image-container">
-                        <img src="/assets/dummy-img-600x800.jpg" alt="Wellness Retreats" class="img-fluid">
+                        <%= image_tag "dummy-img-600x800.jpg", alt: "Wellness Retreats", class: "img-fluid" %>
                         <div class="experience-overlay">
                             <p>&nbsp;</p>
                             <h3 class="experience-title">Wellness Retreats</h3>
@@ -146,7 +146,7 @@
             <div class="col">
                 <div class="experience-card">
                     <div class="image-container">
-                        <img src="/assets/dummy-img-600x800.jpg" alt="Private Gatherings" class="img-fluid">
+                        <%= image_tag "dummy-img-600x800.jpg", alt: "Private Gatherings", class: "img-fluid" %>
                         <div class="experience-overlay">
                           <p>&nbsp;</p>
                           <h3 class="experience-title">Private Gatherings</h3>
@@ -171,32 +171,32 @@
         <div class="row row-cols-1 row-cols-md-3 g-3">
             <div class="col">
                 <div class="image-container gallery-grid-item">
-                    <img src="/assets/dummy-img-900x600.jpg" alt="Mountain view from property" class="img-fluid">
+                    <%= image_tag "dummy-img-900x600.jpg", alt: "Mountain view from property", class: "img-fluid" %>
                 </div>
             </div>
             <div class="col">
                 <div class="image-container gallery-grid-item">
-                    <img src="/assets/dummy-img-900x600.jpg" alt="Great room interior" class="img-fluid">
+                    <%= image_tag "dummy-img-900x600.jpg", alt: "Great room interior", class: "img-fluid" %>
                 </div>
             </div>
             <div class="col">
                 <div class="image-container gallery-grid-item">
-                    <img src="/assets/dummy-img-600x400.jpg" alt="Hot tub under stars" class="img-fluid">
+                    <%= image_tag "dummy-img-600x400.jpg", alt: "Hot tub under stars", class: "img-fluid" %>
                 </div>
             </div>
             <div class="col">
                 <div class="image-container gallery-grid-item">
-                    <img src="/assets/dummy-img-600x400.jpg" alt="Gourmet kitchen" class="img-fluid">
+                    <%= image_tag "dummy-img-600x400.jpg", alt: "Gourmet kitchen", class: "img-fluid" %>
                 </div>
             </div>
             <div class="col">
                 <div class="image-container gallery-grid-item">
-                    <img src="/assets/dummy-img-600x400.jpg" alt="Trail view" class="img-fluid">
+                    <%= image_tag "dummy-img-600x400.jpg", alt: "Trail view", class: "img-fluid" %>
                 </div>
             </div>
             <div class="col">
                 <div class="image-container gallery-grid-item">
-                    <img src="/assets/dummy-img-600x400.jpg" alt="Sunset deck view" class="img-fluid">
+                    <%= image_tag "dummy-img-600x400.jpg", alt: "Sunset deck view", class: "img-fluid" %>
                 </div>
             </div>
         </div>
@@ -298,7 +298,7 @@
                         <i class="fa-solid fa-star testimonial-star"></i>
                     </div>
                     <div class="d-flex flex-row align-items-center flex-gap-2">
-                        <img src="/assets/dummy-img-600x600.jpg" alt="Sarah M." class="testimonial-image">
+                        <%= image_tag "dummy-img-600x600.jpg", alt: "Sarah M.", class: "testimonial-image" %>
                         <div class="d-flex flex-column flex-gap-0">
                             <h3 class="heading-sm testimonial-title">Sarah Mitchell</h3>
                             <p>CEO, TechVentures Inc.</p>
@@ -316,7 +316,7 @@
                         <i class="fa-solid fa-star testimonial-star"></i>
                     </div>
                     <div class="d-flex flex-row align-items-center flex-gap-2">
-                        <img src="/assets/dummy-img-600x600.jpg" alt="James R." class="testimonial-image">
+                        <%= image_tag "dummy-img-600x600.jpg", alt: "James R.", class: "testimonial-image" %>
                         <div class="d-flex flex-column flex-gap-0">
                             <h3 class="heading-sm testimonial-title">James Rodriguez</h3>
                             <p>Wellness Coach</p>
@@ -334,7 +334,7 @@
                         <i class="fa-solid fa-star testimonial-star"></i>
                     </div>
                     <div class="d-flex flex-row align-items-center flex-gap-2">
-                        <img src="/assets/dummy-img-600x600.jpg" alt="The Parkers" class="testimonial-image">
+                        <%= image_tag "dummy-img-600x600.jpg", alt: "The Parkers", class: "testimonial-image" %>
                         <div class="d-flex flex-column flex-gap-0">
                             <h3 class="heading-sm testimonial-title">The Parker Family</h3>
                             <p>Annual Family Retreat</p>
@@ -356,7 +356,7 @@
 </section>
 
 <%# === Section 10: Availability CTA === %>
-<section class="section cta-section" style="background-image: url('/assets/dummy-img-1920x900.jpg');">
+<section class="section cta-section" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>');">
     <div class="hero-container">
         <div class="cta-overlay text-center">
             <h2 class="cta-title">Ready to Plan Your Retreat?</h2>

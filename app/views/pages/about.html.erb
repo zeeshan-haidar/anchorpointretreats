@@ -2,7 +2,7 @@
 <% content_for :title, "About — The Anchorpoint Retreat" %>
 <% content_for :description, "Learn the story behind The Anchorpoint Retreat, a Colorado mountain sanctuary for corporate retreats, wellness getaways, and private gatherings." %>
 
-<section class="section banner-home" style="background-image: url('/assets/dummy-img-1920x900.jpg'); min-height: 50vh;">
+<section class="section banner-home" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>'); min-height: 50vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">Our Story</h1>
@@ -26,7 +26,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="card p-4 text-center">
-                    <img src="/assets/dummy-img-600x600.jpg" alt="Property Host" class="img-fluid rounded-circle mb-3" style="max-width: 200px;">
+                    <%= image_tag "dummy-img-600x600.jpg", alt: "Property Host", class: "img-fluid rounded-circle mb-3", style: "max-width: 200px;" %>
                     <h3 class="heading-sm">Meet Your Host</h3>
                     <p>With over 15 years of experience in hospitality and event planning, we're dedicated to making your retreat unforgettable. We live locally and are on-site to ensure everything runs smoothly.</p>
                 </div>

@@ -385,14 +385,57 @@ Description:    Obsidia is luxurious, and modern HTML5 Bootstrap Template for we
   1.0 Vendor Import
 ==================================================*/
 
-@import url('./fonts.css');
 @import url('./vendor/bootstrap.min.css');
 @import url('./vendor/fontawesome.css');
-@import url('./vendor/brands.css');
-@import url('./vendor/regular.css');
-@import url('./vendor/solid.css');
 @import url('./vendor/swiper-bundle.min.css');
 @import url('./vendor/flatpickr.min.css');
+
+/* === Lora Font Family === */
+@font-face {
+    font-family: 'Lora';
+    src: url(<%= asset_path('Lora/Lora-Regular.woff2') %>) format('woff2'),
+        url(<%= asset_path('Lora/Lora-Regular.woff') %>) format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* === Inter Tight Font Family === */
+@font-face {
+    font-family: 'Inter Tight';
+    src: url(<%= asset_path('InterTight/InterTight-Regular.woff2') %>) format('woff2'),
+        url(<%= asset_path('InterTight/InterTight-Regular.woff') %>) format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* === Font Awesome 7 Solid === */
+@font-face {
+  font-family: "Font Awesome 7 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url(<%= asset_path('fa-solid-900.woff2') %>);
+}
+
+/* === Font Awesome 7 Brands === */
+@font-face {
+  font-family: "Font Awesome 7 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(<%= asset_path('fa-brands-400.woff2') %>);
+}
+
+/* === Font Awesome 7 Regular === */
+@font-face {
+  font-family: "Font Awesome 7 Free";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(<%= asset_path('fa-regular-400.woff2') %>);
+}
 
 /*==================================================
   2.0 CSS Global Variables
@@ -658,7 +701,7 @@ button, a, .btn{
 ==================================================*/
 
 .banner-home{
-    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-image: url(<%= asset_path('dummy-img-1920x900.jpg') %>);
     background-position: 0px -242px;
     background-size: cover;
     background-repeat: no-repeat;
@@ -680,7 +723,7 @@ button, a, .btn{
 }
 
 .banner-inner{
-    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-image: url(<%= asset_path('dummy-img-1920x900.jpg') %>);
     background-position: top center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -690,7 +733,7 @@ button, a, .btn{
 }
 
 .banner-about{
-    background-image: url('/assets/dummy-img-600x800.jpg');
+    background-image: url(<%= asset_path('dummy-img-600x800.jpg') %>);
     background-position: top left;
     background-repeat: no-repeat;
     background-size: 38% auto;
@@ -711,7 +754,7 @@ button, a, .btn{
 }
 
 .banner-service{
-    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-image: url(<%= asset_path('dummy-img-1920x900.jpg') %>);
     background-position: top center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -723,7 +766,7 @@ button, a, .btn{
 }
 
 .banner-contact{
-    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-image: url(<%= asset_path('dummy-img-1920x900.jpg') %>);
     background-position: bottom center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -744,7 +787,7 @@ button, a, .btn{
 }
 
 .banner-notfound{
-    background-image: url('/assets/dummy-img-1920x900.jpg');
+    background-image: url(<%= asset_path('dummy-img-1920x900.jpg') %>);
     background-position: center left;
     background-repeat: no-repeat;
     background-size: cover;

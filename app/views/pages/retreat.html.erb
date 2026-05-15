@@ -2,7 +2,7 @@
 <% content_for :title, "The Retreat — The Anchorpoint Retreat" %>
 <% content_for :description, "Explore our Colorado mountain retreat property with 6 bedrooms, 5 bathrooms, gourmet kitchen, hot tub, and panoramic mountain views." %>
 
-<section class="section banner-home" style="background-image: url('/assets/dummy-img-1920x900.jpg'); min-height: 50vh;">
+<section class="section banner-home" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>'); min-height: 50vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">The Anchorpoint Retreat</h1>
@@ -61,12 +61,12 @@
     </div>
     <div class="hero-container">
         <div class="row row-cols-1 row-cols-md-3 grid-gap-2">
-            <div class="col"><img src="/assets/dummy-img-900x600.jpg" alt="Living room" class="img-fluid"></div>
-            <div class="col"><img src="/assets/dummy-img-900x600.jpg" alt="Kitchen" class="img-fluid"></div>
-            <div class="col"><img src="/assets/dummy-img-900x600.jpg" alt="Mountain view" class="img-fluid"></div>
-            <div class="col"><img src="/assets/dummy-img-600x800.jpg" alt="Bedroom" class="img-fluid"></div>
-            <div class="col"><img src="/assets/dummy-img-600x800.jpg" alt="Hot tub" class="img-fluid"></div>
-            <div class="col"><img src="/assets/dummy-img-600x400.jpg" alt="Trail" class="img-fluid"></div>
+            <div class="col"><%= image_tag "dummy-img-900x600.jpg", alt: "Living room", class: "img-fluid" %></div>
+            <div class="col"><%= image_tag "dummy-img-900x600.jpg", alt: "Kitchen", class: "img-fluid" %></div>
+            <div class="col"><%= image_tag "dummy-img-900x600.jpg", alt: "Mountain view", class: "img-fluid" %></div>
+            <div class="col"><%= image_tag "dummy-img-600x800.jpg", alt: "Bedroom", class: "img-fluid" %></div>
+            <div class="col"><%= image_tag "dummy-img-600x800.jpg", alt: "Hot tub", class: "img-fluid" %></div>
+            <div class="col"><%= image_tag "dummy-img-600x400.jpg", alt: "Trail", class: "img-fluid" %></div>
         </div>
     </div>
 </section>
