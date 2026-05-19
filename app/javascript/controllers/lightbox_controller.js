@@ -2,24 +2,19 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["image", "lightbox", "lightboxImg", "close"]
-
-  connect() {
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") this.close()
-    })
-  }
+  static targets = ["modalImg"]
 
   open(event) {
-    const img = event.currentTarget
-    this.lightboxTarget.classList.add("active")
-    this.lightboxImgTarget.src = img.src
-    this.lightboxImgTarget.alt = img.alt
-    document.body.classList.add("lightbox-open")
-  }
+    event.preventDefault()
+    const link = event.currentTarget
+    const img = link.querySelector("img")
+    if (!img) return
 
-  close() {
-    this.lightboxTarget.classList.remove("active")
-    document.body.classList.remove("lightbox-open")
+    this.modalImgTarget.src = img.getAttribute("src")
+    this.modalImgTarget.alt = img.getAttribute("alt")
+
+    const modalEl = document.getElementById("galleryModal")
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl)
+    modal.show()
   }
 }

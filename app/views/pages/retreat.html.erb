@@ -2,7 +2,7 @@
 <% content_for :title, "The Retreat — The Anchorpoint Retreat" %>
 <% content_for :description, "Explore our Colorado mountain retreat property with 6 bedrooms, 5 bathrooms, gourmet kitchen, hot tub, and panoramic mountain views." %>
 
-<section class="section banner-home" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>'); min-height: 50vh;">
+<section class="section banner-home" style="background-image: url('<%= asset_path('home/backg1-1920-900.jpg') %>'); min-height: 50vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">The Anchorpoint Retreat</h1>
@@ -59,14 +59,162 @@
         <span class="sub-heading">Gallery</span>
         <h2>Photo Tour</h2>
     </div>
-    <div class="hero-container">
-        <div class="row row-cols-1 row-cols-md-3 grid-gap-2">
-            <div class="col"><%= image_tag "dummy-img-900x600.jpg", alt: "Living room", class: "img-fluid" %></div>
-            <div class="col"><%= image_tag "dummy-img-900x600.jpg", alt: "Kitchen", class: "img-fluid" %></div>
-            <div class="col"><%= image_tag "dummy-img-900x600.jpg", alt: "Mountain view", class: "img-fluid" %></div>
-            <div class="col"><%= image_tag "dummy-img-600x800.jpg", alt: "Bedroom", class: "img-fluid" %></div>
-            <div class="col"><%= image_tag "dummy-img-600x800.jpg", alt: "Hot tub", class: "img-fluid" %></div>
-            <div class="col"><%= image_tag "dummy-img-600x400.jpg", alt: "Trail", class: "img-fluid" %></div>
+    <div class="hero-container" data-controller="lightbox">
+        <%# Tab navigation %>
+        <ul class="nav nav-pills justify-content-center mb-4" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#gallery-all" type="button" role="tab">All</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gallery-interior" type="button" role="tab">Interior</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gallery-exterior" type="button" role="tab">Exterior</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#gallery-outdoor" type="button" role="tab">Outdoor &amp; Views</button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <%# All images %>
+            <div class="tab-pane fade show active" id="gallery-all" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <% gallery_all = [
+                        { file: "Image-1.jpg", alt: "Mountain view from property" },
+                        { file: "Image-2.jpg", alt: "Great room interior" },
+                        { file: "Image-3.jpg", alt: "Hot tub under stars" },
+                        { file: "Image-4.jpg", alt: "Gourmet kitchen" },
+                        { file: "Image-5.jpg", alt: "Bedroom with mountain view" },
+                        { file: "Image-6.jpg", alt: "Trail view" },
+                        { file: "Image-8.jpg", alt: "Sunset deck view" },
+                        { file: "Image-9.jpg", alt: "Dining area" },
+                        { file: "Image-10.jpg", alt: "Fireplace and lounge" },
+                        { file: "Image-11.jpg", alt: "Outdoor terrace" },
+                        { file: "Image-12.jpg", alt: "Bathroom ensuite" },
+                        { file: "Image-13.jpg", alt: "Yoga deck" },
+                        { file: "Image-14.jpg", alt: "Property exterior" },
+                        { file: "Image-15.jpg", alt: "Sitting area" },
+                        { file: "Image-16.jpg", alt: "Trail through forest" },
+                        { file: "Image-17.jpg", alt: "Property scenic view" },
+                        { file: "Image-18.jpg", alt: "Living room seating" },
+                        { file: "Image-19.jpg", alt: "Master bedroom" },
+                        { file: "Image-20.jpg", alt: "Kitchen detail" },
+                        { file: "Image-21.jpg", alt: "Deck seating area" },
+                        { file: "Image-22.jpg", alt: "Guest bedroom" },
+                        { file: "Image-23.jpg", alt: "Dining table setting" },
+                        { file: "Image-24.jpg", alt: "Fire pit area" },
+                        { file: "Image-25.jpg", alt: "Reading nook" },
+                        { file: "Image-26.jpg", alt: "Staircase detail" },
+                        { file: "Image-28.jpg", alt: "Mountain sunrise" },
+                        { file: "Image-29.jpg", alt: "Outdoor dining" },
+                        { file: "Image-30.jpg", alt: "Entryway" }
+
+                    ] %>
+                    <% gallery_all.each do |img| %>
+                    <div class="col">
+                        <div class="image-container gallery-grid-item">
+                            <a href="#" data-turbo="false" data-action="click->lightbox#open" data-lightbox-target="image">
+                                <%= image_tag "home/gallery/#{img[:file]}", alt: img[:alt], class: "img-fluid" %>
+                            </a>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <%# Interior %>
+            <div class="tab-pane fade" id="gallery-interior" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <% gallery_interior = [
+                        { file: "Image.jpg", alt: "Living room seating" },
+                        { file: "Image-1.jpg", alt: "Living room seating" },
+                        { file: "Image-2.jpg", alt: "Living room seating" },
+                        { file: "Image-3.jpg", alt: "Living room seating" },
+                        { file: "Image-4.jpg", alt: "Living room seating" },
+                        { file: "Image-5.jpg", alt: "Master bedroom" },
+                        { file: "Image-6.jpg", alt: "Bathroom ensuite" },
+                        { file: "Image-8.jpg", alt: "Deck seating area" },
+                        { file: "Image-9.jpg", alt: "Yoga deck" },
+                        { file: "Image-10.jpg", alt: "Guest bedroom" },
+                        { file: "Image-11.jpg", alt: "Dining area" },
+                        { file: "Image-12.jpg", alt: "Dining table setting" },
+                        { file: "Image-13.jpg", alt: "Bedroom with mountain view" },
+                        { file: "Image-14.jpg", alt: "Sitting area" },
+                        { file: "Image-15.jpg", alt: "Fire pit area" },
+                        { file: "Image-16.jpg", alt: "Great room interior" },
+
+                    ] %>
+                    <% gallery_interior.each do |img| %>
+                    <div class="col">
+                        <div class="image-container gallery-grid-item">
+                            <a href="#" data-turbo="false" data-action="click->lightbox#open" data-lightbox-target="image">
+                                <%= image_tag "home/gallery/#{img[:file]}", alt: img[:alt], class: "img-fluid" %>
+                            </a>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <%# Exterior %>
+            <div class="tab-pane fade" id="gallery-exterior" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <% gallery_exterior = [
+                      { file: "Image-17.jpg", alt: "Gourmet kitchen" },
+                      { file: "Image-18.jpg", alt: "Gourmet kitchen" },
+                      { file: "Image-19.jpg", alt: "Hot tub under stars" },
+                      { file: "Image-20.jpg", alt: "Sunset deck view" },
+                      { file: "Image-21.jpg", alt: "Reading nook" },
+                      { file: "Image-22.jpg", alt: "Fireplace and lounge" }
+                    ] %>
+                    <% gallery_exterior.each do |img| %>
+                    <div class="col">
+                        <div class="image-container gallery-grid-item">
+                            <a href="#" data-turbo="false" data-action="click->lightbox#open" data-lightbox-target="image">
+                                <%= image_tag "home/gallery/#{img[:file]}", alt: img[:alt], class: "img-fluid" %>
+                            </a>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <%# Outdoor & Views %>
+            <div class="tab-pane fade" id="gallery-outdoor" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <% gallery_outdoor = [
+                       { file: "Image-23.jpg", alt: "Staircase detail" },
+                       { file: "Image-24.jpg", alt: "Mountain sunrise" },
+                       { file: "Image-25.jpg", alt: "Mountain sunrise" },
+                       { file: "Image-26.jpg", alt: "Entryway" },
+                       { file: "Image-28.jpg", alt: "Trail view" },
+                       { file: "Image-29.jpg", alt: "Evening view" },
+                       { file: "Image-30.jpg", alt: "Evening view" }
+                    ] %>
+                    <% gallery_outdoor.each do |img| %>
+                    <div class="col">
+                        <div class="image-container gallery-grid-item">
+                            <a href="#" data-turbo="false" data-action="click->lightbox#open" data-lightbox-target="image">
+                                <%= image_tag "home/gallery/#{img[:file]}", alt: img[:alt], class: "img-fluid" %>
+                            </a>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+        <%# Gallery Modal %>
+        <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content" style="background: transparent; border: none;">
+                    <div class="modal-body p-0 text-center">
+                        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10; font-size: 1.5rem;"></button>
+                        <%= image_tag "", class: "img-fluid", data: { lightbox_target: "modalImg" }, style: "max-height: 90vh; margin: 0 auto;" %>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
