@@ -765,6 +765,13 @@ button, a, .btn{
     position: relative;
 }
 
+/* Wellness section override — no background image, uses standard section styling */
+.banner-service.wellness-section {
+    background-image: none;
+    background-color: var(--secondary);
+    padding: 6em 1em;
+}
+
 .banner-contact{
     background-image: url(<%= asset_path('dummy-img-1920x900.jpg') %>);
     background-position: bottom center;
