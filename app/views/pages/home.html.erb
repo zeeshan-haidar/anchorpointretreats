@@ -1,15 +1,15 @@
 <%# app/views/pages/home.html.erb %>
-<% content_for :title, "The Anchorpoint Retreat — Colorado Mountain Retreat" %>
-<% content_for :description, "Experience the ultimate Colorado mountain retreat at The Anchorpoint Retreat. Perfect for corporate retreats, wellness getaways, and private gatherings." %>
+<% content_for :title, "The Anchorpoint Retreat — Modern Alpine Retreat Near Breckenridge" %>
+<% content_for :description, "A private mountain chalet in Alma, Colorado created for focused work, quiet resets, small leadership retreats, and year-round mountain adventure." %>
 
 <%# === Section 1: Navigation — handled by shared/_header.html.erb === %>
 
 <%# === Section 2: Hero === %>
-<section class="section banner-home" style="padding-bottom: 160px; background-image: url('<%= asset_path('backg-retreat-1920-900.jpg') %>'); min-height: 50vh;">
+<section class="section banner-home" style="padding-bottom: 160px; background-position: center center !important;background-image: url('<%= asset_path('backg-retreat-1920-900.jpg') %>'); min-height: 50vh;">
   <div class="hero-container">
     <div class="banner-home-container">
             <h1 class="banner-home-title animation-box anim-normal anim-delay-sm" data-animation="fade-up">Find Your Anchor in the Colorado Rockies</h1>
-            <p class="banner-home-excerpt animation-box anim-slow anim-delay-md" data-animation="fade-up">Escape to a private mountain sanctuary where breathtaking views meet unparalleled comfort. The perfect setting for your next retreat.</p>
+            <p class="banner-home-excerpt animation-box anim-slow anim-delay-md" data-animation="fade-up">A private mountain chalet in Alma, Colorado — created for focused work, quiet resets, small leadership retreats, and year-round mountain adventure.</p>
             <div class="d-flex flex-wrap flex-gap-1 justify-content-center">
                 <a href="#" class="btn btn-accent-2 animation-box anim-normal anim-delay-sm disabled-link" data-animation="fade-up" data-href="/availability">Check Availability</a>
                 <a href="#overview" class="btn btn-outline-light animation-box anim-normal anim-delay-sm" data-animation="fade-up">Take a Tour</a>
@@ -51,7 +51,7 @@
                         <i class="fa-solid fa-users"></i>
                     </div>
                     <div class="metrics-stat">
-                        <span class="metrics-number counter" data-count="16">00</span>
+                        <span class="metrics-number counter" data-count="4">00</span>
                     </div>
                     <span class="metrics-label">Max Guests</span>
                 </div>
@@ -62,10 +62,9 @@
                         <i class="fa-solid fa-mountain"></i>
                     </div>
                     <div class="metrics-stat">
-                        <span class="metrics-number counter" data-count="10">00</span>
-                        <span class="metrics-suffix">+</span>
+                        <span class="metrics-number counter" data-count="2022">0000</span>
                     </div>
-                    <span class="metrics-label">Mountain Acres</span>
+                    <span class="metrics-label">Year Built</span>
                 </div>
             </div>
         </div>
@@ -81,23 +80,23 @@
             </div>
             <div class="col-lg-6">
                 <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">The Property</span>
-                <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">A Private Mountain Sanctuary</h2>
-                <p class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Nestled in the heart of the Colorado Rockies, The Anchorpoint Retreat offers a seamless blend of rustic charm and modern luxury. With panoramic mountain views, expansive indoor-outdoor living spaces, and world-class amenities, it's the ideal setting for corporate retreats, wellness getaways, and private celebrations.</p>
+                <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Modern Alpine Retreat Near Breckenridge</h2>
+                <p class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">A private mountain chalet in Alma, Colorado, created for focused work, quiet resets, small leadership retreats, and year-round mountain adventure. Set near the base of Mosquito Pass, this contemporary 2022 chalet gives guests the space to step away from daily noise and reconnect with clear thinking, nature, and meaningful conversation.</p>
                 <div class="property-specs d-flex flex-wrap flex-gap-2">
                     <div class="spec-item">
-                        <span class="spec-value">6</span>
-                        <span class="spec-label">Bedrooms</span>
+                        <span class="spec-value">1</span>
+                        <span class="spec-label">Bedroom</span>
                     </div>
                     <div class="spec-item">
-                        <span class="spec-value">5</span>
-                        <span class="spec-label">Bathrooms</span>
+                        <span class="spec-value">1</span>
+                        <span class="spec-label">Bathroom</span>
                     </div>
                     <div class="spec-item">
-                        <span class="spec-value">16</span>
+                        <span class="spec-value">4</span>
                         <span class="spec-label">Guests</span>
                     </div>
                     <div class="spec-item">
-                        <span class="spec-value">4,200</span>
+                        <span class="spec-value">1,080</span>
                         <span class="spec-label">Sq Ft</span>
                     </div>
                 </div>
@@ -107,24 +106,37 @@
     </div>
 </section>
 
-<%# === Section 5: Experience Types === %>
+<%# === Section 5: Short Version Summary === %>
+<section class="section">
+    <div class="hero-container">
+        <div class="card p-5 text-center" style="background: var(--bg-2); border: none;">
+            <span class="sub-heading">At a Glance</span>
+            <h2>A Private Alpine Basecamp for Focused Work and Colorado Mountain Adventure</h2>
+            <p class="lead">Located near Mosquito Pass, about 5 minutes from Alma and about 30 minutes from Breckenridge, this modern 2022 chalet offers a quiet setting for small executive retreats, founder resets, remote-work stays, ski weekends, fishing trips, and outdoor escapes.</p>
+            <p class="lead">Guests can enjoy modern comfort inside, peaceful mountain views outside, and easy access to skiing, hiking, fishing, scenic drives, wildlife viewing, and high-alpine exploring nearby.</p>
+            <a href="/the-retreat" style="align-self: center;" class="btn btn-accent mt-2 d-inline-block">Explore the Retreat</a>
+        </div>
+    </div>
+</section>
+
+<%# === Section 6: Experience Types === %>
 <section class="section-pb-small-px-large">
     <div class="hero-container text-center mb-4">
         <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Experiences</span>
-        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Crafted for Every Occasion</h2>
+        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Perfect for Your Mountain Escape</h2>
     </div>
     <div class="hero-container">
         <div class="row row-cols-1 row-cols-md-3 grid-gap-2">
             <div class="col">
                 <div class="experience-card">
                     <div class="image-container">
-                        <%= image_tag "home/cooperate-retreats-600-800.jpg", alt: "Corporate Retreats", class: "img-fluid" %>
+                        <%= image_tag "home/cooperate-retreats-600-800.jpg", alt: "Founder Retreats", class: "img-fluid" %>
                         <div class="experience-overlay">
                             <p>&nbsp;</p>
-                            <h3 class="experience-title">Corporate Retreats</h3>
-                            <p>Inspire your team with mountain views, modern meeting spaces, and team-building activities that spark creativity.</p>
+                            <h3 class="experience-title">Founder Retreats &amp; Executive Resets</h3>
+                            <p>Step away from the noise and think clearly. The quiet alpine setting, dedicated loft workspace, and mountain views create the ideal environment for focused strategy, planning, and recharged leadership.</p>
                           <p>&nbsp;</p>
-                            <a href="/experience#corporate" class="btn btn-accent-2">Learn More</a>
+                            <a href="/experience#founder" class="btn btn-accent-2">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -132,13 +144,13 @@
             <div class="col">
                 <div class="experience-card">
                     <div class="image-container">
-                        <%= image_tag "home/wellness-retreats-600-800.jpg", alt: "Wellness Retreats", class: "img-fluid" %>
+                        <%= image_tag "home/wellness-retreats-600-800.jpg", alt: "Remote Work Escapes", class: "img-fluid" %>
                         <div class="experience-overlay">
                             <p>&nbsp;</p>
-                            <h3 class="experience-title">Wellness Retreats</h3>
-                            <p>Reconnect with yourself through yoga, meditation, hiking, and spa treatments in a serene natural setting.</p>
+                            <h3 class="experience-title">Remote Work &amp; Creative Escapes</h3>
+                            <p>Trade your home office for mountain views. High-speed WiFi, a bright loft workspace, and peaceful surroundings let you stay productive while being steps away from hiking, skiing, and fresh air.</p>
                           <p>&nbsp;</p>
-                            <a href="/experience#wellness" class="btn btn-accent-2" >Learn More</a>
+                            <a href="/experience#remote-work" class="btn btn-accent-2" >Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -146,13 +158,13 @@
             <div class="col">
                 <div class="experience-card">
                     <div class="image-container">
-                        <%= image_tag "home/private-gatherning-600-800.jpg", alt: "Private Gatherings", class: "img-fluid" %>
+                        <%= image_tag "home/private-gatherning-600-800.jpg", alt: "Couples Getaways", class: "img-fluid" %>
                         <div class="experience-overlay">
                           <p>&nbsp;</p>
-                          <h3 class="experience-title">Private Gatherings</h3>
-                            <p>Celebrate life's special moments — family reunions, milestone birthdays, and intimate weddings in the mountains.</p>
+                          <h3 class="experience-title">Couples &amp; Small Group Getaways</h3>
+                            <p>Perfect for a romantic escape or a small group adventure. With nearby skiing, fishing, hiking, and high-alpine exploring, it's the ideal base for shared experiences and quiet evenings by the fire.</p>
                           <p>&nbsp;</p>
-                            <a href="/experience#private" class="btn btn-accent-2">Learn More</a>
+                            <a href="/experience#couples" class="btn btn-accent-2">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -161,7 +173,7 @@
     </div>
 </section>
 
-<%# === Section 6: Photo Gallery === %>
+<%# === Section 7: Photo Gallery === %>
 <section class="section">
     <div class="hero-container text-center mb-4">
         <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Gallery</span>
@@ -206,7 +218,7 @@
     </div>
 </section>
 
-<%# === Section 7: Amenities Grid === %>
+<%# === Section 8: Amenities Grid === %>
 <section class="section-px-pt-small">
     <div class="hero-container text-center mb-4">
         <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Amenities</span>
@@ -215,14 +227,14 @@
     <div class="hero-container">
         <div class="row row-cols-2 row-cols-md-4 grid-gap-2">
             <% amenities = [
-                { icon: "fa-solid fa-hot-tub", name: "Private Hot Tub", desc: "Soak under the stars" },
-                { icon: "fa-solid fa-fire", name: "Fire Pit", desc: "Evening stories and s'mores" },
-                { icon: "fa-solid fa-person-hiking", name: "Hiking Trails", desc: "Miles of private paths" },
+                { icon: "fa-solid fa-tree", name: "Alpine Setting", desc: "Quiet valley near Mosquito Pass" },
+                { icon: "fa-solid fa-mountain", name: "Mountain Views", desc: "Meadow & forest scenery with wildlife" },
+                { icon: "fa-solid fa-person-hiking", name: "Outdoor Adventure", desc: "Hiking, skiing, fishing & more" },
                 { icon: "fa-solid fa-wifi", name: "High-Speed WiFi", desc: "Stay connected when needed" },
-                { icon: "fa-solid fa-kitchen-set", name: "Gourmet Kitchen", desc: "Chef-grade appliances" },
-                { icon: "fa-solid fa-spa", name: "Wellness Room", desc: "Yoga and meditation space" },
-                { icon: "fa-solid fa-snowflake", name: "Ski Access", desc: "Minutes from slopes" },
-                { icon: "fa-solid fa-people-group", name: "Event Space", desc: "Indoor & outdoor venues" }
+                { icon: "fa-solid fa-kitchen-set", name: "Full Kitchen", desc: "Butcher block counters & SS appliances" },
+                { icon: "fa-solid fa-couch", name: "Modern Comfort", desc: "16-ft ceilings & electric fireplace" },
+                { icon: "fa-solid fa-bed", name: "1 Bed + Loft", desc: "Sleeps up to 4 guests" },
+                { icon: "fa-solid fa-snowflake", name: "Ski Access", desc: "30 min to Breckenridge skiing" }
             ] %>
             <% amenities.each do |amenity| %>
                 <div class="col">
@@ -244,7 +256,7 @@
     </div>
 </section>
 
-<%# === Section 8: How It Works === %>
+<%# === Section 9: How It Works === %>
 <section class="section">
     <div class="hero-container text-center mb-4">
         <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Simple Process</span>
@@ -280,7 +292,7 @@
     </div>
 </section>
 
-<%# === Section 9: Testimonials === %>
+<%# === Section 10: Testimonials === %>
 <section class="section-pt-large-pb-large">
     <div class="hero-container">
         <div class="d-flex flex-column flex-gap-2">
@@ -355,7 +367,58 @@
     </div>
 </section>
 
-<%# === Section 10: Availability CTA === %>
+<%# === Section 11: Nearby Activities Teaser === %>
+<section class="section-px-pt-small">
+    <div class="hero-container text-center mb-4">
+        <span class="sub-heading animation-box anim-normal anim-delay-sm" data-animation="fade-up">Explore the Area</span>
+        <h2 class="animation-box anim-normal anim-delay-sm" data-animation="fade-up">Things to Do Nearby</h2>
+    </div>
+    <div class="hero-container">
+        <div class="row row-cols-2 row-cols-md-4 grid-gap-2">
+            <div class="col">
+                <div class="card card-service animation-box anim-normal anim-delay-sm text-center" data-animation="fade-up">
+                    <div class="service-icon amenity-icon">
+                        <i class="fa-solid fa-snowflake fa-2x accent-color"></i>
+                    </div>
+                    <h3 class="heading-sm card-service-title mt-2">Skiing &amp; Winter Sports</h3>
+                    <p class="small">30 min to Breckenridge slopes</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-service animation-box anim-normal anim-delay-sm text-center" data-animation="fade-up">
+                    <div class="service-icon amenity-icon">
+                        <i class="fa-solid fa-person-hiking fa-2x accent-color"></i>
+                    </div>
+                    <h3 class="heading-sm card-service-title mt-2">Hiking &amp; Scenic Drives</h3>
+                    <p class="small">Mosquito Pass, Kite Lake &amp; more</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-service animation-box anim-normal anim-delay-sm text-center" data-animation="fade-up">
+                    <div class="service-icon amenity-icon">
+                        <i class="fa-solid fa-fish fa-2x accent-color"></i>
+                    </div>
+                    <h3 class="heading-sm card-service-title mt-2">Fishing &amp; South Park</h3>
+                    <p class="small">Trout fishing near Fairplay</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-service animation-box anim-normal anim-delay-sm text-center" data-animation="fade-up">
+                    <div class="service-icon amenity-icon">
+                        <i class="fa-solid fa-store fa-2x accent-color"></i>
+                    </div>
+                    <h3 class="heading-sm card-service-title mt-2">Dining &amp; Shopping</h3>
+                    <p class="small">Breckenridge town &amp; local gems</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/the-retreat#nearby-activities" class="btn btn-accent">Explore All Activities</a>
+        </div>
+    </div>
+</section>
+
+<%# === Section 12: Availability CTA === %>
 <section class="section cta-section" style="background-image: url('<%= asset_path('home/backg-1920-900.jpg') %>');">
     <div class="hero-container">
         <div class="cta-overlay text-center">
@@ -366,4 +429,4 @@
     </div>
 </section>
 
-<%# === Section 11: Footer — handled by shared/_footer.html.erb === %>
+<%# === Section 12: Footer — handled by shared/_footer.html.erb === %>

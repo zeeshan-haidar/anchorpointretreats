@@ -1,82 +1,88 @@
 <%# app/views/pages/experience.html.erb %>
 <% content_for :title, "Experiences — The Anchorpoint Retreat" %>
-<% content_for :description, "Explore corporate retreats, wellness getaways, and private gatherings at The Anchorpoint Retreat in Colorado." %>
+<% content_for :description, "Explore founder retreats, remote work escapes, and couples getaways at The Anchorpoint Retreat in Alma, Colorado." %>
 
 <section class="section banner-home" style="background-image: url('<%= asset_path('experience-banner-1920-900.jpg') %>'); min-height: 50vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">Experiences</h1>
-            <p class="banner-home-excerpt">Tailored Retreats for Every Purpose</p>
+            <p class="banner-home-excerpt">Tailored Mountain Escapes for Focus, Creativity, and Adventure</p>
         </div>
     </div>
 </section>
 
-<section id="corporate" class="section">
+<section id="founder" class="section">
     <div class="hero-container">
         <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
             <div class="col-lg-6">
-                <%= image_tag "home/cooperate-retreats-600-800.jpg", alt: "Corporate Retreat", class: "img-fluid" %>
+                <%= image_tag "home/cooperate-retreats-600-800.jpg", alt: "Founder Retreat", class: "img-fluid" %>
             </div>
             <div class="col-lg-6">
-                <span class="sub-heading">Corporate Retreats</span>
-                <h2>Inspire. Connect. Create.</h2>
-                <p>Escape the boardroom and unlock your team's potential in the Colorado mountains. Our corporate retreat package includes dedicated meeting spaces, high-speed connectivity, team-building activities, and catered meals — so you can focus on what matters.</p>
-                <h3 class="heading-sm mt-3">Sample Activities</h3>
+                <span class="sub-heading">Founder Retreats &amp; Executive Resets</span>
+                <h2>Think Clearly. Lead Better.</h2>
+                <p>Step away from the noise and give yourself the space to think. The Anchorpoint Retreat offers a quiet alpine setting near Mosquito Pass where founders, executives, and small leadership teams can focus deeply, plan strategically, and return recharged.</p>
+                <p>The dedicated loft workspace with mountain views, high-speed WiFi, and distraction-free environment make it ideal for strategy sessions, quarterly planning, or simply clearing your head.</p>
+                <h3 class="heading-sm mt-3">What to Expect</h3>
                 <ul>
-                    <li>Guided team-building workshops</li>
-                    <li>Strategy sessions with mountain views</li>
-                    <li>Group hiking and outdoor challenges</li>
-                    <li>Evening fireside meetings</li>
-                    <li>Catered farm-to-table dinners</li>
+                    <li>Quiet, private setting for focused work</li>
+                    <li>Loft workspace with mountain views</li>
+                    <li>High-speed WiFi for remote productivity</li>
+                    <li>Outdoor trails and fresh air for mental reset</li>
+                    <li>Modern comfort with 16-ft ceilings and natural light</li>
+                    <li>About 30 minutes from Breckenridge for evening dining</li>
                 </ul>
-                <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Corporate Retreats</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="wellness" class="section banner-service wellness-section">
-    <div class="hero-container">
-        <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
-            <div class="col-lg-6">
-                <h2>Wellness Retreats</h2>
-                <p>Nourish your body, mind, and spirit in a setting designed for restoration. Our wellness retreats feature daily yoga and meditation sessions, spa treatments, and farm-to-table cuisine prepared by private chefs.</p>
-                <h3 class="heading-sm mt-3">Sample Activities</h3>
-                <ul>
-                    <li>Sunrise yoga on the deck</li>
-                    <li>Guided meditation sessions</li>
-                    <li>Private massage and spa treatments</li>
-                    <li>Nature walks and forest bathing</li>
-                    <li>Nutritional wellness workshops</li>
-                </ul>
-                <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Wellness Retreats</a>
-            </div>
-            <div class="col-lg-6">
-                <%= image_tag "home/wellness-retreats-600-800.jpg", alt: "Wellness Retreat", class: "img-fluid" %>
+                <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Founder Retreats</a>
             </div>
         </div>
     </div>
 </section>
 
-<section id="private" class="section">
+<section id="remote-work" class="section banner-service wellness-section">
     <div class="hero-container">
         <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
             <div class="col-lg-6">
-                <%= image_tag "home/private-gatherning-600-800.jpg", alt: "Private Gathering", class: "img-fluid" %>
+                <h2>Remote Work &amp; Creative Escapes</h2>
+                <p>Trade your home office or coffee shop for a mountain chalet with soaring ceilings, natural light, and total quiet. Stay productive with reliable high-speed WiFi and a bright loft workspace, then step outside for hiking, skiing, or simply breathing in the alpine air.</p>
+                <p>Perfect for writers, creatives, developers, and anyone who works remotely and wants a change of scenery that inspires fresh thinking.</p>
+                <h3 class="heading-sm mt-3">What to Expect</h3>
+                <ul>
+                    <li>Bright loft workspace with desk and views</li>
+                    <li>Reliable high-speed WiFi</li>
+                    <li>Distraction-free alpine setting</li>
+                    <li>Hiking and skiing right outside your door</li>
+                    <li>Full kitchen for self-catered meals</li>
+                    <li>Evening fire and mountain tranquility</li>
+                </ul>
+                <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Remote Work Stays</a>
             </div>
             <div class="col-lg-6">
-                <span class="sub-heading">Private Gatherings</span>
-                <h2>Celebrate Life's Moments</h2>
-                <p>From milestone birthdays to intimate weddings and family reunions, The Anchorpoint Retreat provides a stunning backdrop for your most cherished gatherings. Our event planning team will handle every detail.</p>
-                <h3 class="heading-sm mt-3">Sample Activities</h3>
+                <%= image_tag "home/wellness-retreats-600-800.jpg", alt: "Remote Work Escape", class: "img-fluid" %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="couples" class="section">
+    <div class="hero-container">
+        <div class="d-flex flex-column flex-lg-row flex-gap-2 align-items-center">
+            <div class="col-lg-6">
+                <%= image_tag "home/private-gatherning-600-800.jpg", alt: "Couples Getaway", class: "img-fluid" %>
+            </div>
+            <div class="col-lg-6">
+                <span class="sub-heading">Couples &amp; Small Group Getaways</span>
+                <h2>Adventure Together. Unwind Together.</h2>
+                <p>Whether it's a couples retreat, a close friends' adventure weekend, or a small family escape, the chalet provides the perfect mix of shared experiences and quiet connection. Explore nearby Mosquito Pass, Kite Lake, and Breckenridge by day; cook together, play games, and relax by the electric fireplace at night.</p>
+                <p>With easy access to skiing, hiking, fishing, and scenic drives, it's a home base for creating mountain memories without the crowds.</p>
+                <h3 class="heading-sm mt-3">What to Expect</h3>
                 <ul>
-                    <li>Outdoor ceremony and reception spaces</li>
-                    <li>Catered multi-course dinners</li>
-                    <li>Bonfire nights with live music</li>
-                    <li>Photography tours of the property</li>
-                    <li>Custom itinerary planning</li>
+                    <li>Private chalet for up to 4 guests</li>
+                    <li>30 minutes to Breckenridge skiing and dining</li>
+                    <li>Near Mosquito Pass, Kite Lake, and hiking trails</li>
+                    <li>Full kitchen for shared meals</li>
+                    <li>Electric fireplace for cozy evenings</li>
+                    <li>Wildlife viewing and high-alpine exploring</li>
                 </ul>
-                <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Private Gatherings</a>
+                <a href="/inquiry" class="btn btn-accent mt-3">Inquire About Getaways</a>
             </div>
         </div>
     </div>
