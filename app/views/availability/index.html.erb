@@ -1,0 +1,111 @@
+<%# app/views/availability/index.html.erb %>
+<% content_for :title, "Availability — The Anchorpoint Retreat" %>
+<% content_for :description, "Check real-time availability and pricing for The Anchorpoint Retreat in Alma, Colorado." %>
+
+<section class="section">
+  <div class="hero-container">
+    <div class="text-center mb-5">
+      <span class="sub-heading">Availability</span>
+      <h1>Check Availability &amp; Pricing</h1>
+      <p class="lead">Select your check-in and check-out dates to see real-time availability and pricing.</p>
+    </div>
+
+    <div class="row g-5"
+         data-controller="availability-calendar"
+         data-availability-calendar-property-id-value="<%= @property&.id || Property.first&.id %>"
+         data-availability-calendar-current-month-value="<%= @current_month %>"
+         data-availability-calendar-current-year-value="<%= @current_year %>"
+         data-availability-calendar-min-nights-value="<%= @min_nights %>"
+         data-availability-calendar-max-nights-value="<%= @max_nights %>"
+         data-availability-calendar-max-guests-value="<%= @max_guests %>">
+      <%# Calendar Column %>
+      <div class="col-lg-8">
+        <%# Month Navigation %>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <button class="btn btn-outline-accent" data-action="click->availability-calendar#previousMonth">
+            <i class="fa-solid fa-chevron-left"></i> Previous Month
+          </button>
+          <h3 class="mb-0" data-availability-calendar-target="monthLabel">
+            <%= Date::MONTHNAMES[@current_month] %> <%= @current_year %>
+          </h3>
+          <button class="btn btn-outline-accent" data-action="click->availability-calendar#nextMonth">
+            Next Month <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <%# Day-of-week headers %>
+        <div class="calendar-grid text-center mb-2">
+          <% %w[Sun Mon Tue Wed Thu Fri Sat].each do |day| %>
+            <div class="calendar-header-cell fw-bold"><%= day %></div>
+          <% end %>
+        </div>
+
+        <%# Calendar Dates Grid %>
+        <div class="calendar-grid text-center" data-availability-calendar-target="calendarGrid">
+          <!-- Populated by Stimulus controller -->
+        </div>
+
+        <%# Legend %>
+        <div class="d-flex flex-wrap gap-3 mt-4 justify-content-center">
+          <div class="d-flex align-items-center gap-2">
+            <div class="calendar-legend" style="background-color: #64734F; width: 16px; height: 16px; border-radius: 4px;"></div>
+            <span>Available</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <div class="calendar-legend" style="background-color: #dc3545; width: 16px; height: 16px; border-radius: 4px;"></div>
+            <span>Booked</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <div class="calendar-legend" style="background-color: #D6D1CC; width: 16px; height: 16px; border-radius: 4px;"></div>
+            <span>Unavailable</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <div class="calendar-legend" style="background-color: #ffc107; width: 16px; height: 16px; border-radius: 4px;"></div>
+            <span>Selected</span>
+          </div>
+        </div>
+      </div>
+
+      <%# Pricing Summary Sidebar %>
+      <div class="col-lg-4">
+        <div class="card p-4" style="background: var(--bg-2); border: none; position: sticky; top: 120px;">
+          <h3 class="heading-sm mb-4">Booking Summary</h3>
+
+          <div class="mb-3">
+            <label class="form-label">Check-in</label>
+            <p class="fw-bold" data-availability-calendar-target="checkInDisplay">—</p>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Check-out</label>
+            <p class="fw-bold" data-availability-calendar-target="checkOutDisplay">—</p>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Guests</label>
+            <select class="form-select" data-availability-calendar-target="guestSelect" data-action="change->availability-calendar#updatePricing">
+              <% (1..[@max_guests, 4].max).each do |n| %>
+                <option value="<%= n %>" <%= n == 1 ? 'selected' : '' %>><%= n %> <%= n == 1 ? 'Guest' : 'Guests' %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <hr>
+
+          <div data-availability-calendar-target="pricingSummary">
+            <p class="text-muted">Select your dates to see pricing</p>
+          </div>
+
+          <div class="d-grid gap-2 mt-3">
+            <a href="#" class="btn btn-accent btn-lg disabled-link" data-availability-calendar-target="bookNowBtn" data-href="#">Book Now</a>
+          </div>
+
+          <div class="text-center mt-3">
+            <p class="small">Have questions?</p>
+            <a href="/inquiry" class="btn btn-outline-accent btn-sm">Submit an Inquiry</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -17,7 +17,7 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV.fetch("DB_USERNAME", "shan") %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  password: <%= ENV.fetch("DB_PASSWORD", "root") %>
   host: <%= ENV.fetch("DB_HOST", "localhost") %>
 
 development:

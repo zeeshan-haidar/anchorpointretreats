@@ -1,29 +1,31 @@
 Rails.application.routes.draw do
   # Public pages
-  # GET /
-  root 'pages#home'
+  root "pages#home"
+  get "the-retreat", to: "pages#retreat"
+  get "experience", to: "pages#experience"
+  get "about", to: "pages#about"
+  get "faq", to: "pages#faq"
+  get "policies", to: "pages#policies"
+  get "privacy", to: "pages#privacy"
+  get "terms", to: "pages#terms"
 
-  # GET /the-retreat
-  get 'the-retreat', to: 'pages#retreat'
+  # Availability & Pricing
+  get "availability", to: "availability#index"
+  get "availability/calendar", to: "availability#calendar"
+  get "availability/pricing", to: "availability#pricing"
 
-  # GET /experience
-  get 'experience', to: 'pages#experience'
+  # Bookings
+  get "book", to: "bookings#new"
+  post "book", to: "bookings#create"
+  get "book/:id/payment", to: "bookings#payment", as: :booking_payment
+  post "book/:id/checkout", to: "bookings#checkout", as: :booking_checkout
+  get "book/:id/confirmation", to: "bookings#confirmation", as: :booking_confirmation
 
-  # GET /about
-  get 'about', to: 'pages#about'
-
-  # GET /faq
-  get 'faq', to: 'pages#faq'
-
-  # GET /policies
-  get 'policies', to: 'pages#policies'
-
-  # GET /privacy
-  get 'privacy', to: 'pages#privacy'
-
-  # GET /terms
-  get 'terms', to: 'pages#terms'
+  # Inquiries
+  get "inquiry", to: "inquiries#new"
+  post "inquiry", to: "inquiries#create"
+  get "inquiry/thank-you", to: "inquiries#thank_you", as: :inquiry_thank_you
 
   # Health check
-  get 'up' => 'rails/health#show', as: :rails_health_check
+  get "up" => "rails/health#show", as: :rails_health_check
 end

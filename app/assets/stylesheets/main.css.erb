@@ -454,6 +454,11 @@ Description:    Obsidia is luxurious, and modern HTML5 Bootstrap Template for we
     --accent-color-transparent: #00000000;
     --accent-transparent-2: #00000087;
 
+    /* Background Variables */
+    --bg-2: #EAF0EA;
+
+    /* Background Variables */
+
     /* Font Style Variable */
     --font-family-heading: "Lora", sans-serif;
     --font-family-text: "Inter Tight", sans-serif;
@@ -1277,6 +1282,20 @@ CTA STYLE
     border: 1px solid var(--accent-color);
 }
 
+.btn-outline-accent {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.btn-outline-accent:hover {
+    background-color: var(--accent-color);
+    color: var(--accent-color-2);
+}
+
+    color: var(--accent-color-2);
+}
+
 .schedule-tab-btn{
     padding: 8px 25px 8px 25px;
     background-color: var(--secondary);
@@ -2057,6 +2076,116 @@ CTA STYLE
     pointer-events: none;
 }
 
+/*==================================================
+  27.7 Calendar / Availability Styles
+==================================================*/
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-header-cell {
+    padding: 10px 4px;
+    font-size: 0.875rem;
+    color: var(--primary);
+    font-family: var(--font-family-heading);
+}
+
+.calendar-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: default;
+    transition: all 0.2s ease;
+    font-family: var(--font-family-text);
+    font-size: 0.9rem;
+}
+
+.calendar-cell--empty {
+    background: transparent;
+    cursor: default;
+    min-height: 70px;
+}
+
+.calendar-cell--available {
+    background-color: #64734F;
+    color: #fff;
+    cursor: pointer;
+}
+
+.calendar-cell--available:hover {
+    background-color: #4d5a3e;
+    transform: scale(1.05);
+    z-index: 2;
+}
+
+.calendar-cell--booked {
+    background-color: #dc3545;
+    color: #fff;
+    opacity: 0.85;
+}
+
+.calendar-cell--blocked {
+    background-color: #D6D1CC;
+    color: #999;
+}
+
+.calendar-cell--past {
+    background-color: #f0f0f0;
+    color: #ccc;
+}
+
+.calendar-cell--today {
+    font-weight: bold;
+    box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.calendar-cell--selected {
+    background-color: #ffc107 !important;
+    color: #333 !important;
+    font-weight: bold;
+    transform: scale(1.08);
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.calendar-cell--in-range {
+    background-color: rgba(255, 193, 7, 0.4) !important;
+    color: #333 !important;
+}
+
+.calendar-day-number {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 767.98px) {
+    .calendar-cell {
+        min-height: 50px;
+        font-size: 0.8rem;
+        padding: 4px 2px;
+    }
+
+    .calendar-cell--empty {
+        min-height: 50px;
+    }
+
+    .calendar-header-cell {
+        font-size: 0.75rem;
+        padding: 8px 2px;
+    }
+
+    .calendar-day-number {
+        font-size: 0.85rem;
+    }
+}
 /*==================================================
   28.0 Custom Spacing
 ==================================================*/

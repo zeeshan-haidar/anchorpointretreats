@@ -44,6 +44,7 @@ gem 'bootsnap', require: false
 group :development, :test do
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw]
   gem 'dotenv-rails'
+  gem 'rails-controller-testing'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pry-rails'

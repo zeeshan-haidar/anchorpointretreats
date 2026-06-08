@@ -1,0 +1,108 @@
+<%# app/views/inquiries/new.html.erb %>
+<% content_for :title, "Inquiry — The Anchorpoint Retreat" %>
+<% content_for :description, "Have a question or want to learn more about The Anchorpoint Retreat? Send us an inquiry." %>
+
+<section class="section">
+  <div class="hero-container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-5">
+          <span class="sub-heading">Contact Us</span>
+          <h1>Send Us an Inquiry</h1>
+          <p class="lead">Have questions about the property, availability, or planning a retreat? We'd love to hear from you.</p>
+        </div>
+
+        <div class="card p-4" style="background: var(--bg-2); border: none;">
+          <%= form_with model: @inquiry, url: inquiry_path, local: true, class: "needs-validation" do |f| %>
+
+            <% if flash[:alert] %>
+              <div class="alert alert-danger"><%= flash[:alert] %></div>
+            <% end %>
+
+            <div class="mb-3">
+              <%= f.label :name, "Your Name *", class: "form-label" %>
+              <%= f.text_field :name, class: "form-control", required: true, placeholder: "Your full name" %>
+              <% if @inquiry&.errors&.include?(:name) %>
+                <div class="text-danger small"><%= @inquiry.errors.full_messages_for(:name).join(", ") %></div>
+              <% end %>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <%= f.label :email, "Email *", class: "form-label" %>
+                <%= f.email_field :email, class: "form-control", required: true, placeholder: "you@example.com" %>
+                <% if @inquiry&.errors&.include?(:email) %>
+                  <div class="text-danger small"><%= @inquiry.errors.full_messages_for(:email).join(", ") %></div>
+                <% end %>
+              </div>
+              <div class="col-md-6">
+                <%= f.label :phone, "Phone", class: "form-label" %>
+                <%= f.telephone_field :phone, class: "form-control", placeholder: "(555) 123-4567" %>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <%= f.label :company, "Company Name", class: "form-label" %>
+                <%= f.text_field :company, class: "form-control", placeholder: "Optional" %>
+              </div>
+              <div class="col-md-6">
+                <%= f.label :retreat_type, "Retreat Type", class: "form-label" %>
+                <%= f.select :retreat_type,
+                    [["Select type...", ""], ["Founder Retreat & Executive Reset", "founder"],
+                     ["Remote Work & Creative Escape", "remote_work"],
+                     ["Couples & Small Group Getaway", "couples"],
+                     ["Wellness Retreat", "wellness"],
+                     ["Other", "other"]],
+                    {}, { class: "form-select" } %>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3" data-controller="inquiry-dates">
+              <div class="col-md-6">
+                <%= label_tag :check_in_date, "Check-in Date", class: "form-label" %>
+                <%= text_field_tag :check_in_date, nil, class: "form-control", placeholder: "Select check-in date", data: { inquiry_dates_target: "checkIn" }, readonly: true %>
+                <div class="form-text">Booked dates cannot be selected</div>
+              </div>
+              <div class="col-md-6">
+                <%= label_tag :check_out_date, "Check-out Date", class: "form-label" %>
+                <%= text_field_tag :check_out_date, nil, class: "form-control", placeholder: "Select check-out date", data: { inquiry_dates_target: "checkOut" }, readonly: true %>
+                <div class="form-text">Booked dates cannot be selected</div>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <%= f.label :preferred_dates, "Date Notes (optional)", class: "form-label" %>
+                <%= f.text_field :preferred_dates, class: "form-control", placeholder: "e.g., flexible on exact dates, or prefer weekends" %>
+              </div>
+              <div class="col-md-6">
+                <%= f.label :group_size, "Group Size", class: "form-label" %>
+                <%= f.number_field :group_size, class: "form-control", placeholder: "Number of guests", min: 1 %>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :message, "Your Message *", class: "form-label" %>
+              <%= f.text_area :message, class: "form-control", rows: 5, required: true,
+                  placeholder: "Tell us about your retreat plans, what you're looking for, or any questions you have..." %>
+              <% if @inquiry&.errors&.include?(:message) %>
+                <div class="text-danger small"><%= @inquiry.errors.full_messages_for(:message).join(", ") %></div>
+              <% end %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Send Inquiry", class: "btn btn-accent btn-lg" %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="text-center mt-4">
+          <p class="text-muted small">
+            Prefer to chat? Call us at <a href="tel:+15551234567" class="accent-color">(555) 123-4567</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

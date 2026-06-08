@@ -54,6 +54,7 @@ class Booking < ApplicationRecord
   validates :num_guests, presence: true, numericality: { greater_than: 0 }
   validates :guest_name, presence: true
   validates :guest_email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :guest_phone, presence: true
   validates :num_nights, presence: true, numericality: { greater_than: 0 }
   validates :nightly_rate_cents, presence: true, numericality: { greater_than: 0 }
   validates :subtotal_cents, presence: true, numericality: { greater_than: 0 }

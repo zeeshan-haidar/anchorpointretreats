@@ -1,0 +1,27 @@
+<%# app/views/inquiries/thank_you.html.erb %>
+<% content_for :title, "Thank You — The Anchorpoint Retreat" %>
+
+<section class="section">
+  <div class="hero-container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <i class="fa-solid fa-paper-plane fa-5x accent-color mb-4"></i>
+        <h1>Thank You!</h1>
+        <p class="lead mb-4">Your inquiry has been received. We'll review it and get back to you within 24 hours.</p>
+
+        <div class="card p-4 mb-4" style="background: var(--bg-2); border: none;">
+          <p>In the meantime, feel free to:</p>
+          <div class="d-flex flex-wrap gap-3 justify-content-center mt-3">
+            <a href="/availability" class="btn btn-accent">Check Availability</a>
+            <a href="/the-retreat" class="btn btn-outline-accent">Explore the Property</a>
+            <a href="/" class="btn btn-outline-accent">Return Home</a>
+          </div>
+        </div>
+
+        <p class="text-muted small">
+          If your inquiry is urgent, please call us at <a href="tel:+15551234567" class="accent-color">(555) 123-4567</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

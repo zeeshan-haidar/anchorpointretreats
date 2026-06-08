@@ -345,5 +345,31 @@ bundle exec rubocop -A           # auto-fix all offenses (including unsafe)
 3. Catch and log unexpected errors; show user-friendly 404/500 pages
 4. Validate at model level; display errors in forms with Rails `form_with` defaults
 
+## Future Improvements
+
+### Pending Booking Cleanup
+Unpaid pending bookings (created at booking form submission but before payment) do not block dates on the calendar. However, they should be cleaned up automatically to avoid database clutter.
+
+A Sidekiq scheduled job should be added to:
+- Cancel pending bookings older than **30 minutes** (not 30 days — 30 minutes is sufficient for a payment flow)
+- Release any dates that were marked as booked during payment if the booking was cancelled
+- Send a notification email to the guest if their pending booking was cancelled due to non-payment
+
+Example job structure:
+```ruby
+class PendingBookingCleanupJob
+  include Sidekiq::Job
+  sidekiq_options retry: 2, queue: :default
+
+  def perform
+    # Cancel pending bookings older than 30 minutes
+    # Release their held dates
+    # Send cancellation notifications
+  end
+end
+```
+
+See `app/services/booking_service.rb` and `app/services/availability_service.rb#mark_available` for the relevant methods.
+
 ## Documentation
 - Full SRS: `claude/docs/SRS.md`

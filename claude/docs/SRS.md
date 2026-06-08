@@ -11,7 +11,7 @@
 ## Implementation Progress
 
 > **Key:** ✅ Complete | ◐ In Progress | ⬜ Not Started
-> Last updated: 2026-05-11
+> Last updated: 2026-05-16
 
 ### Phase 1: Foundation (Week 1-2)
 | Task | Status | Notes |
@@ -41,15 +41,20 @@
 ### Phase 2: Availability & Booking (Week 3-4)
 | Task | Status | Notes |
 |------|--------|-------|
-| Availability calendar Stimulus controller | ⬜ | |
-| AvailabilityService — fetch available dates | ⬜ | |
-| PricingService — calculate totals | ⬜ | |
-| `/availability` page with calendar + price preview | ⬜ | |
-| `/book` form with server-side validation | ⬜ | |
-| BookingService — create bookings | ⬜ | |
-| `/inquiry` form + InquiryService | ⬜ | |
-| Controller and request specs | ⬜ | |
-| **Deliverable: Calendar, prices, bookings, inquiries** | ⬜ | |
+| Availability calendar Stimulus controller | ✅ | `availability_calendar_controller.js` with month nav, date selection, range highlighting, pricing AJAX |
+| AvailabilityService — fetch available dates | ✅ | Calendar data generation, availability range checking, mark booked/available |
+| PricingService — calculate totals | ✅ | Nightly rate, subtotal, cleaning fee, taxes (8.5%), deposit (25%), seasonal overrides |
+| `/availability` page with calendar + price preview | ✅ | Interactive calendar, date range selection, dynamic pricing sidebar, guest count selector |
+| `/book` form with server-side validation | ✅ | Guest details form with validated fields, pre-populated dates, price summary sidebar |
+| BookingService — create bookings | ✅ | Confirmation number generation, pricing calculation, availability locking in transaction |
+| `/inquiry` form + InquiryService | ✅ | Form with name, email, phone, company, retreat type, dates, group size, message; rate limiting support |
+| Controller and request specs | ✅ | 30 request specs for Availability, Bookings, Inquiries controllers |
+| Model specs for new models | ✅ | 44 model specs for Availability, Booking, Inquiry (associations, validations, enums, scopes) |
+| Service specs | ✅ | 39 service specs for all 4 services |
+| Calendar CSS and form styles | ✅ | Calendar grid, states (available/booked/blocked/past/selected/in-range), form controls, pricing summary |
+| Navigation updated with new links | ✅ | Header: "Book Your Stay" CTA, "Availability" nav link. Footer: Availability & FAQ enabled. Home CTAs pointed to `/availability` |
+| Routes configured | ✅ | All Phase 2 routes: availability, book/booking/*, inquiry/* |
+| **Deliverable: Calendar, prices, bookings, inquiries** | ✅ | **Total: 113 RSpec examples, 0 failures** |
 
 ### Phase 3: Stripe & Email (Week 5)
 | Task | Status | Notes |
@@ -773,15 +778,15 @@ property ──────────────┬── property_images
 - **Deliverable**: Fully styled, responsive public website with static content
 
 ### Phase 2: Availability & Booking (Week 3-4)
-- Availability calendar Stimulus controller
-- `AvailabilityService` — fetch available dates, check date ranges
-- `PricingService` — calculate total from dates, seasonal pricing, overrides
-- `/availability` page with interactive calendar + price preview
-- `/book` form with server-side validation
-- `BookingService` — create bookings, generate confirmation numbers
-- `/inquiry` form + `InquiryService`
-- Controller and request specs
-- **Deliverable**: Users can view calendar, see prices, submit bookings and inquiries
+✅ - Availability calendar Stimulus controller
+✅ - `AvailabilityService` — fetch available dates, check date ranges
+✅ - `PricingService` — calculate total from dates, seasonal pricing, overrides
+✅ - `/availability` page with interactive calendar + price preview
+✅ - `/book` form with server-side validation
+✅ - `BookingService` — create bookings, generate confirmation numbers
+✅ - `/inquiry` form + `InquiryService`
+✅ - Controller and request specs
+✅ - **Deliverable**: Users can view calendar, see prices, submit bookings and inquiries
 
 ### Phase 3: Stripe & Email (Week 5)
 - Stripe gem setup, `StripeService` for checkout session creation

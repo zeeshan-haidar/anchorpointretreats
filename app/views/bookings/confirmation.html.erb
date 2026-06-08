@@ -1,0 +1,57 @@
+<%# app/views/bookings/confirmation.html.erb %>
+<% content_for :title, "Booking Confirmed — The Anchorpoint Retreat" %>
+
+<section class="section">
+  <div class="hero-container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+
+        <div class="mb-5">
+          <i class="fa-solid fa-check-circle fa-5x" style="color: #64734F;"></i>
+          <h1 class="mt-4">Booking Confirmed!</h1>
+          <p class="lead">Thank you for booking your stay at The Anchorpoint Retreat. We're excited to host you!</p>
+        </div>
+
+        <div class="card p-4 mb-4 text-start" style="background: var(--bg-2); border: none;">
+          <h3 class="heading-sm mb-3">Confirmation Details</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <p><strong>Confirmation #:</strong></p>
+              <p class="fs-4 fw-bold" style="color: var(--accent-color);"><%= @booking.confirmation_number %></p>
+              <p><strong>Guest Name:</strong> <%= @booking.guest_name %></p>
+              <p><strong>Email:</strong> <%= @booking.guest_email %></p>
+              <p><strong>Check-in:</strong> <%= @booking.check_in.strftime("%A, %B %d, %Y") %></p>
+              <p><strong>Check-out:</strong> <%= @booking.check_out.strftime("%A, %B %d, %Y") %></p>
+              <p><strong>Guests:</strong> <%= @booking.num_guests %></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Number of Nights:</strong> <%= @booking.num_nights %></p>
+              <p><strong>Total:</strong> <%= number_to_currency(@booking.total_cents / 100.0) %></p>
+              <p><strong>Amount Paid:</strong> <%= number_to_currency(@booking.amount_paid_cents / 100.0) %></p>
+              <% if @booking.balance_due_cents > 0 %>
+                <p><strong>Balance Due:</strong> <%= number_to_currency(@booking.balance_due_cents / 100.0) %></p>
+                <p class="text-muted small">Remaining balance can be paid later. We'll send you a reminder before your stay.</p>
+              <% end %>
+              <p><strong>Status:</strong>
+                <span class="badge bg-success"><%= @booking.status.titleize %></span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="heading-sm mb-3">What's Next?</h3>
+          <p>A confirmation email has been sent to <strong><%= @booking.guest_email %></strong> with all the details of your stay.</p>
+          <p>Check-in time: <strong>3:00 PM</strong> | Check-out time: <strong>11:00 AM</strong></p>
+          <p class="text-muted small">If you have any questions before your stay, don't hesitate to reach out.</p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+          <a href="/" class="btn btn-outline-accent">Return to Home</a>
+          <a href="/the-retreat" class="btn btn-outline-accent">View Property Details</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
