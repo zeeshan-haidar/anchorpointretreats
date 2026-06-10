@@ -106,6 +106,11 @@ class BookingsController < ApplicationController
   # GET /book/:id/confirmation
   def confirmation
     redirect_to availability_path, alert: "Booking not found" unless @booking
+
+    # Only show confirmation for paid bookings
+    if @booking.pending?
+      redirect_to booking_payment_path(@booking), alert: "Please complete payment first."
+    end
   end
 
   private
