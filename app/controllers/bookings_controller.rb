@@ -82,28 +82,25 @@ class BookingsController < ApplicationController
 
   # POST /book/:id/checkout
   def checkout
-    redirect_to availability_path, alert: "Booking not found" unless @booking
+    redirect_to(availability_path, alert: "Booking not found") && return unless @booking
 
-    # Stripe integration will be implemented in Phase 3
-    # For now, redirect to confirmation as a placeholder
-    payment_type = params[:payment_type] # "deposit" or "full"
+    # Ensure we respond to regular HTML (not just Turbo Stream)
+    # since the payment form disables Turbo for Stripe redirect
 
-    # Mark dates as booked only after payment is confirmed
-    availability_service = AvailabilityService.new(@property)
-    availability_service.mark_booked(
-      check_in: @booking.check_in,
-      check_out: @booking.check_out,
-      booking: @booking
+    service = StripeCheckoutService.new
+    result = service.call(
+      booking: @booking,
+      success_url: booking_confirmation_url(@booking),
+      cancel_url: booking_payment_url(@booking)
     )
 
-    # Placeholder: mark as fully paid for testing
-    if payment_type == "full"
-      @booking.update!(status: :fully_paid, amount_paid_cents: @booking.total_cents)
-    elsif payment_type == "deposit"
-      @booking.update!(status: :deposit_paid, amount_paid_cents: @booking.deposit_amount_cents)
+    if result.success?
+      # Store the Stripe session ID on the booking
+      @booking.update!(stripe_checkout_session_id: result.session_id)
+      redirect_to result.checkout_url, allow_other_host: true
+    else
+      redirect_to booking_payment_path(@booking), alert: "Payment failed: #{result.error}"
     end
-
-    redirect_to booking_confirmation_path(@booking)
   end
 
   # GET /book/:id/confirmation

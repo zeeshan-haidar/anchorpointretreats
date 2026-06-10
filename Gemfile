@@ -57,6 +57,7 @@ end
 group :development do
   gem 'annotate'
   gem 'error_highlight', platforms: [:ruby]
+  gem 'letter_opener_web'
   gem 'web-console'
 end
 

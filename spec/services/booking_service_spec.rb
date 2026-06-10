@@ -47,11 +47,10 @@ RSpec.describe BookingService, type: :service do
         expect(result.booking.check_out).to eq(check_out)
       end
 
-      it "marks the associated availability as booked" do
+      it "does not mark availability as booked (done by webhook after payment)" do
         result = service.call(valid_params)
         availabilities = property.availabilities.for_range(check_in, check_out)
-        expect(availabilities.pluck(:status)).to all(eq("booked"))
-        expect(availabilities.pluck(:booking_id)).to all(eq(result.booking.id))
+        expect(availabilities.pluck(:status)).not_to include("booked")
       end
 
       it "sets status to pending" do

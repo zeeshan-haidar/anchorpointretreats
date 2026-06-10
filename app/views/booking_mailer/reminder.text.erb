@@ -1,0 +1,29 @@
+<%# app/views/booking_mailer/reminder.text.erb %>
+Your Stay is Almost Here!
+==========================
+
+Dear <%= @booking.guest_name %>,
+
+We're looking forward to welcoming you to The Anchorpoint Retreat in just a few days!
+
+UPCOMING STAY
+-------------
+Confirmation: <%= @booking.confirmation_number %>
+Check-in:     <%= @booking.check_in.strftime("%A, %B %d, %Y") %>
+Check-out:    <%= @booking.check_out.strftime("%A, %B %d, %Y") %>
+
+QUICK REMINDERS
+---------------
+Check-in:  <%= @property.check_in_time %>
+Check-out: <%= @property.check_out_time %>
+Address:   <%= @property.address %>, <%= @property.city %>, <%= @property.state %>
+
+If you need anything before your arrival, please don't hesitate to reach out.
+
+Safe travels!
+
+Warm regards,
+The Anchorpoint Retreat Team
+
+---
+This email was sent to <%= @booking.guest_email %>.

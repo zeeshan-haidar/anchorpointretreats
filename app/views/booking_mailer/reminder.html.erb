@@ -1,0 +1,67 @@
+<%# app/views/booking_mailer/reminder.html.erb %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+    body { font-family: 'Inter Tight', Helvetica, Arial, sans-serif; color: #312B24; line-height: 1.6; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .header { text-align: center; padding: 30px 0; background-color: #64734F; }
+    .header h1 { color: #FFFFFF; font-family: Lora, serif; font-size: 28px; margin: 0; }
+    .content { padding: 30px; background-color: #FFFFFF; }
+    .card { background-color: #EAF0EA; padding: 20px; margin: 20px 0; }
+    .card h3 { font-family: Lora, serif; color: #312B24; margin: 0 0 15px 0; }
+    .detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .detail-label { color: #747474; }
+    .detail-value { font-weight: 600; }
+    .footer { text-align: center; padding: 20px; color: #747474; font-size: 13px; }
+    hr { border: none; border-top: 1px solid #D6D1CC; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Your Stay is Almost Here!</h1>
+    </div>
+    <div class="content">
+      <p>Dear <strong><%= @booking.guest_name %></strong>,</p>
+      <p>We're looking forward to welcoming you to <strong>The Anchorpoint Retreat</strong> in just a few days!</p>
+
+      <div class="card">
+        <h3>Upcoming Stay</h3>
+        <div class="detail-row">
+          <span class="detail-label">Confirmation</span>
+          <span class="detail-value"><%= @booking.confirmation_number %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Check-in</span>
+          <span class="detail-value"><%= @booking.check_in.strftime("%A, %B %d, %Y") %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Check-out</span>
+          <span class="detail-value"><%= @booking.check_out.strftime("%A, %B %d, %Y") %></span>
+        </div>
+      </div>
+
+      <h3>Quick Reminders</h3>
+      <ul>
+        <li><strong>Check-in:</strong> <%= @property.check_in_time %></li>
+        <li><strong>Check-out:</strong> <%= @property.check_out_time %></li>
+        <li><strong>Address:</strong> <%= @property.address %>, <%= @property.city %>, <%= @property.state %></li>
+      </ul>
+
+      <p>If you need anything before your arrival, please don't hesitate to reach out.</p>
+      <p>Safe travels!</p>
+      <p>Warm regards,<br>The Anchorpoint Retreat Team</p>
+
+      <hr>
+      <p style="color: #747474; font-size: 13px;">
+        This email was sent to <%= @booking.guest_email %>.
+      </p>
+    </div>
+    <div class="footer">
+      <p>&copy; <%= Date.current.year %> The Anchorpoint Retreat. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

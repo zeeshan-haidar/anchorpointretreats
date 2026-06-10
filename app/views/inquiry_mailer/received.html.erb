@@ -1,0 +1,41 @@
+<%# app/views/inquiry_mailer/received.html.erb %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+    body { font-family: 'Inter Tight', Helvetica, Arial, sans-serif; color: #312B24; line-height: 1.6; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .header { text-align: center; padding: 30px 0; background-color: #64734F; }
+    .header h1 { color: #FFFFFF; font-family: Lora, serif; font-size: 28px; margin: 0; }
+    .content { padding: 30px; background-color: #FFFFFF; }
+    .footer { text-align: center; padding: 20px; color: #747474; font-size: 13px; }
+    hr { border: none; border-top: 1px solid #D6D1CC; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Thank You for Your Inquiry</h1>
+    </div>
+    <div class="content">
+      <p>Dear <strong><%= @inquiry.name %></strong>,</p>
+      <p>Thank you for your interest in <strong>The Anchorpoint Retreat</strong>!</p>
+      <p>We've received your inquiry and will get back to you within <strong>24-48 hours</strong> with more information about availability and how we can make your retreat exactly what you're looking for.</p>
+
+      <p>In the meantime, feel free to browse our website to learn more about the property and the experiences we offer.</p>
+
+      <p>We look forward to speaking with you!</p>
+      <p>Warm regards,<br>The Anchorpoint Retreat Team</p>
+
+      <hr>
+      <p style="color: #747474; font-size: 13px;">
+        This email was sent to <%= @inquiry.email %>.
+      </p>
+    </div>
+    <div class="footer">
+      <p>&copy; <%= Date.current.year %> The Anchorpoint Retreat. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

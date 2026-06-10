@@ -41,6 +41,32 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # Use letter_opener to preview emails in the browser instead of sending them
+  # To send real emails locally, set SMTP_USERNAME and SMTP_PASSWORD in .env.development
+  if ENV["SMTP_USERNAME"].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address:              ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
+      port:                 ENV.fetch("SMTP_PORT", 587).to_i,
+      domain:               ENV.fetch("SMTP_DOMAIN", "gmail.com"),
+      user_name:            ENV.fetch("SMTP_USERNAME"),
+      password:             ENV.fetch("SMTP_PASSWORD"),
+      authentication:       "plain",
+      enable_starttls_auto: true,
+      open_timeout:         5,
+      read_timeout:         5
+    }
+  else
+    config.action_mailer.delivery_method = :letter_opener
+  end
+  config.action_mailer.perform_deliveries = true
+
+  # Default URL options for mailer link generation
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+
+  # Default URL options for routes (needed by Stripe for redirect URLs)
+  routes.default_url_options = { host: "localhost", port: 3000 }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

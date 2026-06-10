@@ -1,0 +1,40 @@
+<%# app/views/booking_mailer/confirmation.text.erb %>
+Booking Confirmed — The Anchorpoint Retreat
+=============================================
+
+Dear <%= @booking.guest_name %>,
+
+Thank you for booking your stay at The Anchorpoint Retreat. Your reservation is confirmed!
+
+Confirmation Number: <%= @booking.confirmation_number %>
+
+STAY DETAILS
+------------
+Property:   <%= @property.name %>
+Check-in:   <%= @booking.check_in.strftime("%A, %B %d, %Y") %>
+Check-out:  <%= @booking.check_out.strftime("%A, %B %d, %Y") %>
+Nights:     <%= @booking.num_nights %>
+Guests:     <%= @booking.num_guests %>
+
+PAYMENT SUMMARY
+---------------
+Amount Paid: <%= @amount_paid %>
+<% if @balance_due -%>
+Balance Due: <%= @balance_due %>
+
+Your remaining balance will be due before check-in.
+<% end -%>
+
+GETTING THERE
+-------------
+Address: <%= @property.address %>, <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
+Check-in:  <%= @property.check_in_time %>
+Check-out: <%= @property.check_out_time %>
+
+If you have any questions before your stay, don't hesitate to reach out.
+
+Warm regards,
+The Anchorpoint Retreat Team
+
+---
+This email was sent to <%= @booking.guest_email %>.

@@ -68,6 +68,26 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # SMTP configuration for sending emails via Gmail
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    address:              ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
+    port:                 ENV.fetch("SMTP_PORT", 587).to_i,
+    domain:               ENV.fetch("SMTP_DOMAIN", "gmail.com"),
+    user_name:            ENV.fetch("SMTP_USERNAME"),
+    password:             ENV.fetch("SMTP_PASSWORD"),
+    authentication:       "plain",
+    enable_starttls_auto: true,
+    open_timeout:         5,
+    read_timeout:         5
+  }
+
+  # Default URL options for mailer link generation
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost:3000") }
+  routes.default_url_options = { host: ENV.fetch("APP_HOST", "localhost:3000") }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

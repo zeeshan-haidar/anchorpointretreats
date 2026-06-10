@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+
   # Public pages
   root "pages#home"
   get "the-retreat", to: "pages#retreat"
@@ -28,4 +32,7 @@ Rails.application.routes.draw do
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # Stripe webhook
+  post "webhooks/stripe", to: "webhooks#stripe"
 end

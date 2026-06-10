@@ -34,6 +34,11 @@ class InquiryService
     )
 
     if inquiry.save
+      # Send email notifications
+      InquiryMailer.received(inquiry).deliver_later
+      admin_email = AdminUser.first&.email || "dbmanager81@gmail.com"
+      InquiryMailer.new_inquiry_alert(inquiry, admin_email).deliver_later
+
       OpenStruct.new(success?: true, inquiry: inquiry)
     else
       OpenStruct.new(

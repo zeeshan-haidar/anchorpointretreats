@@ -1,0 +1,24 @@
+<%# app/views/inquiry_mailer/new_inquiry_alert.text.erb %>
+New Inquiry Received
+====================
+
+A new inquiry has been submitted to The Anchorpoint Retreat.
+
+GUEST INFORMATION
+-----------------
+Name:         <%= @inquiry.name %>
+Email:        <%= @inquiry.email %>
+Phone:        <%= @inquiry.phone.presence || "N/A" %>
+Company:      <%= @inquiry.company.presence || "N/A" %>
+Retreat Type: <%= @inquiry.retreat_type.presence&.titleize || "N/A" %>
+
+INQUIRY DETAILS
+---------------
+Preferred Dates: <%= @inquiry.preferred_dates.presence || "N/A" %>
+Group Size:      <%= @inquiry.group_size.presence || "N/A" %>
+
+Message:
+<%= @inquiry.message %>
+
+---
+This is an automated notification. Please respond to the guest within 24-48 hours.

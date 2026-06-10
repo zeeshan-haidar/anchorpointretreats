@@ -11,7 +11,7 @@
 ## Implementation Progress
 
 > **Key:** ✅ Complete | ◐ In Progress | ⬜ Not Started
-> Last updated: 2026-05-16
+> Last updated: 2026-06-08
 
 ### Phase 1: Foundation (Week 1-2)
 | Task | Status | Notes |
@@ -43,7 +43,7 @@
 |------|--------|-------|
 | Availability calendar Stimulus controller | ✅ | `availability_calendar_controller.js` with month nav, date selection, range highlighting, pricing AJAX |
 | AvailabilityService — fetch available dates | ✅ | Calendar data generation, availability range checking, mark booked/available |
-| PricingService — calculate totals | ✅ | Nightly rate, subtotal, cleaning fee, taxes (8.5%), deposit (25%), seasonal overrides |
+| PricingService — calculate totals | ✅ | Nightly rate, subtotal, cleaning fee, taxes (8.5%), seasonal overrides |
 | `/availability` page with calendar + price preview | ✅ | Interactive calendar, date range selection, dynamic pricing sidebar, guest count selector |
 | `/book` form with server-side validation | ✅ | Guest details form with validated fields, pre-populated dates, price summary sidebar |
 | BookingService — create bookings | ✅ | Confirmation number generation, pricing calculation, availability locking in transaction |
@@ -57,16 +57,27 @@
 | **Deliverable: Calendar, prices, bookings, inquiries** | ✅ | **Total: 113 RSpec examples, 0 failures** |
 
 ### Phase 3: Stripe & Email (Week 5)
+
+> ⚠️ **Local testing setup**: Run `stripe listen --forward-to localhost:3000/webhooks/stripe` in a terminal, then copy the `whsec_...` signing secret into `.env.development` as `STRIPE_WEBHOOK_SIGNING_SECRET`.
+
 | Task | Status | Notes |
 |------|--------|-------|
-| Stripe gem setup, StripeCheckoutService | ⬜ | |
-| `/book/:id/payment` page with deposit/full options | ⬜ | |
-| `/book/:id/confirmation` page | ⬜ | |
-| Stripe webhook controller with signature verification | ⬜ | |
-| Post-payment logic (update booking, mark availability, send emails) | ⬜ | |
-| Action Mailer templates (confirmation, inquiry, alerts) | ⬜ | |
-| Sidekiq setup for background email delivery | ⬜ | |
-| **Deliverable: End-to-end payment flow with notifications** | ⬜ | |
+| Stripe gem setup, initializer, StripeCheckoutService | ✅ | Checkout Sessions for full payment only (deposit option removed), metadata, idempotency |
+| StripeWebhookService -- construct_event + process_event | ✅ | Signature verification, checkout.session.completed/expired, charge.refunded handling |
+| /webhooks/stripe endpoint with CSRF skip | ✅ | WebhooksController, route added |
+| Stripe checkout specs (11 tests) | ✅ | Full payment, nil booking, invalid state, invalid type, Stripe errors, metadata, customer email |
+| Stripe webhook specs (12 tests) | ✅ | construct_event (no secret), process_event: full payment, expired, refunded, unhandled, already processed |
+| Webhook request specs (6 tests) | ✅ | Success, JSON response, bad request on bad signature, unprocessable on processing failure, CSRF skip |
+| Booking Mailer (confirmation, reminder, payment_link) | ✅ | 3 email types, HTML+text templates, formatted amounts, check-in instructions |
+| Inquiry Mailer (received, new_inquiry_alert) | ✅ | 2 email types, HTML+text templates, replaced admin_inquiry_url link |
+| Mailer specs (12 tests) | ✅ | All rendering correctly (headers, body content, dates, currency formatting) |
+| BookingReminderJob | ✅ | Sidekiq scheduled job for 7-day reminder |
+| ~~PaymentReminderJob~~ | ❌ Removed | Deposit payment feature removed; job is no longer needed |
+| Letter Opener gem for local email preview | ✅ | development.rb configured with delivery_method = letter_opener |
+| ApplicationMailer default from address | ✅ | hello@anchorpointretreat.com |
+| Development env config (letter_opener, default URL options) | ✅ | |
+| Production env config (SMTP via env vars) | ✅ | SMTP_ADDRESS, _PORT, _DOMAIN, _USERNAME, _PASSWORD |
+| **Deliverable: End-to-end payment flow with notifications** | ✅ | **Total: 156 RSpec examples, 0 failures** |
 
 ### Phase 4: Admin Panel (Week 6-7)
 | Task | Status | Notes |
@@ -123,7 +134,7 @@ Design specifications (colors, typography, spacing, components, and animations) 
 | Booking | A confirmed or pending reservation for specific dates |
 | Inquiry | A contact form submission from a potential guest |
 | Availability | Per-day status of the property (available, booked, blocked) |
-| Deposit | Partial upfront payment (default 25% of total) |
+| Deposit | Partial upfront payment (default 25% of total) — ⚠️ Feature removed; column retained in schema only |
 
 ---
 
@@ -237,7 +248,6 @@ The homepage shall display the following sections in order:
   - Cleaning fee
   - Taxes
   - Total
-  - Deposit amount (25%)
 - Guest count selector
 - "Book Now" button (enabled when valid dates selected)
 - "Have Questions? Submit an Inquiry" link
@@ -257,16 +267,14 @@ The homepage shall display the following sections in order:
 - Server-side validation; booking created with status `pending`
 
 **Step 2 — Payment (`/book/:id/payment`)**
-- Payment options:
-  - "Pay Deposit (25%)" — partial payment, remainder due later
-  - "Pay Full Amount" — complete payment
-- Clicking either option creates a Stripe Checkout Session and redirects to Stripe's hosted payment page
+- Payment option: "Pay Full Amount" — complete one-time payment
+- Clicking creates a Stripe Checkout Session and redirects to Stripe's hosted payment page
 - Stripe handles all card input (PCI compliance)
 - Cancel URL returns to payment page
 
 **Step 3 — Confirmation (`/book/:id/confirmation`)**
 - Displayed after successful Stripe payment (redirect from Stripe)
-- Shows: confirmation number, dates, guest count, amount paid, remaining balance (if deposit)
+- Shows: confirmation number, dates, guest count, amount paid
 - Booking details summary
 - "Add to Calendar" link (iCal download)
 - Confirmation email sent automatically
@@ -297,11 +305,11 @@ The homepage shall display the following sections in order:
 
 #### FR-009: Payment Processing
 - **Flow**: Stripe Checkout Sessions (redirect-based)
-- **Payment types**: Deposit (configurable %, default 25%) or full payment
+- **Payment type**: Full payment only (deposit option removed)
 - **Webhook endpoint** (`/webhooks/stripe`):
   - Listens for: `checkout.session.completed`, `checkout.session.expired`, `charge.refunded`
   - On `checkout.session.completed`:
-    - Update booking status to `deposit_paid` or `fully_paid`
+    - Update booking status to `fully_paid`
     - Update `amount_paid` on booking
     - Mark selected dates as `booked` in availability
     - Send confirmation email
@@ -310,14 +318,11 @@ The homepage shall display the following sections in order:
     - Release dates back to `available`
   - Signature verification on all webhook requests
   - Idempotency: store `stripe_session_id` to prevent double-processing
-- **Checkout Session metadata**: booking_id, payment_type (deposit/full)
+- **Checkout Session metadata**: booking_id
 - **Session expiration**: 30 minutes
 - **Refunds**: Initiated by admin from admin panel, calls Stripe Refunds API
 
-#### FR-010: Remaining Balance Collection
-- For deposit-paid bookings, admin can generate a payment link for remaining balance
-- Payment link creates a new Checkout Session for the outstanding amount
-- Future enhancement: automated email 30 days before check-in with payment link
+> **Note:** Deposit payment option and `PaymentReminderJob` have been removed. The `deposit_amount_cents` and `deposit_percentage` columns remain in the database schema for potential future use but are not currently utilized.
 
 ---
 
@@ -369,7 +374,7 @@ All admin routes are under `/admin` and require Devise authentication. CanCanCan
 - **Details tab**: Edit property name, tagline, description (rich text), address, city, zip, coordinates, bedrooms, bathrooms, max guests, square footage, check-in/out times
 - **Photos tab**: Drag-and-drop upload via Active Storage, sortable grid with drag handles, category assignment (Hero, Exterior, Interior, Bedroom, Bathroom, Kitchen, Living, Outdoor, Amenity, Aerial), alt text editing, delete with confirmation
 - **Amenities tab**: CRUD list with name, description, icon selection, category (Wellness, Outdoor, Kitchen, Comfort, Workspace, Entertainment, Safety), featured toggle, drag-to-reorder
-- **Pricing tab**: Base price per night, cleaning fee, deposit percentage, min/max nights. Seasonal pricing table: add/edit/delete date ranges with custom nightly rate and optional min-night override
+- **Pricing tab**: Base price per night, cleaning fee, min/max nights. Seasonal pricing table: add/edit/delete date ranges with custom nightly rate and optional min-night override
 
 #### FR-016: Testimonial Management (`/admin/testimonials`)
 - CRUD for testimonials: author name, title, photo upload, quote text, rating (1-5), retreat type, featured toggle, sort order
@@ -399,7 +404,7 @@ All emails sent via Action Mailer.
 |-------|---------|-----------|---------|
 | Booking Confirmation | Successful payment webhook | Guest | Confirmation #, dates, amount paid, property details, check-in instructions |
 | Booking Reminder | 7 days before check-in (Sidekiq scheduled) | Guest | Upcoming stay reminder, check-in time, directions |
-| Payment Reminder | Admin-triggered or 30 days before check-in | Guest | Outstanding balance, payment link |
+| Payment Reminder | Admin-triggered | Guest | Outstanding balance, payment link |
 | Inquiry Received | Inquiry form submitted | Guest | Thank you, expected response time |
 | New Inquiry Alert | Inquiry form submitted | Admin | Inquiry details, link to admin panel |
 | New Booking Alert | Booking created | Admin | Booking details, link to admin panel |
@@ -463,7 +468,7 @@ property ──────────────┬── property_images
 | square_feet | integer | | |
 | base_price_cents | integer | not null | Price per night in cents |
 | cleaning_fee_cents | integer | not null, default: 0 | |
-| deposit_percentage | integer | default: 25 | |
+| deposit_percentage | integer | default: 25 | ⚠️ Not currently used (deposit feature removed) |
 | min_nights | integer | default: 2 | |
 | max_nights | integer | default: 30 | |
 | check_in_time | string | default: "3:00 PM" | |
@@ -540,9 +545,9 @@ property ──────────────┬── property_images
 | cleaning_fee_cents | integer | not null | |
 | taxes_cents | integer | not null | |
 | total_cents | integer | not null | |
-| deposit_amount_cents | integer | not null | |
+| deposit_amount_cents | integer | not null | ⚠️ Not currently used (deposit feature removed) |
 | amount_paid_cents | integer | default: 0 | |
-| status | enum | not null, default: pending | pending, deposit_paid, fully_paid, confirmed, checked_in, completed, cancelled, refunded |
+| status | enum | not null, default: pending | pending, ~~deposit_paid~~, fully_paid, confirmed, checked_in, completed, cancelled, refunded |
 | stripe_checkout_session_id | string | | |
 | stripe_payment_intent_id | string | | |
 | admin_notes | text | | Internal notes |
@@ -789,8 +794,8 @@ property ──────────────┬── property_images
 ✅ - **Deliverable**: Users can view calendar, see prices, submit bookings and inquiries
 
 ### Phase 3: Stripe & Email (Week 5)
-- Stripe gem setup, `StripeService` for checkout session creation
-- `/book/:id/payment` page with deposit/full options
+- Stripe gem setup, `StripeService` for checkout session creation (full payment only)
+- `/book/:id/payment` page with full payment option
 - `/book/:id/confirmation` page
 - Stripe webhook controller with signature verification
 - Post-payment logic: update booking, mark availability, send emails
@@ -939,7 +944,7 @@ colorado_rent/
 │   │   └── admin_mailer.rb
 │   ├── jobs/
 │   │   ├── booking_reminder_job.rb
-│   │   └── payment_reminder_job.rb
+│   │   └── ~~payment_reminder_job.rb~~ (removed)
 │   ├── views/
 │   │   ├── layouts/
 │   │   ├── pages/
