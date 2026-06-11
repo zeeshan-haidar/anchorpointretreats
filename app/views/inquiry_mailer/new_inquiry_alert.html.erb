@@ -11,9 +11,7 @@
     .content { padding: 30px; background-color: #FFFFFF; }
     .card { background-color: #EAF0EA; padding: 20px; margin: 20px 0; }
     .card h3 { font-family: Lora, serif; color: #312B24; margin: 0 0 15px 0; }
-    .detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-    .detail-label { color: #747474; }
-    .detail-value { font-weight: 600; }
+
     .footer { text-align: center; padding: 20px; color: #747474; font-size: 13px; }
     hr { border: none; border-top: 1px solid #D6D1CC; margin: 20px 0; }
   </style>
@@ -28,48 +26,52 @@
 
       <div class="card">
         <h3>Guest Information</h3>
-        <div class="detail-row">
-          <span class="detail-label">Name</span>
-          <span class="detail-value"><%= @inquiry.name %></span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Email</span>
-          <span class="detail-value"><%= @inquiry.email %></span>
-        </div>
-        <% if @inquiry.phone.present? %>
-          <div class="detail-row">
-            <span class="detail-label">Phone</span>
-            <span class="detail-value"><%= @inquiry.phone %></span>
-          </div>
-        <% end %>
-        <% if @inquiry.company.present? %>
-          <div class="detail-row">
-            <span class="detail-label">Company</span>
-            <span class="detail-value"><%= @inquiry.company %></span>
-          </div>
-        <% end %>
-        <% if @inquiry.retreat_type.present? %>
-          <div class="detail-row">
-            <span class="detail-label">Retreat Type</span>
-            <span class="detail-value"><%= @inquiry.retreat_type.titleize %></span>
-          </div>
-        <% end %>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Name</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.name %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Email</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.email %></td>
+          </tr>
+          <% if @inquiry.phone.present? %>
+            <tr>
+              <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Phone</td>
+              <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.phone %></td>
+            </tr>
+          <% end %>
+          <% if @inquiry.company.present? %>
+            <tr>
+              <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Company</td>
+              <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.company %></td>
+            </tr>
+          <% end %>
+          <% if @inquiry.retreat_type.present? %>
+            <tr>
+              <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Retreat Type</td>
+              <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.retreat_type.titleize %></td>
+            </tr>
+          <% end %>
+        </table>
       </div>
 
       <div class="card">
         <h3>Inquiry Details</h3>
-        <% if @inquiry.preferred_dates.present? %>
-          <div class="detail-row">
-            <span class="detail-label">Preferred Dates</span>
-            <span class="detail-value"><%= @inquiry.preferred_dates %></span>
-          </div>
-        <% end %>
-        <% if @inquiry.group_size.present? %>
-          <div class="detail-row">
-            <span class="detail-label">Group Size</span>
-            <span class="detail-value"><%= @inquiry.group_size %></span>
-          </div>
-        <% end %>
+        <table style="width: 100%; border-collapse: collapse;">
+          <% if @inquiry.preferred_dates.present? %>
+            <tr>
+              <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Preferred Dates</td>
+              <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.preferred_dates %></td>
+            </tr>
+          <% end %>
+          <% if @inquiry.group_size.present? %>
+            <tr>
+              <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Group Size</td>
+              <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @inquiry.group_size %></td>
+            </tr>
+          <% end %>
+        </table>
         <p style="margin-top: 12px;"><strong>Message:</strong></p>
         <p><%= @inquiry.message %></p>
       </div>

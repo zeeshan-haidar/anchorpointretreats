@@ -11,9 +11,7 @@
     .content { padding: 30px; background-color: #FFFFFF; }
     .card { background-color: #EAF0EA; padding: 20px; border-radius: 0; margin: 20px 0; }
     .card h3 { font-family: Lora, serif; color: #312B24; margin: 0 0 15px 0; }
-    .detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-    .detail-label { color: #747474; font-weight: 400; }
-    .detail-value { font-weight: 600; }
+
     .confirmation-number { font-size: 24px; font-weight: 700; color: #64734F; text-align: center; margin: 20px 0; }
     .badge { display: inline-block; padding: 6px 16px; background-color: #64734F; color: #FFFFFF; font-size: 14px; }
     .footer { text-align: center; padding: 20px; color: #747474; font-size: 13px; }
@@ -37,39 +35,45 @@
 
       <div class="card">
         <h3>Stay Details</h3>
-        <div class="detail-row">
-          <span class="detail-label">Property</span>
-          <span class="detail-value"><%= @property.name %></span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Check-in</span>
-          <span class="detail-value"><%= @booking.check_in.strftime("%A, %B %d, %Y") %></span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Check-out</span>
-          <span class="detail-value"><%= @booking.check_out.strftime("%A, %B %d, %Y") %></span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Nights</span>
-          <span class="detail-value"><%= @booking.num_nights %></span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Guests</span>
-          <span class="detail-value"><%= @booking.num_guests %></span>
-        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Property</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @property.name %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Check-in</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @booking.check_in.strftime("%A, %B %d, %Y") %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Check-out</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @booking.check_out.strftime("%A, %B %d, %Y") %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Nights</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @booking.num_nights %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Guests</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @booking.num_guests %></td>
+          </tr>
+        </table>
       </div>
 
       <div class="card">
         <h3>Payment Summary</h3>
-        <div class="detail-row">
-          <span class="detail-label">Amount Paid</span>
-          <span class="detail-value"><%= @amount_paid %></span>
-        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Amount Paid</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @amount_paid %></td>
+          </tr>
+          <% if @balance_due %>
+            <tr>
+              <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Balance Due</td>
+              <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @balance_due %></td>
+            </tr>
+          <% end %>
+        </table>
         <% if @balance_due %>
-          <div class="detail-row">
-            <span class="detail-label">Balance Due</span>
-            <span class="detail-value"><%= @balance_due %></span>
-          </div>
           <p style="color: #747474; font-size: 14px; margin-top: 12px;">
             Your remaining balance will be due before check-in. We'll send you a reminder.
           </p>
