@@ -121,6 +121,9 @@ class StripeWebhookService
       )
     end
 
+    # Send refund confirmation email (outside transaction to avoid db lock)
+    BookingMailer.refund_confirmation(booking).deliver_later
+
     OpenStruct.new(success?: true, message: "Booking #{booking.confirmation_number} refunded")
   rescue ActiveRecord::RecordInvalid => e
     OpenStruct.new(success?: false, error: "Failed to process refund: #{e.message}")

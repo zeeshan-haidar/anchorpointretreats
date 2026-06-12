@@ -1,0 +1,68 @@
+<%# app/views/booking_mailer/refund_confirmation.html.erb %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+    body { font-family: 'Inter Tight', Helvetica, Arial, sans-serif; color: #312B24; line-height: 1.6; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .header { text-align: center; padding: 30px 0; background-color: #747474; }
+    .header h1 { color: #FFFFFF; font-family: Lora, serif; font-size: 28px; margin: 0; }
+    .content { padding: 30px; background-color: #FFFFFF; }
+    .card { background-color: #EAF0EA; padding: 20px; border-radius: 0; margin: 20px 0; }
+    .card h3 { font-family: Lora, serif; color: #312B24; margin: 0 0 15px 0; }
+    .confirmation-number { font-size: 24px; font-weight: 700; color: #747474; text-align: center; margin: 20px 0; }
+    .footer { text-align: center; padding: 20px; color: #747474; font-size: 13px; }
+    hr { border: none; border-top: 1px solid #D6D1CC; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Refund Confirmed</h1>
+    </div>
+
+    <div class="content">
+      <p>Dear <strong><%= @booking.guest_name %></strong>,</p>
+      <p>Your booking at <strong>The Anchorpoint Retreat</strong> has been refunded successfully.</p>
+
+      <div class="confirmation-number">
+        <%= @booking.confirmation_number %>
+      </div>
+
+      <div class="card">
+        <h3>Refund Details</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Refund Amount</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @refund_amount %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Original Check-in</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @booking.check_in.strftime("%A, %B %d, %Y") %></td>
+          </tr>
+          <tr>
+            <td style="color: #747474; font-weight: 400; padding: 4px 0; vertical-align: top; white-space: nowrap;">Original Check-out</td>
+            <td style="font-weight: 600; padding: 4px 0; text-align: right; vertical-align: top;"><%= @booking.check_out.strftime("%A, %B %d, %Y") %></td>
+          </tr>
+        </table>
+      </div>
+
+      <p>The refund has been processed and will be returned to your original payment method. Depending on your bank or card issuer, it may take <strong>5–10 business days</strong> to appear on your statement.</p>
+
+      <p>We're sorry to see you go. If you'd like to rebook in the future, we'd be happy to host you.</p>
+
+      <p>Warm regards,<br>The Anchorpoint Retreat Team</p>
+
+      <hr>
+      <p style="color: #747474; font-size: 13px;">
+        This email was sent to <%= @booking.guest_email %>. If you have any questions, please reply to this email.
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; <%= Date.current.year %> The Anchorpoint Retreat. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -34,6 +34,20 @@ class BookingMailer < ApplicationMailer
     )
   end
 
+  # Email: Refund Confirmation
+  # Sent to guest when a booking is refunded via Stripe webhook.
+  # Informs the guest of the refund amount and expected timeline.
+  def refund_confirmation(booking)
+    @booking = booking
+    @property = booking.property
+    @refund_amount = ActionController::Base.helpers.number_to_currency(booking.amount_paid_cents / 100.0)
+
+    mail(
+      to: booking.guest_email,
+      subject: "Refund Processed — #{booking.confirmation_number} — The Anchorpoint Retreat"
+    )
+  end
+
   # Email: Payment Reminder
   # Sent to collect remaining balance on deposit-paid bookings.
   def payment_link(booking, payment_url)

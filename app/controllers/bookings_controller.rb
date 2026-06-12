@@ -108,7 +108,7 @@ class BookingsController < ApplicationController
     redirect_to availability_path, alert: "Booking not found" unless @booking
 
     # Only show confirmation for paid bookings
-    if @booking.pending?
+    if @booking.pending? && @booking.amount_paid_cents.zero?
       redirect_to booking_payment_path(@booking), alert: "Please complete payment first."
     end
   end

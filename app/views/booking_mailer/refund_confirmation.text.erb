@@ -1,0 +1,28 @@
+<%# app/views/booking_mailer/refund_confirmation.text.erb %>
+Refund Confirmed — The Anchorpoint Retreat
+=============================================
+
+Dear <%= @booking.guest_name %>,
+
+Your booking at The Anchorpoint Retreat has been refunded successfully.
+
+Confirmation Number: <%= @booking.confirmation_number %>
+
+REFUND DETAILS
+--------------
+Refund Amount:      <%= @refund_amount %>
+Original Check-in:  <%= @booking.check_in.strftime("%A, %B %d, %Y") %>
+Original Check-out: <%= @booking.check_out.strftime("%A, %B %d, %Y") %>
+
+The refund has been processed and will be returned to your original payment
+method. Depending on your bank or card issuer, it may take 5-10 business days
+to appear on your statement.
+
+We're sorry to see you go. If you'd like to rebook in the future, we'd be happy
+to host you.
+
+Warm regards,
+The Anchorpoint Retreat Team
+
+---
+This email was sent to <%= @booking.guest_email %>.
