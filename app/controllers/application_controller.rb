@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  #before_action :require_password
+  before_action :require_password
 
   private
 
