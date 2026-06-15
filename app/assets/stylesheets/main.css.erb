@@ -901,6 +901,18 @@ button, a, .btn{
     display: none !important;
 }
 
+.nav-item.dropdown .nav-link i {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+}
+
+.nav-item.dropdown.show .nav-link i {
+    transform: rotate(180deg);
+}
+
 .header-logo {
     width: 33%;
     display: flex;

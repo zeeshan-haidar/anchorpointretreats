@@ -18,14 +18,14 @@
         display: block;
     }
     .navbar-cta-container{
-        display: none;
+        display: flex;
     }
     .header-logo{
-        width: 50%;
+        width: 30%;
         justify-content: flex-start;
     }
     .header-logo img{
-        width: 58%;
+        width: 70%;
     }
     .header-logo .navbar-brand{
         justify-content: flex-start;
