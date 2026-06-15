@@ -63,7 +63,14 @@ export default class extends Controller {
     const commonConfig = {
       minDate: "today",
       dateFormat: "Y-m-d",
-      disable: bookedDates.map(d => d)
+      disable: bookedDates.map(d => d),
+      // Add custom class to booked dates so we can style them differently from past dates
+      onDayCreate: (dObj, dStr, fp, dayElem) => {
+        const dateStr = flatpickr.formatDate(dayElem.dateObj, "Y-m-d")
+        if (this.bookedDatesSet.has(dateStr)) {
+          dayElem.classList.add("flatpickr-day--booked")
+        }
+      }
     }
 
     // Check-in datepicker

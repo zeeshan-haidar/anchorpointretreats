@@ -2198,6 +2198,18 @@ CTA STYLE
         font-size: 0.85rem;
     }
 }
+/* Flatpickr custom styles for inquiry form date pickers */
+/* Booked dates shown in red to distinguish from past (greyed out) dates */
+.flatpickr-day.flatpickr-day--booked,
+.flatpickr-day.flatpickr-day--booked:hover {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+    border-radius: 50%;
+    opacity: 0.85;
+    text-decoration: line-through;
+    cursor: not-allowed !important;
+}
+
 /*==================================================
   28.0 Custom Spacing
 ==================================================*/
