@@ -1,7 +1,7 @@
 <%# app/views/pages/faq.html.erb %>
 <% content_for :title, "FAQ — The Anchorpoint Retreat" %>
 
-<section class="section banner-home" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>'); min-height: 40vh;">
+<section class="section banner-home" style="background-image: url('<%= asset_path('home/backg1-1920-900.jpg') %>'); background-position: center center !important; min-height: 40vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">Frequently Asked Questions</h1>
@@ -14,14 +14,18 @@
     <div class="hero-container">
         <div class="accordion" id="faqAccordion">
             <% faqs = [
-                { q: "What is the maximum group size?", a: "The property comfortably accommodates up to 16 guests across 6 bedrooms. For larger groups, please contact us to discuss options." },
-                { q: "What is the cancellation policy?", a: "Full refund if canceled 30+ days before check-in. 50% refund if canceled 14-29 days before. No refund for cancellations within 14 days of check-in." },
-                { q: "Is the property pet-friendly?", a: "Yes! We welcome well-behaved pets with a $150 pet fee. Please let us know in advance so we can prepare your pet amenities." },
-                { q: "What is included in the rental?", a: "The property is fully furnished with linens, towels, kitchen essentials, WiFi, smart TVs, and access to all amenities including the hot tub, sauna, and hiking trails." },
-                { q: "Is cooking equipment provided?", a: "The gourmet kitchen is fully equipped with chef-grade appliances, cookware, dinnerware, and basic pantry items. A private chef can be arranged upon request." },
+                { q: "Where is The Anchorpoint Retreat located?", a: "We're located at 2586 County Road 12, Alma, CO 80420 — about 5 minutes from downtown Alma and about 30 minutes from Breckenridge Ski Resort. The property sits in a quiet alpine valley near the base of Mosquito Pass." },
+                { q: "How many guests can the property accommodate?", a: "The chalet comfortably accommodates up to 4 guests with one bedroom, one bathroom, and a spacious loft that can serve as additional sleeping space. It's ideal for 1–2 couples or small groups." },
+                { q: "What is the cancellation policy?", a: "Full refund if canceled 30+ days before check-in. 50% refund if canceled 14–29 days before check-in. No refund for cancellations within 14 days of check-in. Early departure does not qualify for a refund of unused nights." },
+                { q: "What are the check-in and check-out times?", a: "Check-in is at 3:00 PM and check-out is at 11:00 AM. Early check-in or late check-out may be available upon request." },
+                { q: "Is the property pet-friendly?", a: "Yes, we welcome well-behaved pets with prior approval and a $150 pet fee. Please let us know in advance so we can prepare pet amenities for your arrival." },
+                { q: "What amenities are included?", a: "The chalet comes fully furnished with a full kitchen (butcher block counters, stainless steel appliances), high-speed WiFi, smart TV, electric fireplace, and a spacious loft workspace. The property features 1,080 sq ft of living space with 16-foot ceilings, beetle kill pine accents, mountain views, and frequent wildlife sightings right outside." },
+                { q: "Is there a minimum night requirement?", a: "The minimum stay is 2 nights. During peak seasons (holidays and ski season), a 3–4 night minimum may apply." },
+                { q: "What activities are nearby?", a: "Breckenridge Ski Resort (30 min), Mosquito Pass scenic drives and hiking, Kite Lake trailhead, trout fishing near Fairplay Beach, and year-round outdoor adventure. Wildlife viewing (moose, deer, foxes, mountain birds) is common right from the property." },
+                { q: "Is cooking equipment provided?", a: "The kitchen is fully equipped with cookware, dinnerware, utensils, and basic pantry items. Butcher block counters and stainless steel appliances make cooking enjoyable. A private chef can be arranged upon request." },
                 { q: "How do I book?", a: "Use our availability calendar to select your dates, complete the booking form, and pay a 25% deposit. The remaining balance is due 30 days before check-in." },
-                { q: "What activities are nearby?", a: "Skiing (winter), hiking (summer), hot springs, mountain biking, fishing, Telluride historic district, and year-round festivals. We provide a full activity guide upon booking." },
-                { q: "Is there a minimum night requirement?", a: "The minimum stay is 2 nights. During peak seasons (holidays, ski season), a 3-4 night minimum may apply." },
+                { q: "Is the property suitable for large events?", a: "The retreat is best suited for small groups and quiet stays consistent with county short-stay guidelines. Events must be pre-approved. Please contact us to discuss your needs." },
+                { q: "What type of water and utility systems does the property use?", a: "The chalet operates on well water, underground power, and a septic holding tank. It is designed for short-stay and part-time use, and we ask guests to be mindful of water usage." },
             ] %>
             <% faqs.each_with_index do |faq, idx| %>
                 <div class="accordion-item">

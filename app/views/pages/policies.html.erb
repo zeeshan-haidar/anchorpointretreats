@@ -1,11 +1,11 @@
 <%# app/views/pages/policies.html.erb %>
 <% content_for :title, "Policies — The Anchorpoint Retreat" %>
 
-<section class="section banner-home" style="background-image: url('<%= asset_path('dummy-img-1920x900.jpg') %>'); min-height: 40vh;">
+<section class="section banner-home" style="background-image: url('<%= asset_path('home/backg1-1920-900.jpg') %>'); background-position: center center !important; min-height: 40vh;">
     <div class="hero-container">
         <div class="banner-home-container text-center">
             <h1 class="banner-home-title">Policies</h1>
-            <p class="banner-home-excerpt">Cancellation Policy, House Rules & Terms of Stay</p>
+            <p class="banner-home-excerpt">Cancellation Policy, House Rules &amp; Terms of Stay</p>
         </div>
     </div>
 </section>
@@ -15,31 +15,43 @@
         <h2>Cancellation Policy</h2>
         <ul>
             <li><strong>30+ days before check-in:</strong> Full refund (minus processing fees)</li>
-            <li><strong>14-29 days before check-in:</strong> 50% refund</li>
+            <li><strong>14–29 days before check-in:</strong> 50% refund</li>
             <li><strong>Less than 14 days:</strong> No refund</li>
             <li><strong>Early departure:</strong> No refund for unused nights</li>
         </ul>
 
+        <h2 class="mt-4">Deposit &amp; Payment</h2>
+        <ul>
+            <li>A 25% deposit is required to secure a reservation</li>
+            <li>Full payment is due 30 days before check-in</li>
+            <li>Payment is processed securely through Stripe — we never store credit card details on our servers</li>
+            <li>Prices are subject to change until a booking is confirmed</li>
+        </ul>
+
         <h2 class="mt-4">House Rules</h2>
         <ul>
-            <li>Check-in: 3:00 PM | Check-out: 11:00 AM</li>
-            <li>Quiet hours: 10:00 PM - 8:00 AM</li>
-            <li>Maximum occupancy: 16 guests</li>
+            <li><strong>Check-in:</strong> 3:00 PM | <strong>Check-out:</strong> 11:00 AM</li>
+            <li><strong>Quiet hours:</strong> 10:00 PM – 8:00 AM</li>
+            <li><strong>Maximum occupancy:</strong> 4 guests</li>
             <li>No smoking inside the property</li>
-            <li>Pets welcome with prior approval ($150 fee)</li>
+            <li>Pets welcome with prior approval ($150 pet fee)</li>
             <li>Events must be pre-approved</li>
             <li>Please remove shoes in the entryway</li>
-            <li>Use hot tub cover when not in use</li>
+            <li>Be mindful of water usage (property operates on well water and septic holding tank)</li>
+            <li>Best suited for short-stay and part-time use consistent with Park County guidelines</li>
         </ul>
 
         <h2 class="mt-4">Terms of Stay</h2>
-        <p>By booking The Anchorpoint Retreat, you agree to:</p>
+        <p>By booking The Anchorpoint Retreat at 2586 County Road 12, Alma, CO 80420, you agree to:</p>
         <ul>
             <li>Pay the full balance 30 days before check-in</li>
             <li>Provide a valid credit card for incidentals</li>
             <li>Report any damages promptly</li>
             <li>Follow all house rules and local regulations</li>
             <li>Release the host from liability for accidents or injuries</li>
+            <li>Use the property in accordance with Park County short-stay guidelines</li>
         </ul>
+
+        <p class="mt-4"><em>Last updated: April 2026</em></p>
     </div>
 </section>
