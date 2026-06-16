@@ -116,16 +116,30 @@ export default class extends Controller {
     const dateStr = cell.dataset.date
     const clickedDate = new Date(dateStr + "T12:00:00")
 
-    // If no check-in selected or check-out is before check-in, set as check-in
+    // If a warning is showing, clear it and treat the click as a new check-in
+    if (document.getElementById("min-nights-warning")) {
+      this.clearMinNightsMessage()
+      this.selectedCheckIn = clickedDate
+      this.selectedCheckOut = null
+      this.updateDateDisplays()
+      this.renderCalendar(this.monthData)
+      this.pricingSummaryTarget.innerHTML = '<p class="text-muted">Select your dates to see pricing</p>'
+      this.bookNowBtnTarget.classList.add("disabled-link")
+      this.bookNowBtnTarget.removeAttribute("href")
+      return
+    }
+
+    // Normal selection flow
     if (!this.selectedCheckIn || (this.selectedCheckIn && this.selectedCheckOut)) {
+      // No check-in or both selected — start fresh
       this.selectedCheckIn = clickedDate
       this.selectedCheckOut = null
     } else if (clickedDate <= this.selectedCheckIn) {
-      // Clicked before or on check-in, reset check-in
+      // Clicked before or on check-in — reset check-in
       this.selectedCheckIn = clickedDate
       this.selectedCheckOut = null
     } else {
-      // Calculate nights between check-in and clicked date
+      // Clicked after check-in — validate as check-out
       const diffMs = clickedDate - this.selectedCheckIn
       const diffNights = Math.round(diffMs / (1000 * 60 * 60 * 24))
 
@@ -134,22 +148,17 @@ export default class extends Controller {
         return
       }
 
-      // Check if any dates in the range are unavailable (booked/blocked)
       const unavailableDate = this.findUnavailableInRange(this.selectedCheckIn, clickedDate)
       if (unavailableDate) {
         this.showUnavailableMessage(unavailableDate)
         return
       }
 
-      // Clicked after check-in and meets all requirements, set as check-out
       this.selectedCheckOut = clickedDate
     }
 
     this.updateDateDisplays()
     this.renderCalendar(this.monthData)
-
-    // Clear any previous error message
-    this.clearMinNightsMessage()
 
     if (this.selectedCheckIn && this.selectedCheckOut) {
       this.updatePricing()
@@ -166,7 +175,7 @@ export default class extends Controller {
     msg.id = "min-nights-warning"
     msg.className = "alert alert-warning text-center small py-2 mt-3 mb-0"
     msg.style.cssText = "font-size: 0.875rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 8px 12px; margin-top: 12px;"
-    msg.innerHTML = `Minimum stay is ${this.minNightsValue} nights (you selected ${actualNights}). Please select a later check-out date. <a href="#" data-action="click->availability-calendar#clearSelection" class="text-decoration-underline fw-bold" style="color: #856404;">Clear selection</a>`
+    msg.textContent = `Minimum stay is ${this.minNightsValue} nights (you selected ${actualNights}). Please select a later check-out date.`
 
     // Insert it above the calendar grid
     const calendarGrid = this.calendarGridTarget
@@ -210,7 +219,7 @@ export default class extends Controller {
     msg.id = "min-nights-warning"
     msg.className = "alert alert-warning text-center small py-2 mt-3 mb-0"
     msg.style.cssText = "font-size: 0.875rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 8px 12px; margin-top: 12px;"
-    msg.innerHTML = `${formatted} is already booked. Please select a different date range. <a href="#" data-action="click->availability-calendar#clearSelection" class="text-decoration-underline fw-bold" style="color: #856404;">Clear selection</a>`
+    msg.textContent = `${formatted} is already booked. Please select a different date range.`
 
     const calendarGrid = this.calendarGridTarget
     calendarGrid.parentNode.insertBefore(msg, calendarGrid)
@@ -302,19 +311,6 @@ export default class extends Controller {
 
     this.bookNowBtnTarget.href = url
     this.bookNowBtnTarget.classList.remove("disabled-link")
-  }
-
-  // Clear the current date selection
-  clearSelection(event) {
-    if (event) event.preventDefault()
-    this.selectedCheckIn = null
-    this.selectedCheckOut = null
-    this.clearMinNightsMessage()
-    this.updateDateDisplays()
-    this.renderCalendar(this.monthData)
-    this.pricingSummaryTarget.innerHTML = '<p class="text-muted">Select your dates to see pricing</p>'
-    this.bookNowBtnTarget.classList.add("disabled-link")
-    this.bookNowBtnTarget.removeAttribute("href")
   }
 
   // Check if the selected date range meets minimum nights
