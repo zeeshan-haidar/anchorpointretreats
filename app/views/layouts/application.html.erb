@@ -11,6 +11,7 @@
 
   <%= stylesheet_link_tag "main", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "responsive", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "vendor/bootstrap.bundle.min" %>
   <%= javascript_importmap_tags %>
 </head>
 <body>
@@ -23,7 +24,6 @@
   <%= render "shared/footer" %>
 
   <%= javascript_include_tag "vendor/jquery.min" %>
-  <%= javascript_include_tag "vendor/bootstrap.bundle.min" %>
   <%= javascript_include_tag "vendor/swiper-bundle.min" %>
   <%= javascript_include_tag "vendor/flatpickr.min" %>
   <%= javascript_include_tag "script" %>
