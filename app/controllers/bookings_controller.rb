@@ -107,8 +107,19 @@ class BookingsController < ApplicationController
   def confirmation
     redirect_to availability_path, alert: "Booking not found" unless @booking
 
-    # Only show confirmation for paid bookings
-    if @booking.pending? && @booking.amount_paid_cents.zero?
+    # Fallback: if the booking is still pending but has a Stripe session,
+    # try to sync with Stripe (handles missed webhooks)
+    if @booking.pending? && @booking.stripe_checkout_session_id.present?
+      synced = @booking.sync_with_stripe!
+      if synced
+        flash.now[:notice] = "Payment confirmed! Your booking is all set."
+      end
+    end
+
+    # Only show confirmation for paid bookings.
+    # If they have a Stripe session but sync didn't work yet (still processing),
+    # let them stay on the confirmation page rather than redirecting to payment.
+    if @booking.pending? && @booking.amount_paid_cents.zero? && !@booking.stripe_checkout_session_id.present?
       redirect_to booking_payment_path(@booking), alert: "Please complete payment first."
     end
   end

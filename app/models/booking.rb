@@ -82,4 +82,41 @@ class Booking < ApplicationRecord
   def balance_due_cents
     total_cents - amount_paid_cents
   end
+
+  # Syncs booking status with Stripe if the webhook may have been missed.
+  # Useful as a fallback on the confirmation page, or to run in console.
+  # Also marks availability dates as booked (same as the webhook does).
+  # Returns true if the booking was updated, false otherwise.
+  def sync_with_stripe!
+    return false unless stripe_checkout_session_id.present?
+    return false unless pending?
+
+    session = Stripe::Checkout::Session.retrieve(stripe_checkout_session_id)
+    return false unless session.payment_status == "paid"
+
+    ActiveRecord::Base.transaction do
+      update!(
+        status: :fully_paid,
+        amount_paid_cents: session.amount_total,
+        stripe_payment_intent_id: session.payment_intent
+      )
+
+      # Mark availability dates as booked
+      AvailabilityService.new(property).mark_booked(
+        check_in: check_in,
+        check_out: check_out,
+        booking: self
+      )
+    end
+
+    BookingMailer.confirmation(self).deliver_later
+
+    true
+  rescue Stripe::StripeError => e
+    Rails.logger.warn "[Booking##{id}] Stripe sync failed: #{e.message}"
+    false
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.warn "[Booking##{id}] Stripe sync succeeded but failed to mark availability: #{e.message}"
+    false
+  end
 end

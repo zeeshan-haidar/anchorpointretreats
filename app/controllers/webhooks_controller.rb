@@ -5,6 +5,7 @@
 # Signature verification is handled by StripeWebhookService.
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
+  skip_before_action :require_password
 
   # POST /webhooks/stripe
   # Receives Stripe webhook events, verifies the signature,
