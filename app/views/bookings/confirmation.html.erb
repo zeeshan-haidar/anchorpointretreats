@@ -32,17 +32,17 @@
             <div class="col-md-6">
               <p><strong>Confirmation #:</strong></p>
               <p class="fs-4 fw-bold" style="color: var(--accent-color);"><%= @booking.confirmation_number %></p>
-              <p><strong>Guest Name:</strong> <%= @booking.guest_name %></p>
-              <p><strong>Email:</strong> <%= @booking.guest_email %></p>
-              <p><strong>Check-in:</strong> <%= @booking.check_in.strftime("%A, %B %d, %Y") %></p>
-              <p><strong>Check-out:</strong> <%= @booking.check_out.strftime("%A, %B %d, %Y") %></p>
-              <p><strong>Guests:</strong> <%= @booking.num_guests %></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Guest Name:</strong> <span><%= @booking.guest_name %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Email:</strong> <span><%= @booking.guest_email %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Check-in:</strong> <span><%= @booking.check_in.strftime("%A, %B %d, %Y") %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Check-out:</strong> <span><%= @booking.check_out.strftime("%A, %B %d, %Y") %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Guests:</strong> <span><%= @booking.num_guests %></span></p>
             </div>
             <div class="col-md-6">
-              <p><strong>Number of Nights:</strong> <%= @booking.num_nights %></p>
-              <p><strong>Total:</strong> <%= number_to_currency(@booking.total_cents / 100.0) %></p>
-              <p><strong>Amount Paid:</strong> <%= number_to_currency(@booking.amount_paid_cents / 100.0) %></p>
-              <p><strong>Status:</strong>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Number of Nights:</strong> <span><%= @booking.num_nights %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Total:</strong> <span class="fw-bold" style="color: var(--accent-color);"><%= number_to_currency(@booking.total_cents / 100.0) %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Amount Paid:</strong> <span><%= number_to_currency(@booking.amount_paid_cents / 100.0) %></span></p>
+              <p style="display: flex; gap: 8px;"><strong style="white-space: nowrap;">Status:</strong>
                 <% status_badge_class = case @booking.status
                   when "refunded" then "bg-secondary"
                   when "cancelled" then "bg-danger"
