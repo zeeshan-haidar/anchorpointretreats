@@ -78,7 +78,7 @@
               </div>
               <div class="col-md-6">
                 <%= f.label :group_size, "Group Size", class: "form-label" %>
-                <%= f.number_field :group_size, class: "form-control", placeholder: "Number of guests", min: 1 %>
+                <%= f.select :group_size, [["Select...", ""], ["1 Guest", 1], ["2 Guests", 2], ["3 Guests", 3], ["4 Guests (max)", 4]], {}, { class: "form-select" } %>
               </div>
             </div>
 

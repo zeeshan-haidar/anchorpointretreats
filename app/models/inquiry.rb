@@ -22,6 +22,7 @@ class Inquiry < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :message, presence: true
+  validates :group_size, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 4, allow_nil: true, message: "must be between 1 and 4" }
 
   scope :newest_first, -> { order(created_at: :desc) }
   scope :unread, -> { where(status: :new_inquiry) }
