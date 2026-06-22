@@ -1,0 +1,11 @@
+<%# app/views/admin/shared/_topbar.html.erb %>
+<header class="admin-topbar bg-white border-bottom px-4 py-2 d-flex align-items-center justify-content-between">
+  <div>
+    <h6 class="mb-0 fw-semibold" style="color: #312B24;">
+      <%= content_for?(:page_title) ? yield(:page_title) : "Admin" %>
+    </h6>
+  </div>
+  <div class="d-flex align-items-center gap-3">
+    <%= link_to "View Site", root_path, target: "_blank", class: "btn btn-sm btn-outline-secondary", style: "border-radius: 6px;" %>
+  </div>
+</header>

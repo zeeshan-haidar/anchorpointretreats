@@ -1,0 +1,114 @@
+<%# admin/property/edit.html.erb %>
+<% content_for :page_title, "Edit Property" %>
+
+<div class="row">
+  <div class="col-12 col-lg-8">
+    <div class="admin-card">
+      <div class="admin-card-header">Property Details</div>
+      <div class="admin-card-body">
+        <%= form_with model: @property, url: admin_property_path, method: :patch, class: "admin-form" do |f| %>
+          <div class="row g-3">
+            <div class="col-12">
+              <%= f.label :name, "Property Name", class: "form-label" %>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+            <div class="col-12">
+              <%= f.label :tagline, "Tagline", class: "form-label" %>
+              <%= f.text_field :tagline, class: "form-control", placeholder: "Tagline shown on homepage hero" %>
+            </div>
+            <div class="col-12">
+              <%= f.label :short_description, "Short Description", class: "form-label" %>
+              <%= f.text_field :short_description, class: "form-control", placeholder: "For meta tags and cards" %>
+            </div>
+            <div class="col-12">
+              <%= f.label :description, "Description (rich text)", class: "form-label" %>
+              <%= f.text_area :description, rows: 10, class: "form-control" %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :address, "Address", class: "form-label" %>
+              <%= f.text_field :address, class: "form-control" %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :city, "City", class: "form-label" %>
+              <%= f.text_field :city, class: "form-control" %>
+            </div>
+            <div class="col-md-1">
+              <%= f.label :state, "State", class: "form-label" %>
+              <%= f.text_field :state, class: "form-control" %>
+            </div>
+            <div class="col-md-2">
+              <%= f.label :zip, "ZIP", class: "form-label" %>
+              <%= f.text_field :zip, class: "form-control" %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :latitude, "Latitude", class: "form-label" %>
+              <%= f.text_field :latitude, class: "form-control", placeholder: "e.g., 37.9375" %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :longitude, "Longitude", class: "form-label" %>
+              <%= f.text_field :longitude, class: "form-control", placeholder: "e.g., -107.8459" %>
+            </div>
+          </div>
+
+          <hr class="my-3">
+          <h6 class="fw-semibold mb-3">Specifications</h6>
+
+          <div class="row g-3">
+            <div class="col-md-3">
+              <%= f.label :bedrooms, "Bedrooms", class: "form-label" %>
+              <%= f.number_field :bedrooms, class: "form-control", min: 0 %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :bathrooms, "Bathrooms", class: "form-label" %>
+              <%= f.number_field :bathrooms, class: "form-control", min: 0 %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :max_guests, "Max Guests", class: "form-label" %>
+              <%= f.number_field :max_guests, class: "form-control", min: 0 %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :square_feet, "Square Feet", class: "form-label" %>
+              <%= f.number_field :square_feet, class: "form-control", min: 0 %>
+            </div>
+          </div>
+
+          <hr class="my-3">
+          <h6 class="fw-semibold mb-3">Pricing & Policies</h6>
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <%= f.label :base_price_cents, "Base Price per Night (cents)", class: "form-label" %>
+              <%= f.number_field :base_price_cents, class: "form-control", min: 0 %>
+              <small class="text-muted">e.g., 150000 = $1,500/night</small>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :cleaning_fee_cents, "Cleaning Fee (cents)", class: "form-label" %>
+              <%= f.number_field :cleaning_fee_cents, class: "form-control", min: 0 %>
+              <small class="text-muted">e.g., 35000 = $350</small>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :min_nights, "Min Nights", class: "form-label" %>
+              <%= f.number_field :min_nights, class: "form-control", min: 1 %>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :max_nights, "Max Nights", class: "form-label" %>
+              <%= f.number_field :max_nights, class: "form-control", min: 1 %>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :check_in_time, "Check-in Time", class: "form-label" %>
+              <%= f.text_field :check_in_time, class: "form-control", placeholder: "3:00 PM" %>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :check_out_time, "Check-out Time", class: "form-label" %>
+              <%= f.text_field :check_out_time, class: "form-control", placeholder: "11:00 AM" %>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <%= f.submit "Save Property", class: "btn btn-primary admin-btn" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

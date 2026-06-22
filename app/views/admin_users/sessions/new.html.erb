@@ -1,0 +1,71 @@
+<%# admin/devise/sessions/new.html.erb %>
+<% content_for :page_title, "Admin Login" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Login / The Anchorpoint Retreat</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "main", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "responsive", "data-turbo-track": "reload" %>
+</head>
+<body style="background-color: #1A312A;">
+  <div class="container-fluid d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+      <div class="text-center mb-4">
+        <h2 class="text-white fw-bold" style="font-family: Lora, serif;">Anchorpoint Retreat</h2>
+        <p class="text-white-50">Admin Panel</p>
+      </div>
+
+      <div class="card border-0" style="border-radius: 12px;">
+        <div class="card-body p-4">
+          <% flash.each do |type, message| %>
+            <div class="alert alert-<%= type == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show py-2" role="alert">
+              <%= message %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "admin-form") do |f| %>
+            <div class="mb-3">
+              <%= f.label :email, class: "form-label" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                                class: "form-control",
+                                placeholder: "admin@example.com" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :password, class: "form-label" %>
+              <%= f.password_field :password, autocomplete: "current-password",
+                                   class: "form-control",
+                                   placeholder: "Enter your password" %>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+              <div class="mb-3 form-check">
+                <%= f.check_box :remember_me, class: "form-check-input" %>
+                <%= f.label :remember_me, class: "form-check-label" %>
+              </div>
+            <% end %>
+
+            <div class="d-grid">
+              <%= f.submit "Sign In", class: "btn btn-primary py-2", style: "background-color: #64734F; border-color: #64734F; border-radius: 6px;" %>
+            </div>
+          <% end %>
+
+          <div class="mt-3 text-center">
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center text-white-50 mt-3" style="font-size: 0.8rem;">
+        <%= link_to "← Back to Website", root_path, class: "text-white-50" %>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

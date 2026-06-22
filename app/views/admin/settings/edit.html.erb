@@ -1,0 +1,87 @@
+<%# admin/settings/edit.html.erb %>
+<% content_for :page_title, "Settings" %>
+
+<div class="row g-3">
+  <%# Profile Settings %>
+  <div class="col-12 col-lg-6">
+    <div class="admin-card">
+      <div class="admin-card-header">Your Profile</div>
+      <div class="admin-card-body">
+        <%= form_with model: @current_admin, url: admin_settings_path, method: :patch, class: "admin-form" do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :email, "Email", class: "form-label" %>
+            <%= f.email_field :email, class: "form-control" %>
+          </div>
+          <hr>
+          <p class="small text-muted">Leave blank if you don't want to change your password.</p>
+          <div class="mb-3">
+            <%= f.label :password, "New Password", class: "form-label" %>
+            <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
+            <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+          </div>
+          <hr>
+          <div class="mb-3">
+            <%= f.label :current_password, "Current Password (required to save)", class: "form-label" %>
+            <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %>
+          </div>
+          <div>
+            <%= f.submit "Save Settings", class: "btn btn-primary admin-btn" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%# Admin Users (super_admin only) %>
+  <div class="col-12 col-lg-6">
+    <div class="admin-card">
+      <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span>Admin Users</span>
+        <% if current_admin_user.super_admin? %>
+          <span class="badge badge-completed">Super Admin</span>
+        <% end %>
+      </div>
+      <div class="admin-card-body p-0">
+        <table class="admin-table mb-0">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Last Sign In</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @admin_users.any? %>
+              <% @admin_users.each do |user| %>
+                <tr>
+                  <td class="fw-medium"><%= user.name %></td>
+                  <td><%= user.email %></td>
+                  <td>
+                    <% if user.super_admin? %>
+                      <span class="badge bg-dark">Super Admin</span>
+                    <% else %>
+                      <span class="badge bg-secondary">Admin</span>
+                    <% end %>
+                  </td>
+                  <td><%= user.last_sign_in_at&.strftime("%b %d, %Y") || "Never" %></td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="text-center text-muted py-3">No admin users.</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

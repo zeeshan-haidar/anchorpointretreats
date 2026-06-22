@@ -1,0 +1,58 @@
+<%# admin/testimonials/index.html.erb %>
+<% content_for :page_title, "Testimonials" %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <p class="text-muted mb-0 small"><%= @testimonials.count %> testimonial(s)</p>
+  <%= link_to "Add Testimonial", new_admin_testimonial_path, class: "btn btn-primary admin-btn btn-sm" %>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-body p-0">
+    <table class="admin-table mb-0">
+      <thead>
+        <tr>
+          <th>Author</th>
+          <th>Title</th>
+          <th>Rating</th>
+          <th>Featured</th>
+          <th>Sort</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @testimonials.any? %>
+          <% @testimonials.each do |testimonial| %>
+            <tr>
+              <td class="fw-medium"><%= testimonial.author_name %></td>
+              <td class="text-muted"><%= testimonial.author_title || "—" %></td>
+              <td>
+                <% testimonial.rating.times do %>
+                  <i class="fa-solid fa-star" style="color: #f59e0b; font-size: 0.75rem;"></i>
+                <% end %>
+              </td>
+              <td>
+                <% if testimonial.featured? %>
+                  <span class="badge badge-completed">Featured</span>
+                <% else %>
+                  <span class="text-muted">—</span>
+                <% end %>
+              </td>
+              <td><%= testimonial.sort_order %></td>
+              <td class="action-links">
+                <%= link_to "Edit", edit_admin_testimonial_path(testimonial) %>
+                <%= button_to "Delete", admin_testimonial_path(testimonial),
+                              method: :delete,
+                              data: { confirm: "Delete this testimonial?" },
+                              class: "btn btn-sm btn-link text-danger p-0 border-0" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">No testimonials yet.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

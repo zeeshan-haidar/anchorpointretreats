@@ -1,0 +1,48 @@
+<%# app/views/admin/shared/_sidebar.html.erb %>
+<% current_path = request.path %>
+
+<aside class="admin-sidebar bg-dark text-white d-flex flex-column" style="width: 260px; min-height: 100vh;">
+  <div class="admin-sidebar-header p-3 border-bottom border-secondary">
+    <a href="<%= admin_root_path %>" class="text-decoration-none text-white">
+      <h5 class="mb-0 fw-bold">Anchorpoint Retreat</h5>
+      <small class="text-muted">Admin Panel</small>
+    </a>
+  </div>
+
+  <nav class="admin-sidebar-nav flex-grow-1 p-3">
+    <ul class="nav flex-column">
+      <% nav_items = [
+        { label: "Dashboard", path: admin_root_path, icon: "fa-solid fa-gauge" },
+        { label: "Calendar", path: admin_calendar_index_path, icon: "fa-solid fa-calendar-days" },
+        { label: "Bookings", path: admin_bookings_path, icon: "fa-solid fa-book" },
+        { label: "Inquiries", path: admin_inquiries_path, icon: "fa-solid fa-envelope" },
+        { label: "Property", path: edit_admin_property_path, icon: "fa-solid fa-house-chimney" },
+        { label: "Pricing", path: admin_property_seasonal_pricings_path, icon: "fa-solid fa-tag" },
+        { label: "Settings", path: edit_admin_settings_path, icon: "fa-solid fa-gear" },
+      ] %>
+
+      <% nav_items.each do |item| %>
+        <li class="nav-item mb-1">
+          <a href="<%= item[:path] %>"
+             class="nav-link text-white <%= 'active bg-success' if current_path == item[:path] || (item[:path] != admin_root_path && current_path.start_with?(item[:path] + '/')) || (item[:label] == 'Property' && current_path.start_with?('/admin/property')) %>"
+             style="border-radius: 6px;">
+            <i class="<%= item[:icon] %> me-2" style="width: 20px;"></i>
+            <%= item[:label] %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div class="admin-sidebar-footer p-3 border-top border-secondary">
+    <div class="d-flex align-items-center">
+      <div class="small flex-grow-1">
+        <div class="fw-medium"><%= current_admin_user.name %></div>
+        <div class="text-muted" style="font-size: 0.75rem;"><%= current_admin_user.email %></div>
+      </div>
+      <%= link_to destroy_admin_user_session_path, data: { turbo_method: :delete }, class: "text-white-50 text-decoration-none", title: "Sign out" do %>
+        <i class="fa-solid fa-right-from-bracket"></i>
+      <% end %>
+    </div>
+  </div>
+</aside>

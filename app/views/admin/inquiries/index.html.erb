@@ -1,0 +1,87 @@
+<%# admin/inquiries/index.html.erb %>
+<% content_for :page_title, "Inquiries" %>
+
+<div class="filters-bar mb-4">
+  <%= search_form_for @q, url: admin_inquiries_path, class: "row g-2 align-items-end" do |f| %>
+    <div class="col-auto">
+      <%= f.label :name_or_email_cont, "Search", class: "form-label" %>
+      <%= f.search_field :name_or_email_cont,
+                         placeholder: "Name or email...",
+                         class: "form-control form-control-sm",
+                         style: "width: 220px;" %>
+    </div>
+    <div class="col-auto">
+      <%= f.label :status_eq, "Status", class: "form-label" %>
+      <%= f.select :status_eq,
+                   options_for_select(Inquiry.statuses.map { |k, v| [k.humanize, v] }, params.dig(:q, :status_eq)),
+                   { include_blank: "All Statuses" },
+                   class: "form-select form-select-sm" %>
+    </div>
+    <div class="col-auto d-flex gap-1">
+      <%= f.submit "Filter", class: "btn btn-sm btn-primary admin-btn", style: "margin-top: 24px;" %>
+      <%= link_to "Clear", admin_inquiries_path, class: "btn btn-sm btn-outline-secondary admin-btn", style: "margin-top: 24px;" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-body p-0">
+    <table class="admin-table mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Retreat Type</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @inquiries.any? %>
+          <% @inquiries.each do |inquiry| %>
+            <tr>
+              <td class="fw-medium"><%= inquiry.name %></td>
+              <td><%= mail_to inquiry.email %></td>
+              <td><%= inquiry.retreat_type&.humanize || "—" %></td>
+              <td><%= inquiry.created_at.strftime("%b %d, %Y") %></td>
+              <td><span class="badge badge-<%= inquiry.status %>"><%= inquiry.status.humanize %></span></td>
+              <td class="action-links">
+                <%= link_to "View", admin_inquiry_path(inquiry) %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">No inquiries found.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%# Pagination %>
+  <% if @pagy.pages > 1 %>
+  <div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Pages nav">
+      <ul class="pagination">
+        <% if @pagy.page > 1 %>
+          <li class="page-item"><%= link_to "« Prev", url_for(page: @pagy.page - 1), class: "page-link", rel: "prev" %></li>
+        <% else %>
+          <li class="page-item disabled"><span class="page-link">« Prev</span></li>
+        <% end %>
+        <% (1..@pagy.pages).each do |p| %>
+          <li class="page-item<%= ' active' if p == @pagy.page %>">
+            <%= link_to p, url_for(page: p), class: "page-link" %>
+          </li>
+        <% end %>
+        <% if @pagy.page < @pagy.pages %>
+          <li class="page-item"><%= link_to "Next »", url_for(page: @pagy.page + 1), class: "page-link", rel: "next" %></li>
+        <% else %>
+          <li class="page-item disabled"><span class="page-link">Next »</span></li>
+        <% end %>
+      </ul>
+    </nav>
+</div>
+<% end %>

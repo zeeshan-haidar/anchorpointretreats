@@ -111,9 +111,10 @@ class StripeWebhookService
     return OpenStruct.new(success?: false, error: "Booking not found for payment intent #{payment_intent}") unless booking
 
     property = booking.property
+    refund_amount_cents = booking.amount_paid_cents
 
     ActiveRecord::Base.transaction do
-      booking.update!(status: :refunded)
+      booking.update!(status: :refunded, amount_paid_cents: 0)
 
       AvailabilityService.new(property).mark_available(
         check_in: booking.check_in,
@@ -121,8 +122,10 @@ class StripeWebhookService
       )
     end
 
-    # Send refund confirmation email (outside transaction to avoid db lock)
-    BookingMailer.refund_confirmation(booking).deliver_later
+    # Only send refund confirmation email if admin hasn't already sent one
+    unless booking.admin_notes&.include?("Refunded via admin panel")
+      BookingMailer.refund_confirmation(booking, refund_amount_cents: refund_amount_cents).deliver_later
+    end
 
     OpenStruct.new(success?: true, message: "Booking #{booking.confirmation_number} refunded")
   rescue ActiveRecord::RecordInvalid => e

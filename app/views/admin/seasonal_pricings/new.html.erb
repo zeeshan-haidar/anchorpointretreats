@@ -1,0 +1,41 @@
+<%# admin/seasonal_pricings/new.html.erb %>
+<% content_for :page_title, "Add Seasonal Pricing" %>
+
+<div class="row">
+  <div class="col-12 col-lg-6">
+    <div class="admin-card">
+      <div class="admin-card-header">New Pricing Rule</div>
+      <div class="admin-card-body">
+        <%= form_with model: @seasonal_pricing, url: admin_property_seasonal_pricings_path, class: "admin-form" do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "e.g., Peak Ski Season" %>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <%= f.label :start_date, "Start Date", class: "form-label" %>
+              <%= f.date_field :start_date, class: "form-control" %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :end_date, "End Date", class: "form-label" %>
+              <%= f.date_field :end_date, class: "form-control" %>
+            </div>
+          </div>
+          <div class="mb-3">
+            <%= f.label :price_per_night_cents, "Price per Night (cents)", class: "form-label" %>
+            <%= f.number_field :price_per_night_cents, class: "form-control", min: 0 %>
+            <small class="text-muted">e.g., 200000 = $2,000/night</small>
+          </div>
+          <div class="mb-3">
+            <%= f.label :min_nights, "Min Nights (leave blank to use default)", class: "form-label" %>
+            <%= f.number_field :min_nights, class: "form-control", min: 1 %>
+          </div>
+          <div>
+            <%= f.submit "Add Pricing", class: "btn btn-primary admin-btn" %>
+            <%= link_to "Cancel", admin_property_seasonal_pricings_path, class: "btn btn-outline-secondary admin-btn ms-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<%# admin/photos/new.html.erb %>
+<% content_for :page_title, "Add Photo" %>
+
+<div class="row">
+  <div class="col-12 col-lg-6">
+    <div class="admin-card">
+      <div class="admin-card-header">Upload Photo</div>
+      <div class="admin-card-body">
+        <%= form_with model: @photo, url: admin_property_photos_path, class: "admin-form" do |f| %>
+          <div class="mb-3">
+            <%= f.label :image, "Photo File", class: "form-label" %>
+            <%= f.file_field :image, accept: "image/*", class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :category, "Category", class: "form-label" %>
+            <%= f.select :category,
+                         options_for_select(PropertyImage.categories.map { |k, v| [k.humanize, k] }),
+                         {}, class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :alt_text, "Alt Text", class: "form-label" %>
+            <%= f.text_field :alt_text, class: "form-control", placeholder: "Descriptive text for accessibility" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :caption, "Caption (optional)", class: "form-label" %>
+            <%= f.text_field :caption, class: "form-control", placeholder: "Photo caption" %>
+          </div>
+          <div>
+            <%= f.submit "Upload Photo", class: "btn btn-primary admin-btn" %>
+            <%= link_to "Cancel", admin_property_photos_path, class: "btn btn-outline-secondary admin-btn ms-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

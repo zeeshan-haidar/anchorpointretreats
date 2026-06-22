@@ -1,0 +1,35 @@
+<%# admin/content/index.html.erb %>
+<% content_for :page_title, "Site Content" %>
+
+<p class="text-muted small mb-3">Edit site-wide text content. Changes take effect immediately.</p>
+
+<div class="admin-card">
+  <div class="admin-card-body">
+    <% if @site_contents.any? %>
+      <% @site_contents.each do |content| %>
+        <div class="mb-4 pb-3 border-bottom">
+          <%= form_with model: content, url: admin_content_path(content), method: :patch, class: "admin-form" do |f| %>
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <label class="form-label mb-0">
+                <code class="fw-medium" style="color: #312B24;"><%= content.key %></code>
+                <span class="badge bg-light text-dark ms-2" style="font-size: 0.65rem;"><%= content.content_type %></span>
+              </label>
+            </div>
+            <% if content.content_type == "text" || content.content_type.blank? %>
+              <%= f.text_area :value, rows: 2, class: "form-control form-control-sm", style: "max-width: 600px;" %>
+            <% elsif content.content_type == "html" %>
+              <%= f.text_area :value, rows: 4, class: "form-control form-control-sm font-monospace", style: "max-width: 600px; font-size: 0.8rem;" %>
+            <% else %>
+              <%= f.text_field :value, class: "form-control form-control-sm", style: "max-width: 400px;" %>
+            <% end %>
+            <div class="mt-1">
+              <%= f.submit "Save", class: "btn btn-sm btn-primary admin-btn", style: "font-size: 0.75rem;" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted text-center py-3">No site content entries found. Add them in seeds.rb.</p>
+    <% end %>
+  </div>
+</div>

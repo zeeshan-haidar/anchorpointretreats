@@ -1,0 +1,52 @@
+<%# admin/testimonials/new.html.erb %>
+<% content_for :page_title, "Add Testimonial" %>
+
+<div class="row">
+  <div class="col-12 col-lg-6">
+    <div class="admin-card">
+      <div class="admin-card-header">New Testimonial</div>
+      <div class="admin-card-body">
+        <%= form_with model: @testimonial, url: admin_testimonials_path, class: "admin-form" do |f| %>
+          <div class="mb-3">
+            <%= f.label :author_name, "Author Name", class: "form-label" %>
+            <%= f.text_field :author_name, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :author_title, "Author Title", class: "form-label" %>
+            <%= f.text_field :author_title, class: "form-control", placeholder: "e.g., CEO, Acme Corp" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :image, "Author Photo", class: "form-label" %>
+            <%= f.file_field :image, accept: "image/*", class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :content, "Testimonial Text", class: "form-label" %>
+            <%= f.text_area :content, rows: 4, class: "form-control" %>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <%= f.label :rating, "Rating (1-5)", class: "form-label" %>
+              <%= f.number_field :rating, class: "form-control", min: 1, max: 5 %>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :retreat_type, "Retreat Type", class: "form-label" %>
+              <%= f.select :retreat_type,
+                           options_for_select(["", "Corporate", "Wellness", "Private", "Other"]),
+                           {}, class: "form-select" %>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <div class="form-check">
+                <%= f.check_box :featured, class: "form-check-input" %>
+                <%= f.label :featured, "Featured", class: "form-check-label" %>
+              </div>
+            </div>
+          </div>
+          <div>
+            <%= f.submit "Add Testimonial", class: "btn btn-primary admin-btn" %>
+            <%= link_to "Cancel", admin_testimonials_path, class: "btn btn-outline-secondary admin-btn ms-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

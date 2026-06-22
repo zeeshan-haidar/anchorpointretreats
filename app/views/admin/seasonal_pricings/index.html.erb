@@ -1,0 +1,50 @@
+<%# admin/seasonal_pricings/index.html.erb %>
+<% content_for :page_title, "Seasonal Pricing" %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <p class="text-muted mb-0 small">
+    Base nightly rate: <strong><%= number_to_currency(Property.first&.base_price_cents.to_i / 100.0) %></strong>
+  </p>
+  <%= link_to "Add Pricing", new_admin_property_seasonal_pricing_path, class: "btn btn-primary admin-btn btn-sm" %>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-body p-0">
+    <table class="admin-table mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Price/Night</th>
+          <th>Min Nights</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @seasonal_pricings.any? %>
+          <% @seasonal_pricings.each do |pricing| %>
+            <tr>
+              <td class="fw-medium"><%= pricing.name %></td>
+              <td><%= pricing.start_date.strftime("%b %d, %Y") %></td>
+              <td><%= pricing.end_date.strftime("%b %d, %Y") %></td>
+              <td><%= number_to_currency(pricing.price_per_night_cents / 100.0) %></td>
+              <td><%= pricing.min_nights || "—" %></td>
+              <td class="action-links">
+                <%= link_to "Edit", edit_admin_property_seasonal_pricing_path(pricing) %>
+                <%= button_to "Delete", admin_property_seasonal_pricing_path(pricing),
+                              method: :delete,
+                              data: { confirm: "Delete this pricing rule?" },
+                              class: "btn btn-sm btn-link text-danger p-0 border-0" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">No seasonal pricing rules.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

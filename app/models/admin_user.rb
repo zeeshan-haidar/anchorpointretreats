@@ -25,7 +25,7 @@
 #
 class AdminUser < ApplicationRecord
   # Devise modules: :confirmable, :lockable, :timeoutable, :trackable, :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable,
          :recoverable, :rememberable, :validatable, :trackable
 
   enum :role, { admin: 0, super_admin: 1 }

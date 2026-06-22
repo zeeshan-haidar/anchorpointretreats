@@ -1,0 +1,108 @@
+<%# admin/bookings/index.html.erb %>
+<% content_for :page_title, "Bookings" %>
+
+<%# Filters %>
+<div class="filters-bar mb-4">
+  <%= search_form_for @q, url: admin_bookings_path, class: "row g-2 align-items-end" do |f| %>
+    <div class="col-auto">
+      <%= f.label :guest_name_or_guest_email_or_confirmation_number_cont, "Search", class: "form-label" %>
+      <%= f.search_field :guest_name_or_guest_email_or_confirmation_number_cont,
+                         placeholder: "Name, email, or confirmation #",
+                         class: "form-control form-control-sm",
+                         style: "width: 220px;" %>
+    </div>
+    <div class="col-auto">
+      <%= f.label :status_eq, "Status", class: "form-label" %>
+      <%= f.select :status_eq,
+                   options_for_select(Booking.active_statuses.map { |k, v| [k.humanize, v] }, params.dig(:q, :status_eq)),
+                   { include_blank: "All Statuses" },
+                   class: "form-select form-select-sm" %>
+    </div>
+    <div class="col-auto">
+      <%= f.label :check_in_gteq, "From Date", class: "form-label" %>
+      <%= f.date_field :check_in_gteq, class: "form-control form-control-sm", style: "width: 150px;" %>
+    </div>
+    <div class="col-auto">
+      <%= f.label :check_out_lteq, "To Date", class: "form-label" %>
+      <%= f.date_field :check_out_lteq, class: "form-control form-control-sm", style: "width: 150px;" %>
+    </div>
+    <div class="col-auto d-flex gap-1">
+      <%= f.submit "Filter", class: "btn btn-sm btn-primary admin-btn", style: "margin-top: 24px;" %>
+      <%= link_to "Clear", admin_bookings_path, class: "btn btn-sm btn-outline-secondary admin-btn", style: "margin-top: 24px;" %>
+    </div>
+    <div class="col-auto ms-auto">
+      <%= link_to "Export CSV", export_admin_bookings_path(q: params[:q]&.permit(:guest_name_or_guest_email_or_confirmation_number_cont, :status_eq, :check_in_gteq, :check_out_lteq)&.to_h), class: "btn btn-sm btn-outline-success admin-btn", style: "margin-top: 24px;", data: { turbo: false } %>
+    </div>
+  <% end %>
+</div>
+
+<%# Bookings table %>
+<div class="admin-card">
+  <div class="admin-card-body p-0">
+    <table class="admin-table mb-0">
+      <thead>
+        <tr>
+          <th>Confirmation #</th>
+          <th>Guest Name</th>
+          <th>Check In</th>
+          <th>Check Out</th>
+          <th>Guests</th>
+          <th>Total</th>
+          <th>Amount Paid</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @bookings.any? %>
+          <% @bookings.each do |booking| %>
+            <tr>
+              <td class="fw-medium"><%= booking.confirmation_number %></td>
+              <td><%= booking.guest_name %></td>
+              <td><%= booking.check_in.strftime("%b %d, %Y") %></td>
+              <td><%= booking.check_out.strftime("%b %d, %Y") %></td>
+              <td><%= booking.num_guests %></td>
+              <td><%= number_to_currency(booking.total_cents / 100.0) %></td>
+              <td><%= number_to_currency(booking.amount_paid_cents / 100.0) %></td>
+              <td><span class="badge badge-<%= booking.status %>"><%= booking.status.humanize %></span></td>
+              <td><%= booking.created_at.strftime("%b %d") %></td>
+              <td class="action-links">
+                <%= link_to "View", admin_booking_path(booking) %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="10" class="text-center text-muted py-4">No bookings found.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%# Pagination %>
+<% if @pagy.pages > 1 %>
+  <div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Pages nav">
+      <ul class="pagination">
+        <% if @pagy.page > 1 %>
+          <li class="page-item"><%= link_to "« Prev", url_for(page: @pagy.page - 1), class: "page-link", rel: "prev" %></li>
+        <% else %>
+          <li class="page-item disabled"><span class="page-link">« Prev</span></li>
+        <% end %>
+        <% (1..@pagy.pages).each do |p| %>
+          <li class="page-item<%= ' active' if p == @pagy.page %>">
+            <%= link_to p, url_for(page: p), class: "page-link" %>
+          </li>
+        <% end %>
+        <% if @pagy.page < @pagy.pages %>
+          <li class="page-item"><%= link_to "Next »", url_for(page: @pagy.page + 1), class: "page-link", rel: "next" %></li>
+        <% else %>
+          <li class="page-item disabled"><span class="page-link">Next »</span></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+<% end %>

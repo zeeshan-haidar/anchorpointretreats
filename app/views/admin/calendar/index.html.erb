@@ -1,0 +1,117 @@
+<%# admin/calendar/index.html.erb %>
+<% content_for :page_title, "Calendar Management" %>
+
+<div data-controller="admin-calendar">
+<div class="admin-card mb-4">
+  <div class="admin-card-header d-flex justify-content-between align-items-center">
+    <span>
+      <%= link_to admin_calendar_index_path(year: @start_date.prev_month.year, month: @start_date.prev_month.month), class: "btn btn-sm btn-outline-secondary me-2", style: "border-radius: 6px;" do %>
+        <i class="fa-solid fa-chevron-left"></i>
+      <% end %>
+      <strong><%= @start_date.strftime("%B %Y") %></strong>
+      <%= link_to admin_calendar_index_path(year: @start_date.next_month.year, month: @start_date.next_month.month), class: "btn btn-sm btn-outline-secondary ms-2", style: "border-radius: 6px;" do %>
+        <i class="fa-solid fa-chevron-right"></i>
+      <% end %>
+    </span>
+    <div class="d-flex gap-3 align-items-center">
+      <small><span class="status-dot dot-available"></span> Available</small>
+      <small><span class="status-dot dot-booked"></span> Booked</small>
+      <small><span class="status-dot dot-blocked"></span> Blocked</small>
+      <small><span class="status-dot dot-pending"></span> Pending</small>
+    </div>
+  </div>
+  <div class="admin-card-body">
+    <%# Bulk / Single actions %>
+    <div class="mb-3 p-3 bg-light rounded" id="actionBar" style="display: none;" data-admin-calendar-target="actionBar">
+      <div class="d-flex align-items-center gap-3">
+        <span class="fw-medium small" data-admin-calendar-target="actionLabel">Update selected dates:</span>
+        <%# Single date form (PATCH /admin/calendar/:id) %>
+        <form action="<%= admin_calendar_path(Date.current) %>" method="post" data-admin-calendar-target="singleDateForm" data-turbo="false" style="display: none;">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="hidden" name="_method" value="patch">
+          <span class="d-inline-flex align-items-center gap-2 me-3">
+            <select name="status" class="form-select form-select-sm" style="width: auto;">
+              <option value="available">Set Available</option>
+              <option value="blocked">Set Blocked</option>
+            </select>
+            <button type="submit" class="btn btn-sm btn-primary admin-btn">Update</button>
+          </span>
+        </form>
+        <%# Bulk form (POST /admin/calendar/bulk_update) %>
+        <form action="<%= bulk_update_admin_calendar_index_path %>" method="post" data-admin-calendar-target="bulkForm" style="display: none;">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="hidden" name="start_date" data-admin-calendar-target="bulkStartDate">
+          <input type="hidden" name="end_date" data-admin-calendar-target="bulkEndDate">
+          <span class="d-inline-flex align-items-center gap-2">
+            <select name="status" class="form-select form-select-sm" style="width: auto;">
+              <option value="available">Mark Available</option>
+              <option value="blocked">Mark Blocked</option>
+            </select>
+            <button type="submit" class="btn btn-sm btn-success admin-btn">Apply</button>
+          </span>
+        </form>
+        <button type="button" class="btn btn-sm btn-outline-secondary admin-btn" data-action="admin-calendar#cancelBulk">Cancel</button>
+      </div>
+    </div>
+
+    <%# Calendar grid %>
+    <div class="admin-calendar-grid">
+      <%# Day headers %>
+      <div class="row g-1 mb-1">
+        <% %w[Sun Mon Tue Wed Thu Fri Sat].each do |day| %>
+          <div class="col text-center fw-medium small py-2" style="color: #6b7280;">
+            <%= day %>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Calendar days %>
+      <% first_day = @start_date.beginning_of_week(:sunday) %>
+      <% last_day = @end_date.end_of_week(:sunday) %>
+
+      <% (first_day..last_day).each_slice(7) do |week| %>
+        <div class="row g-1 mb-1">
+          <% week.each do |day| %>
+            <div class="col">
+              <% availability = @availabilities[day] %>
+              <% status = availability&.status || "available" %>
+              <% is_current_month = day.month == @month %>
+              <% is_past = day < Date.current %>
+              <% is_today = day == Date.current %>
+              <% status_class = is_current_month ? "day-#{status}" : "day-other-month" %>
+              <% status_class += " day-today" if is_today %>
+              <% status_class += " day-past" if is_past && is_current_month %>
+
+              <div class="calendar-day <%= status_class %>"
+                   data-date="<%= day %>"
+                   data-status="<%= status %>"
+                   style="<%= 'cursor: default;' unless is_current_month && !is_past %>"
+                   data-action="<%= "click->admin-calendar#toggleDateSelection" if is_current_month && !is_past %>">
+                <div class="text-center">
+                  <div class="fw-medium"><%= day.day %></div>
+                  <% if is_current_month && availability&.price_override_cents.present? %>
+                    <small style="font-size: 0.6rem;">$<%= (availability.price_override_cents / 100).to_i %></small>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    Date Legend
+  </div>
+  <div class="admin-card-body">
+    <p class="small text-muted mb-0">
+      <i class="fa-solid fa-info-circle me-1"></i>
+      Click a date to select it. Click a second date to select a range for bulk actions.
+      Booked dates (red) cannot be overridden.
+    </p>
+  </div>
+</div>
+</div>

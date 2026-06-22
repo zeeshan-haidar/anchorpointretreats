@@ -1,0 +1,42 @@
+<%# admin/amenities/new.html.erb %>
+<% content_for :page_title, "Add Amenity" %>
+
+<div class="row">
+  <div class="col-12 col-lg-6">
+    <div class="admin-card">
+      <div class="admin-card-header">New Amenity</div>
+      <div class="admin-card-body">
+        <%= form_with model: @amenity, url: admin_property_amenities_path, class: "admin-form" do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "e.g., Private Hot Tub" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :description, "Description", class: "form-label" %>
+            <%= f.text_field :description, class: "form-control", placeholder: "e.g., Soak under the stars..." %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :icon, "Icon (FontAwesome class)", class: "form-label" %>
+            <%= f.text_field :icon, class: "form-control", placeholder: "e.g., fa-solid fa-hot-tub" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :category, "Category", class: "form-label" %>
+            <%= f.select :category,
+                         options_for_select(Amenity.categories.map { |k, v| [k.humanize, k] }),
+                         {}, class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <%= f.check_box :featured, class: "form-check-input" %>
+              <%= f.label :featured, "Show on homepage", class: "form-check-label" %>
+            </div>
+          </div>
+          <div>
+            <%= f.submit "Add Amenity", class: "btn btn-primary admin-btn" %>
+            <%= link_to "Cancel", admin_property_amenities_path, class: "btn btn-outline-secondary admin-btn ms-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

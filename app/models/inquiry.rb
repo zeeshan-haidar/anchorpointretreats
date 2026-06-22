@@ -26,4 +26,13 @@ class Inquiry < ApplicationRecord
 
   scope :newest_first, -> { order(created_at: :desc) }
   scope :unread, -> { where(status: :new_inquiry) }
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[admin_notes company created_at email group_size id message name phone preferred_dates
+       retreat_type status updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
 end

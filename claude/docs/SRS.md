@@ -1,4 +1,4 @@
-# Software Requirements Specification (SRS)
+yes go # Software Requirements Specification (SRS)
 
 ## The Anchorpoint Retreat — Colorado Property Rental Website
 
@@ -82,18 +82,22 @@
 ### Phase 4: Admin Panel (Week 6-7)
 | Task | Status | Notes |
 |------|--------|-------|
-| Devise setup for AdminUser | ⬜ | |
-| CanCanCan Ability class with role-based permissions | ⬜ | |
-| Admin layout with sidebar navigation | ⬜ | |
-| Dashboard with stats | ⬜ | |
-| Calendar management page | ⬜ | |
-| Bookings CRUD with filters, pagination, status | ⬜ | |
-| Inquiries CRUD with status management | ⬜ | |
-| Property editor (details, photos, amenities, pricing) | ⬜ | |
-| Testimonial management | ⬜ | |
-| Site content editor | ⬜ | |
-| Admin settings + user management | ⬜ | |
-| **Deliverable: Full admin panel** | ⬜ | |
+| Devise setup for AdminUser | ✅ | Devise configured for admin users with custom sessions controller, login/logout under `/admin` |
+| CanCanCan Ability class with role-based permissions | ✅ | Ability class with `super_admin` and `admin` roles |
+| Admin layout with sidebar navigation | ✅ | Dark sidebar with navigation links, user info, logout. Sidebar simplified to only functional pages (see findings below) |
+| Dashboard with stats | ✅ | Revenue, upcoming bookings, occupancy rate, new inquiries. Upcoming bookings + recent inquiries tables. Quick actions. |
+| Calendar management page | ✅ | Full month-view calendar, color-coded dates, single date toggle, bulk date range update |
+| Bookings CRUD with filters, pagination, status | ✅ | Paginated table with Ransack filters. Show page with guest info, pricing, status update form. Refund action with two-step Bootstrap modal confirmation (type "REFUND" to enable). |
+| Inquiries CRUD with status management | ✅ | Paginated table, inquiry detail page, status updates, admin notes |
+| Property editor (details, pricing settings) | ✅ | Edit property name, tagline, description, address, specs, base price, cleaning fee, min/max nights, check-in/out times |
+| Seasonal pricing management | ✅ | CRUD for seasonal pricing rules (date ranges with custom nightly rates). Used by PricingService for booking calculations. |
+| Admin settings | ✅ | Basic settings page via `edit_admin_settings_path` |
+| CSV export | ✅ | Export bookings as CSV with filter preservation, `require "csv"` for Rails 7.1+ |
+| ~~Photo management~~ | ❌ Removed | CRUD exists but images not rendered on any public page |
+| ~~Amenity management~~ | ❌ Removed | CRUD exists but data not displayed on any public page |
+| ~~Testimonial management~~ | ❌ Removed | CRUD exists but data not displayed on any public page (homepage uses hardcoded HTML) |
+| ~~Site content editor~~ | ❌ Removed | CRUD exists but data not used on public pages (all pages use hardcoded HTML) |
+| **Deliverable: Full admin panel** | ✅ | All functional admin features complete. Non-functional CRUD pages removed from sidebar. |
 
 ### Phase 5: Polish & Launch (Week 8)
 | Task | Status | Notes |

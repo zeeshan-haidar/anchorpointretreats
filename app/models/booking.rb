@@ -65,6 +65,11 @@ class Booking < ApplicationRecord
   validates :amount_paid_cents, numericality: { greater_than_or_equal_to: 0 }
   validates :check_out, comparison: { greater_than: :check_in }
 
+  # Returns the list of active statuses (excluding deprecated deposit_paid)
+  def self.active_statuses
+    statuses.except(:deposit_paid)
+  end
+
   scope :upcoming, -> { where('check_in > ?', Date.current).order(check_in: :asc) }
   scope :current, -> { where('check_in <= ? AND check_out >= ?', Date.current, Date.current) }
   scope :past, -> { where(check_out: ...Date.current).order(check_out: :desc) }
@@ -118,5 +123,17 @@ class Booking < ApplicationRecord
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.warn "[Booking##{id}] Stripe sync succeeded but failed to mark availability: #{e.message}"
     false
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[admin_notes amount_paid_cents check_in check_out cleaning_fee_cents company_name
+       confirmation_number created_at deposit_amount_cents guest_email guest_name guest_phone
+       id nightly_rate_cents num_guests num_nights property_id retreat_type special_requests
+       status stripe_checkout_session_id stripe_payment_intent_id subtotal_cents taxes_cents
+       total_cents updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[property availabilities]
   end
 end

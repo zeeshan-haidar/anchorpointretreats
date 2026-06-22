@@ -1,0 +1,11 @@
+<%# app/views/admin/shared/_flash.html.erb %>
+<% if flash.any? %>
+  <div class="px-4 pt-3">
+    <% flash.each do |type, message| %>
+      <div class="alert alert-<%= type == 'notice' ? 'success' : type == 'alert' ? 'danger' : 'info' %> alert-dismissible fade show mb-0" role="alert" style="border-radius: 6px;">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

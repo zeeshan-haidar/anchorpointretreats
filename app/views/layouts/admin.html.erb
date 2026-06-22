@@ -1,0 +1,37 @@
+<%# app/views/layouts/admin.html.erb %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= content_for?(:title) ? yield(:title) : "Admin / The Anchorpoint Retreat" %></title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "main", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "responsive", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "vendor/bootstrap.bundle.min" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body>
+  <div class="admin-wrapper d-flex">
+    <%# Sidebar %>
+    <%= render "admin/shared/sidebar" %>
+
+    <%# Main content area %>
+    <div class="admin-content flex-grow-1">
+      <%# Top nav bar %>
+      <%= render "admin/shared/topbar" %>
+
+      <%# Flash messages %>
+      <%= render "admin/shared/flash" %>
+
+      <%# Page content %>
+      <main class="admin-main p-4">
+        <%= yield %>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
