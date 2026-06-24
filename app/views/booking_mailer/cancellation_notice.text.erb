@@ -1,0 +1,20 @@
+<%# booking_mailer/cancellation_notice.text.erb %>
+Hi <%= @booking.guest_name %>,
+
+Your booking session for The Anchorpoint Retreat has expired because payment was not completed within the required time.
+
+----
+Confirmation Number: <%= @booking.confirmation_number %>
+Dates: <%= @booking.check_in.strftime("%B %d, %Y") %> – <%= @booking.check_out.strftime("%B %d, %Y") %>
+Guests: <%= @booking.num_guests %>
+Total: <%= number_to_currency(@booking.total_cents / 100.0) %>
+----
+
+Your dates have been released and are now available for others to book. If you'd still like to stay with us, please visit our website to start a new booking.
+
+Visit: <%= root_url %>
+
+If you have any questions or need assistance, reply to this email or contact us at hello@anchorpointretreat.com.
+
+&copy; <%= Date.current.year %> The Anchorpoint Retreat
+anchorpointretreat.com

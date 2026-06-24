@@ -51,4 +51,26 @@ RSpec.describe BookingMailer, type: :mailer do
       expect(mail.body.encoded).to match(booking.check_in.strftime("%B %d"))
     end
   end
+
+  describe "#cancellation_notice" do
+    let(:pending_booking) { create(:booking, property: property, status: :pending) }
+    subject(:mail) { described_class.cancellation_notice(pending_booking) }
+
+    it "renders the headers" do
+      expect(mail.subject).to include("Booking Session Expired")
+      expect(mail.subject).to include(pending_booking.confirmation_number)
+      expect(mail.to).to eq([pending_booking.guest_email])
+      expect(mail.from).to eq(["hello@anchorpointretreat.com"])
+    end
+
+    it "renders the body" do
+      expect(mail.body.encoded).to match(pending_booking.guest_name)
+      expect(mail.body.encoded).to match(pending_booking.confirmation_number)
+      expect(mail.body.encoded).to match("expired")
+    end
+
+    it "includes a link to rebook" do
+      expect(mail.body.encoded).to match(root_url)
+    end
+  end
 end

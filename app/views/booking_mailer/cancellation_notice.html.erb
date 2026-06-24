@@ -1,0 +1,78 @@
+<%# booking_mailer/cancellation_notice.html.erb %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body style="font-family: 'Inter Tight', Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color: #1A312A; padding: 30px 40px; text-align: center;">
+              <h1 style="color: #ffffff; font-family: 'Lora', Georgia, serif; font-size: 24px; margin: 0; font-weight: 400;">The Anchorpoint Retreat</h1>
+            </td>
+          </tr>
+          <!-- Body -->
+          <tr>
+            <td style="padding: 40px;">
+              <p style="color: #312B24; font-size: 18px; font-weight: 600; margin: 0 0 5px 0;">Hi <%= @booking.guest_name %>,</p>
+              <p style="color: #312B24; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+                Your booking session for <strong>The Anchorpoint Retreat</strong> has expired because payment was not completed within the required time.
+              </p>
+
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f8f8; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
+                <tr>
+                  <td>
+                    <p style="color: #747474; font-size: 14px; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px;">Confirmation Number</p>
+                    <p style="color: #312B24; font-size: 18px; font-weight: 600; margin: 0 0 15px 0;"><%= @booking.confirmation_number %></p>
+
+                    <p style="color: #747474; font-size: 14px; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px;">Dates</p>
+                    <p style="color: #312B24; font-size: 16px; margin: 0 0 15px 0;">
+                      <%= @booking.check_in.strftime("%B %d, %Y") %> – <%= @booking.check_out.strftime("%B %d, %Y") %>
+                    </p>
+
+                    <p style="color: #747474; font-size: 14px; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px;">Guests</p>
+                    <p style="color: #312B24; font-size: 16px; margin: 0 0 15px 0;"><%= @booking.num_guests %> guest(s)</p>
+
+                    <p style="color: #747474; font-size: 14px; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px;">Total</p>
+                    <p style="color: #312B24; font-size: 18px; font-weight: 600; margin: 0;"><%= number_to_currency(@booking.total_cents / 100.0) %></p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="color: #312B24; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+                Your dates have been released and are now available for others to book. If you'd still like to stay with us, please visit our website to start a new booking.
+              </p>
+
+              <!-- CTA Button -->
+              <table cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+                <tr>
+                  <td style="background-color: #64734F; border-radius: 4px; text-align: center;">
+                    <a href="<%= root_url %>" style="display: inline-block; padding: 14px 36px; font-family: 'Lora', Georgia, serif; font-size: 16px; color: #ffffff; text-decoration: none; font-weight: 400;">Book Again</a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="color: #747474; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
+                If you have any questions or need assistance, feel free to reply to this email or contact us at <a href="mailto:hello@anchorpointretreat.com" style="color: #64734F; text-decoration: none;">hello@anchorpointretreat.com</a>.
+              </p>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #f8f8f8; padding: 20px 40px; text-align: center; border-top: 1px solid #D6D1CC;">
+              <p style="color: #747474; font-size: 12px; margin: 0;">&copy; <%= Date.current.year %> The Anchorpoint Retreat. All rights reserved.</p>
+              <p style="color: #747474; font-size: 12px; margin: 5px 0 0 0;">
+                <a href="<%= root_url %>" style="color: #64734F; text-decoration: none;">anchorpointretreat.com</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

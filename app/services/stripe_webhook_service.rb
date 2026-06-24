@@ -23,8 +23,10 @@ class StripeWebhookService
     event = Stripe::Webhook.construct_event(payload, sig_header, secret)
     OpenStruct.new(success?: true, event: event)
   rescue JSON::ParserError => e
+    notify_stripe_error("Webhook Invalid Payload", e)
     OpenStruct.new(success?: false, error: "Invalid payload: #{e.message}")
   rescue Stripe::SignatureVerificationError => e
+    notify_stripe_error("Webhook Invalid Signature", e)
     OpenStruct.new(success?: false, error: "Invalid signature: #{e.message}")
   end
 
@@ -81,10 +83,20 @@ class StripeWebhookService
     # Send confirmation email (outside transaction to avoid db lock)
     BookingMailer.confirmation(booking).deliver_later
 
+    # Notify #stripe-notifications about successful payment
+    notify_stripe_success(
+      "Payment Received",
+      "Booking #{booking.confirmation_number} fully paid — #{booking.guest_name}",
+      booking: booking,
+      amount_paid: amount_paid
+    )
+
     OpenStruct.new(success?: true, message: "Booking #{booking.confirmation_number} confirmed (full payment)")
   rescue ActiveRecord::RecordInvalid => e
+    notify_stripe_error("Webhook Checkout Failed - DB Error", e, booking: booking)
     OpenStruct.new(success?: false, error: "Failed to update booking: #{e.message}")
   rescue StandardError => e
+    notify_stripe_error("Webhook Checkout Failed", e, booking: booking)
     OpenStruct.new(success?: false, error: "Unexpected error: #{e.message}")
   end
 
@@ -96,6 +108,18 @@ class StripeWebhookService
     if booking_id
       booking = Booking.find_by(id: booking_id)
       Rails.logger.info "[StripeWebhook] Checkout session expired for booking #{booking&.confirmation_number || booking_id}"
+
+      # Notify #stripe-notifications about expired session
+      notify_stripe_notification(
+        "Checkout Expired",
+        "Payment session expired for booking #{booking&.confirmation_number || booking_id}",
+        fields: {
+          "Booking ID" => booking_id.to_s,
+          "Confirmation" => booking&.confirmation_number.to_s,
+          "Guest" => booking&.guest_name.to_s
+        },
+        color: :warning
+      )
     end
     OpenStruct.new(success?: true, message: "Expired session acknowledged")
   end
@@ -127,8 +151,77 @@ class StripeWebhookService
       BookingMailer.refund_confirmation(booking, refund_amount_cents: refund_amount_cents).deliver_later
     end
 
+    # Notify #stripe-notifications about refund
+    notify_stripe_success(
+      "Refund Processed",
+      "Booking #{booking.confirmation_number} refunded — #{booking.guest_name}",
+      booking: booking,
+      refund_amount: refund_amount_cents
+    )
+
     OpenStruct.new(success?: true, message: "Booking #{booking.confirmation_number} refunded")
   rescue ActiveRecord::RecordInvalid => e
+    notify_stripe_error("Webhook Refund Failed - DB Error", e, booking: booking)
     OpenStruct.new(success?: false, error: "Failed to process refund: #{e.message}")
+  end
+
+  # --- Slack notification helpers ---
+
+  # Sends a success notification to the #stripe-notifications channel
+  def notify_stripe_success(title, message, booking: nil, amount_paid: nil, refund_amount: nil)
+    fields = {}
+    if booking
+      fields["Booking ID"] = booking.id.to_s
+      fields["Confirmation"] = booking.confirmation_number.to_s
+      fields["Guest"] = booking.guest_name.to_s
+      fields["Check-in"] = booking.check_in.to_s
+      fields["Check-out"] = booking.check_out.to_s
+    end
+    fields["Amount Paid"] = "$#{format('%.2f', (amount_paid || 0) / 100.0)}" if amount_paid
+    fields["Refund Amount"] = "$#{format('%.2f', (refund_amount || 0) / 100.0)}" if refund_amount
+
+    notify_stripe_notification(title, message, fields: fields, color: :good)
+  end
+
+  # Sends an error notification to the #stripe-errors channel
+  def notify_stripe_error(title, exception, booking: nil)
+    webhook_url = ENV.fetch("SLACK_WEBHOOK_URL_STRIPE_ERRORS", ENV.fetch("SLACK_WEBHOOK_URL", nil))
+    return unless webhook_url
+
+    notifier = SlackNotifier.new(title, channel: SlackNotifier::CHANNEL_STRIPE_ERRORS, webhook_url: webhook_url)
+
+    fields = {
+      "Error" => "#{exception.class}: #{exception.message}",
+      "Service" => "StripeWebhookService"
+    }
+
+    if booking
+      fields["Booking ID"] = booking.id.to_s
+      fields["Confirmation"] = booking.confirmation_number.to_s
+    end
+
+    notifier.post(
+      "Stripe webhook error on #{Rails.env.upcase}",
+      fields: fields,
+      color: :danger
+    )
+  rescue StandardError => slack_error
+    Rails.logger.warn "[StripeWebhookService] Failed to notify Slack: #{slack_error.message}"
+  end
+
+  # Generic notification to #stripe-notifications channel
+  def notify_stripe_notification(title, message, fields: {}, color: :good)
+    webhook_url = ENV.fetch("SLACK_WEBHOOK_URL_STRIPE_NOTIFICATIONS", ENV.fetch("SLACK_WEBHOOK_URL", nil))
+    return unless webhook_url
+
+    notifier = SlackNotifier.new(title, channel: SlackNotifier::CHANNEL_STRIPE_NOTIFICATIONS, webhook_url: webhook_url)
+
+    notifier.post(
+      message,
+      fields: fields,
+      color: color
+    )
+  rescue StandardError => slack_error
+    Rails.logger.warn "[StripeWebhookService] Failed to notify Slack: #{slack_error.message}"
   end
 end

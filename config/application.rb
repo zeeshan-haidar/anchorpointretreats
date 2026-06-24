@@ -38,5 +38,11 @@ module Anchorpointretreats
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Add middleware directory to autoload paths
+
+    # Rack middleware to catch unhandled exceptions (SyntaxError, etc.)
+    # and notify Slack before they propagate. Must be outermost so it catches
+    # errors that happen inside Rails' dispatch (like SyntaxError during file loading).
   end
 end

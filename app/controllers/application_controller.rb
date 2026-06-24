@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pagy::Method
+  include ExceptionNotifiable
 
   before_action :require_password
 

@@ -1,0 +1,25 @@
+# Sidekiq configuration
+# https://github.com/sidekiq/sidekiq/wiki/Advanced-Options
+
+:concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 5) %>
+:queues:
+  - [default, 2]
+  - [mailers, 1]
+
+:scheduler:
+  :schedule:
+    booking_reminder:
+      cron: "0 8 * * *"           # Daily at 8 AM
+      class: BookingReminderJob
+      queue: default
+      description: "Send booking reminder 7 days before check-in"
+
+    pending_booking_cleanup:
+      cron: "*/15 * * * *"         # Every 15 minutes
+      class: PendingBookingCleanupJob
+      queue: default
+      description: "Cancel pending bookings older than 30 minutes"
+
+# Logging
+:logfile: ./log/sidekiq.log
+:daemon: false

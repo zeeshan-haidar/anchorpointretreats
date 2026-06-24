@@ -48,4 +48,17 @@ class BookingMailer < ApplicationMailer
       subject: "Refund Processed — #{booking.confirmation_number} — The Anchorpoint Retreat"
     )
   end
+
+  # Email: Cancellation Notice
+  # Sent to guest when their pending booking is auto-cancelled due to non-payment.
+  # Informs them that their booking session expired and they can rebook if interested.
+  def cancellation_notice(booking)
+    @booking = booking
+    @property = booking.property
+
+    mail(
+      to: booking.guest_email,
+      subject: "Booking Session Expired — #{booking.confirmation_number} — The Anchorpoint Retreat"
+    )
+  end
 end
