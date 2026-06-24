@@ -108,7 +108,7 @@ yes go # Software Requirements Specification (SRS)
 | FAQ, policies, privacy, terms pages | ⬜ | |
 | Accessibility audit and fixes | ⬜ | |
 | Full RSpec test suite pass, RuboCop clean | ⬜ | |
-| Production deployment | ⬜ | |
+| Capistrano deployment setup | ⬜ | See Section 12 for full Capistrano setup guide |
 | **Deliverable: Production-ready launch** | ⬜ | |
 
 ---
@@ -162,7 +162,7 @@ Design specifications (colors, typography, spacing, components, and animations) 
 | JavaScript Bundling | importmap-rails | bundled with Rails 7 |
 | Icons | Font Awesome (from html-template) | bundled |
 | Calendar UI | Stimulus + custom calendar component | — |
-| Deployment | TBD (Render, Fly.io, or Heroku) | — |
+| Deployment | Capistrano 3 (git-based deploy to VPS) | — |
 
 ---
 
@@ -998,4 +998,247 @@ colorado_rent/
 └── claude/
     └── docs/
         └── SRS.md (this file)
+
+---
+
+## 12. Production Deployment — Capistrano Setup Guide
+
+> **Note**: This section is a reference for Phase 5. Capistrano setup should be done during the final launch phase, after all code is complete and tested.
+
+### 12.1 Overview
+Deployment uses **Capistrano 3** with a **git-based workflow**. The flow is:
+1. Push code to a git repository (GitHub/GitLab)
+2. Run `cap production deploy` from your local machine
+3. Capistrano pulls the code to the production server, installs gems, precompiles assets, runs migrations, and restarts Puma
+
+### 12.2 Prerequisites — Production Server
+A Linux VPS (Ubuntu 22.04+) with:
+- Ruby 3.3.8 (via rbenv)
+- PostgreSQL 14+
+- Redis
+- Nginx (as reverse proxy)
+- Node.js (for asset compilation)
+- A deployment user with sudo access
+
+### 12.3 Gems to Add (Phase 5)
+```ruby
+group :development do
+  gem 'capistrano', '~> 3.19', require: false
+  gem 'capistrano-rails', '~> 1.7', require: false
+  gem 'capistrano-bundler', '~> 2.1', require: false
+  gem 'capistrano-rbenv', '~> 2.2', require: false
+  gem 'capistrano3-puma', '~> 6.1', require: false
+  gem 'capistrano-sidekiq', '~> 4.0', require: false
+end
+```
+
+### 12.4 Files to Create (Phase 5)
+
+#### `Capfile`
+```ruby
+require "capistrano/setup"
+require "capistrano/deploy"
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
+
+require "capistrano/rbenv"
+require "capistrano/bundler"
+require "capistrano/rails"
+require "capistrano/rails/assets"
+require "capistrano/rails/migrations"
+
+require "capistrano/puma"
+install_plugin Capistrano::Puma
+
+require "capistrano/sidekiq"
+install_plugin Capistrano::Sidekiq
+
+Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
+```
+
+#### `config/deploy.rb`
+```ruby
+lock "~> 3.19"
+
+set :application, "anchorpointretreats"
+set :repo_url, "git@github.com:your-org/anchorpointretreats.git"
+
+set :rbenv_type, :user
+set :rbenv_ruby, "3.3.8"
+
+set :deploy_to, "/home/deploy/anchorpointretreats"
+set :keep_releases, 3
+
+set :linked_files, %w[config/master.key .env.production]
+set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets storage public/webfonts]
+
+set :puma_conf, "#{shared_path}/config/puma.rb"
+set :puma_service_unit_name, "puma_anchorpointretreats"
+set :puma_systemctl_user, :system
+
+set :sidekiq_config, -> { File.join(current_path, "config", "sidekiq.yml") }
+set :sidekiq_service_unit_name, "sidekiq_anchorpointretreats"
+set :sidekiq_systemctl_user, :system
+
+after "deploy:published", "sidekiq:restart"
+```
+
+#### `config/deploy/production.rb`
+```ruby
+server "your-server-ip-or-domain.com", user: "deploy", roles: %w[app db web]
+
+set :branch, "main"
+set :stage, :production
+set :rails_env, :production
+```
+
+### 12.5 Environment Variables on Production Server
+Set these in `/home/deploy/anchorpointretreats/shared/.env.production`:
+
+```bash
+RAILS_ENV=production
+RAILS_MASTER_KEY=<from config/master.key>
+DATABASE_URL=postgresql://user:pass@localhost:5432/anchorpointretreats_production
+REDIS_URL=redis://localhost:6379/0
+APP_HOST=anchorpointretreat.com
+SECRET_KEY_BASE=<run: rails secret>
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SIGNING_SECRET=whsec_...
+
+# Slack
+SLACK_WEBHOOK_URL=...
+SLACK_WEBHOOK_URL_ALERTS=...
+SLACK_WEBHOOK_URL_STRIPE_ERRORS=...
+SLACK_WEBHOOK_URL_STRIPE_NOTIFICATIONS=...
+SLACK_CHANNEL_DEFAULT=general
+SLACK_CHANNEL_ALERTS=alerts
+SLACK_CHANNEL_STRIPE_ERRORS=stripe-errors
+SLACK_CHANNEL_STRIPE_NOTIFICATIONS=stripe-notifications
+
+# SMTP
+SMTP_ADDRESS=smtp.gmail.com
+SMTP_PORT=587
+SMTP_DOMAIN=gmail.com
+SMTP_USERNAME=hello@anchorpointretreat.com
+SMTP_PASSWORD=<app password>
+
+# Active Storage (if using S3)
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_REGION=us-east-1
+AWS_BUCKET=anchorpointretreat-prod
+```
+
+### 12.6 Nginx Reverse Proxy Config
+Place in `/etc/nginx/sites-available/anchorpointretreats`:
+```nginx
+upstream puma {
+  server unix:///home/deploy/anchorpointretreats/shared/tmp/sockets/puma.sock;
+}
+
+server {
+  listen 80;
+  server_name anchorpointretreat.com www.anchorpointretreat.com;
+  return 301 https://$server_name$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  server_name anchorpointretreat.com www.anchorpointretreat.com;
+
+  ssl_certificate /etc/letsencrypt/live/anchorpointretreat.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/anchorpointretreat.com/privkey.pem;
+
+  root /home/deploy/anchorpointretreats/current/public;
+
+  location / {
+    try_files $uri @puma;
+  }
+
+  location @puma {
+    proxy_pass http://puma;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+  location /assets {
+    expires max;
+    add_header Cache-Control public;
+  }
+}
+```
+
+### 12.7 Systemd Service for Puma
+Place in `/etc/systemd/system/puma_anchorpointretreats.service`:
+```ini
+[Unit]
+Description=Puma HTTP Server for Anchorpoint Retreats
+After=network.target postgresql.target redis.target
+
+[Service]
+Type=notify
+User=deploy
+WorkingDirectory=/home/deploy/anchorpointretreats/current
+Environment=RAILS_ENV=production
+EnvironmentFile=/home/deploy/anchorpointretreats/shared/.env.production
+ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -C /home/deploy/anchorpointretreats/shared/puma.rb
+ExecReload=/bin/kill -USR1 $MAINPID
+StandardOutput=append:/home/deploy/anchorpointretreats/shared/log/puma.log
+StandardError=append:/home/deploy/anchorpointretreats/shared/log/puma.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 12.8 Systemd Service for Sidekiq
+Place in `/etc/systemd/system/sidekiq_anchorpointretreats.service`:
+```ini
+[Unit]
+Description=Sidekiq Background Worker for Anchorpoint Retreats
+After=postgresql.target redis.target
+Requires=redis.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/anchorpointretreats/current
+Environment=RAILS_ENV=production
+EnvironmentFile=/home/deploy/anchorpointretreats/shared/.env.production
+ExecStart=/home/deploy/.rbenv/shims/bundle exec sidekiq -C /home/deploy/anchorpointretreats/current/config/sidekiq.yml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 12.9 First-Time Deploy Steps
+```bash
+# Local machine — one time setup
+cap production deploy:check      # Verify server readiness
+cap production deploy:initial    # First deploy (creates DB, seeds)
+
+# On production server — one time
+ssh deploy@your-server
+cd /home/deploy/anchorpointretreats/current
+RAILS_ENV=production bin/rails db:seed
+
+# Enable and start services
+sudo systemctl enable puma_anchorpointretreats
+sudo systemctl enable sidekiq_anchorpointretreats
+sudo systemctl start puma_anchorpointretreats
+sudo systemctl start sidekiq_anchorpointretreats
+```
+
+### 12.10 Routine Deploy
+```bash
+cap production deploy   # Pulls latest code, installs gems, compiles assets,
+                        # runs migrations, restarts Puma & Sidekiq
+```
 ```
